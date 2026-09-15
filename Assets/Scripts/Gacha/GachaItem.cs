@@ -12,5 +12,6 @@ public class GachaItem : ScriptableObject
 {
     public string Name;
     public Rank GachaRank;
+    public Texture Icon;
     public GameObject Model;
 }
