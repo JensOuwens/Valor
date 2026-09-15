@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// TODO: add items to inventory, implement pity, add ui
+/// TODO: add items to inventory, add ui
 /// </summary>
 public class GachaManager : MonoBehaviour
 {
@@ -10,6 +10,7 @@ public class GachaManager : MonoBehaviour
     private int currentPity;
 
     [SerializeField] private GachaItems currentBanner;
+    [SerializeField] private PlayerInventory playerInventory;
 
     private void Start()
     {
@@ -48,8 +49,14 @@ public class GachaManager : MonoBehaviour
             
             int randommax = currentGachaRankedItems.Count;
             int itemRanomVal = Random.Range(0, randommax);
+
+            if (!playerInventory.CheckForDuplicates(currentGachaRankedItems[itemRanomVal]))
+            {
+                playerInventory.AddToInventory(currentGachaRankedItems[itemRanomVal]); 
+            }
             
-            Debug.Log(currentGachaRankedItems[itemRanomVal] + " " + currentGachaRankedItems[itemRanomVal].GachaRank);
+            
         }
+        playerInventory.DebugPrint();
     }
 }
