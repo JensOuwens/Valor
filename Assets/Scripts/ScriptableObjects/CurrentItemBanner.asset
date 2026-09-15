@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ed30d2bb0ad769429b7d006ef7ca01c, type: 3}
+  m_Name: CurrentItemBanner
+  m_EditorClassIdentifier: Assembly-CSharp::GachaItems
+  items:
+  - {fileID: 11400000, guid: b6e1ed90214f3b24a9f7bdbc79f5e537, type: 2}
+  - {fileID: 11400000, guid: 06630ed44f4a8144aad8e51394c95b4f, type: 2}
+  - {fileID: 11400000, guid: 67928071db64a8349816dd08c7b164ba, type: 2}
+  - {fileID: 11400000, guid: 15898fbdc48d1cc47bd1c677845643de, type: 2}
+  - {fileID: 11400000, guid: 84fb0555980950849bf8b7f9ff8c7188, type: 2}
+  - {fileID: 11400000, guid: fc7f05debdf2a664e91bcba8963345f8, type: 2}
+  - {fileID: 11400000, guid: 192268cc2c50f714fb0dae1ea0e1a766, type: 2}
+  - {fileID: 11400000, guid: 08a399e441953d547b1a594fbf7fa1da, type: 2}
+  - {fileID: 11400000, guid: e661706c491c44a4284b7c57d0d8e399, type: 2}
+  - {fileID: 11400000, guid: abd2dbf450be89f4ea91516d730532e8, type: 2}
