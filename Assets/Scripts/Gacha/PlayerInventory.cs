@@ -4,18 +4,18 @@ using UnityEngine.UI;
 using TMPro;
 public class InventoryItem
 {
-    public GachaItem GachaItem;
+    public GachaItem gachaItem;
     public int Count;
 
     public InventoryItem(GachaItem gachaItem, int count)
     {
-        this.GachaItem = gachaItem;
+        this.gachaItem = gachaItem;
         this.Count = count;
     }
 }
 
 /// <summary>
-/// TODO: update inventory when getting new ones, grey out ones not owned, pause surroundings when inventory is on, button to toggle inventory on/off.
+/// TODO: pause surroundings when inventory is on, button to toggle inventory on/off.
 /// </summary>
 public class PlayerInventory : MonoBehaviour
 {
@@ -33,6 +33,7 @@ public class PlayerInventory : MonoBehaviour
         for (int i = 0; i < GachaItemsInventoryImage.Length; i++)
         {
             GachaItemsInventoryImage[i].sprite = allitems.items[i].Icon;
+            GachaItemsInventoryImage[i].color =  new Color(GachaItemsInventoryImage[i].color.r, GachaItemsInventoryImage[i].color.g, GachaItemsInventoryImage[i].color.b, 0.4f);
         }
 
         for (int i = 0; i < GachaItemsInventoryName.Length; i++)
@@ -50,15 +51,25 @@ public class PlayerInventory : MonoBehaviour
     {
         InventoryItem inventoryItem = new InventoryItem(item, count);
         GachaInventory.Add(inventoryItem);
+        for (int i = 0; i < GachaItemsInventoryImage.Length; i++)
+        {
+            if (item.Icon == GachaItemsInventoryImage[i].sprite)
+            {
+                GachaItemsInventoryImage[i].color = new Color(GachaItemsInventoryImage[i].color.r,
+                    GachaItemsInventoryImage[i].color.g, GachaItemsInventoryImage[i].color.b, 1f);
+            }
+        }
+        UpdateDisplay(item);
     }
 
     public bool CheckForDuplicates(GachaItem item)
     {
         foreach (InventoryItem i in GachaInventory)
         {
-            if (item.name == i.GachaItem.name)
+            if (item.Name == i.gachaItem.Name)
             {
                 i.Count++;
+                UpdateDisplay(i.gachaItem);
                 return true;
             }
         }
@@ -70,7 +81,7 @@ public class PlayerInventory : MonoBehaviour
     {
         foreach (InventoryItem i in GachaInventory)
         {
-            Debug.Log(i.GachaItem.name + " " + i.GachaItem.GachaRank + " " + i.Count);
+            Debug.Log(i.gachaItem.Name + " " + i.gachaItem.GachaRank + " " + i.Count);
         }
     }
 
@@ -86,8 +97,33 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public void UpdateDisplay()
+    public void UpdateDisplay(GachaItem item)
     {
-        
+        int index = System.Array.IndexOf(allitems.items, item);
+
+        if (index == -1)
+        {
+            Debug.LogError("Item not found in allitems: " + item.Name);
+            return;
+        }
+
+        if (index >= GachaItemsInventoryCount.Length)
+        {
+            Debug.LogError("UI count array is too small for item index: " + index);
+            return;
+        }
+
+        InventoryItem inventoryItem = GachaInventory.Find(
+            i => i.gachaItem == item
+        );
+
+        if (inventoryItem == null)
+        {
+            Debug.LogError("Item not found in inventory: " + item.Name);
+            return;
+        }
+
+        GachaItemsInventoryCount[index].text =
+            "Count: " + inventoryItem.Count;
     }
 }
