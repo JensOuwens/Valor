@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 /// <summary>
 /// TODO: add ui
 /// </summary>
@@ -12,6 +15,13 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private GachaItems currentBanner;
     [SerializeField] private PlayerInventory playerInventory;
 
+    private bool IsBeingDisplayed = false;
+    [SerializeField] private GameObject gachaCanvas;
+
+    [SerializeField] private Image[] gachaImages;
+    [SerializeField] private TMP_Text[] gachaNameTexts;
+    [SerializeField] private TMP_Text[] gacharankTexts;
+
     private void Start()
     {
         GachaPull();
@@ -19,6 +29,7 @@ public class GachaManager : MonoBehaviour
     
     public void GachaPull()
     {
+        List<GachaItem> currentPulls = new List<GachaItem>();
         for (int i = 0; i < pullItemAmount; i++)
         {
             Rank currentRank;
@@ -54,7 +65,32 @@ public class GachaManager : MonoBehaviour
             {
                 playerInventory.AddToInventory(currentGachaRankedItems[itemRanomVal], 1); 
             }
+            
+            currentPulls.Add(currentGachaRankedItems[itemRanomVal]);
         }
-        playerInventory.DebugPrint();
+
+        DisplayPulls(currentPulls);
+    }
+
+    public void DisplayPulls(List<GachaItem> item)
+    {
+        for (int i = 0; i < gachaImages.Length; i++)
+        {
+            gachaImages[i].sprite = item[i].Icon;
+            gachaNameTexts[i].text = item[i].Name;
+            gacharankTexts[i].text = item[i].GachaRank.ToString();
+        }
+    }
+    
+    public void DisplayGacha()
+    {
+        if (IsBeingDisplayed)
+        {
+            gachaCanvas.gameObject.SetActive(false);
+        }
+        else
+        {
+            gachaCanvas.gameObject.SetActive(true);
+        }
     }
 }
