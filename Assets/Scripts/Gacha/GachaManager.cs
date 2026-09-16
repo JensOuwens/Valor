@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
-/// TODO: add items to inventory, add ui
+/// TODO: add ui
 /// </summary>
 public class GachaManager : MonoBehaviour
 {
@@ -52,10 +52,8 @@ public class GachaManager : MonoBehaviour
 
             if (!playerInventory.CheckForDuplicates(currentGachaRankedItems[itemRanomVal]))
             {
-                playerInventory.AddToInventory(currentGachaRankedItems[itemRanomVal]); 
+                playerInventory.AddToInventory(currentGachaRankedItems[itemRanomVal], 1); 
             }
-            
-            
         }
         playerInventory.DebugPrint();
     }

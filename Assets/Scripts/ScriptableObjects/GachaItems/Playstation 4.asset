@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GachaItem
   Name: Playstation 4
   GachaRank: 0
+  Icon: {fileID: 21300000, guid: 2d51c483e9e50ca4daaaea78fa021b27, type: 3}
   Model: {fileID: 0}

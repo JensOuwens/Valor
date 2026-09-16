@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GachaItem
   Name: Xbox Kinect
   GachaRank: 2
+  Icon: {fileID: 21300000, guid: 7c8d006e0e000934e95ef13351f6956d, type: 3}
   Model: {fileID: 0}
