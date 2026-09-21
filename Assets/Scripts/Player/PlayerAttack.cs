@@ -19,6 +19,8 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float inputBufferTime = 0.25f;
 
+    [SerializeField] private MeleeHitbox meleeHitbox;
+
     private int currentAttack = 0;
 
     private bool isAttacking = false;
@@ -119,6 +121,16 @@ public class PlayerAttack : MonoBehaviour
             0.1f,
             0
         );
+    }
+
+    public void EnableHitbox()
+    {
+        meleeHitbox.EnableHitbox();
+    }
+
+    public void DisableHitbox()
+    {
+        meleeHitbox.DisableHitbox();
     }
 
     private void OnEnable()

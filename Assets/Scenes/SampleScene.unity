@@ -417,6 +417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameBoy
       objectReference: {fileID: 0}
+    - target: {fileID: 2702135535701455393, guid: 4706ac7abbf865c40969c55f46c4a65a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -474,6 +478,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Playstation1
       objectReference: {fileID: 0}
+    - target: {fileID: 9017077635848905951, guid: 019b984ac9c8a994880707ee07dd5aed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -530,6 +538,10 @@ PrefabInstance:
     - target: {fileID: 8732122195079149176, guid: 5f892cc5b1d295a4d922e4401dbe7ad1, type: 3}
       propertyPath: m_Name
       value: PS4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8732122195079149176, guid: 5f892cc5b1d295a4d922e4401dbe7ad1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1148,6 +1160,10 @@ PrefabInstance:
     - target: {fileID: 6585094162647354893, guid: baced616f409104439fe1fe9aab21536, type: 3}
       propertyPath: m_Name
       value: Kinect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6585094162647354893, guid: baced616f409104439fe1fe9aab21536, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3171,6 +3187,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Playstation2
       objectReference: {fileID: 0}
+    - target: {fileID: 4348265137016614822, guid: 3bf7d5b968cae0a48a79eae82144e153, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4930245271035190811, guid: 3bf7d5b968cae0a48a79eae82144e153, type: 3}
       propertyPath: m_LocalPosition.x
       value: 323.13
@@ -4928,6 +4948,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XBOX 360
       objectReference: {fileID: 0}
+    - target: {fileID: 9053263641631233375, guid: 4e6e9f5f7ad2f364d92660b7b8afcb7f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6317,6 +6341,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NES
       objectReference: {fileID: 0}
+    - target: {fileID: 1362732965086828296, guid: c324cb54aba399e43a68b24a1045f9ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9219299736774002982, guid: c324cb54aba399e43a68b24a1045f9ac, type: 3}
       propertyPath: m_LocalPosition.x
       value: 330.17
@@ -7537,6 +7565,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Playstation3
       objectReference: {fileID: 0}
+    - target: {fileID: 7248385076148426218, guid: 3001db18826d0c546b85f23bee2ebd5a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7667,6 +7699,10 @@ PrefabInstance:
     - target: {fileID: 3287732144490599373, guid: e02e1b763a712274dbc9529f17778ba3, type: 3}
       propertyPath: m_Name
       value: Gamecube
+      objectReference: {fileID: 0}
+    - target: {fileID: 3287732144490599373, guid: e02e1b763a712274dbc9529f17778ba3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7372981535198191713, guid: e02e1b763a712274dbc9529f17778ba3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8308,6 +8344,10 @@ PrefabInstance:
     - target: {fileID: 7668671851393199548, guid: 631e1d0e6c865ef42bf9b681a36f7a8e, type: 3}
       propertyPath: m_Name
       value: PS5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7668671851393199548, guid: 631e1d0e6c865ef42bf9b681a36f7a8e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

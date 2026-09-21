@@ -90,6 +90,77 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6971911065616591912
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4197215352179458433}
+  - component: {fileID: 7597631902183228572}
+  - component: {fileID: 4737280777245640571}
+  m_Layer: 0
+  m_Name: Hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4197215352179458433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6971911065616591912}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.43, y: 2.29, z: -4.35}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6771300455108215840}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7597631902183228572
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6971911065616591912}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 1
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 3, y: 5, z: 7}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4737280777245640571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6971911065616591912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4688d59d72d6c2a48b0a6430f8b6bf6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+  hitbox: {fileID: 7597631902183228572}
+  damageableLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  damage: 25
 --- !u!1 &7111758780665275160
 GameObject:
   m_ObjectHideFlags: 0
@@ -215,6 +286,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4197215352179458433}
   - {fileID: 7338191443391118402}
   - {fileID: 4117255836682948191}
   - {fileID: 2251844955627666315}
@@ -262,6 +334,7 @@ MonoBehaviour:
   neutralAnimation: GreatswordNeutral
   comboWindow: 0.7
   inputBufferTime: 0.25
+  meleeHitbox: {fileID: 4737280777245640571}
 --- !u!1001 &1786399026133621856
 PrefabInstance:
   m_ObjectHideFlags: 0
