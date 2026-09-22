@@ -30,6 +30,10 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     [SerializeField] private GachaManager gachaManager;
     [SerializeField] private PlayerInventory inventory;
+    [SerializeField] private Transform characterModelParent;
+    private GameObject currentCharacterModel;
+
+    private GachaItem currentCharachter;
 
     private CharacterController controller;
 
@@ -69,8 +73,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Make the camera rig follow the player.
-        // It follows position, but NOT rotation.
         cameraRig.position = transform.position;
     }
 
@@ -204,5 +206,37 @@ public class PlayerMovement : MonoBehaviour
         );
     }
     
-    
+    public void ReplaceModel(GachaItem item)
+    {
+        if (item == null)
+        {
+            Debug.LogError("ReplaceModel received a null GachaItem.");
+            return;
+        }
+
+        if (item.Model == null)
+        {
+            Debug.LogError("GachaItem '" + item.Name + "' has no Model assigned.");
+            return;
+        }
+
+        // Remove the currently equipped model.
+        if (currentCharacterModel != null)
+        {
+            Destroy(currentCharacterModel);
+        }
+
+        // Create the new model.
+        currentCharacterModel = Instantiate(
+            item.Model,
+            characterModelParent
+        );
+
+        // Reset its position and rotation relative to the parent.
+        currentCharacterModel.transform.localPosition = Vector3.zero;
+        currentCharacterModel.transform.localRotation = Quaternion.identity;
+        currentCharacterModel.transform.localScale = Vector3.one;
+
+        currentCharachter = item;
+    }
 }

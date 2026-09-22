@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// TODO: add ui
+/// TODO: resources for gacha, surroundings time stop
 /// </summary>
 public class GachaManager : MonoBehaviour
 {

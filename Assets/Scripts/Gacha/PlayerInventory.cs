@@ -15,7 +15,7 @@ public class InventoryItem
 }
 
 /// <summary>
-/// TODO: pause surroundings when inventory is on, button to toggle inventory on/off.
+/// TODO: pause surroundings when inventory is on, selecting charachter
 /// </summary>
 public class PlayerInventory : MonoBehaviour
 {
@@ -24,9 +24,15 @@ public class PlayerInventory : MonoBehaviour
     
     [SerializeField] private GachaItems allitems;
     [SerializeField] private GameObject inventoryCanvas;
+    [SerializeField] private PlayerMovement playerMovement;
+    
     [SerializeField] private Image[] GachaItemsInventoryImage;
     [SerializeField] private TMP_Text[] GachaItemsInventoryName;
     [SerializeField] private TMP_Text[] GachaItemsInventoryCount;
+    [SerializeField] private TMP_Text[] GachaItemsInventoryRank;
+    [SerializeField] private Button[] GachaItemsInventoryButtons;
+
+    [SerializeField] private GachaItem firstGacha;
 
     private void Awake()
     {
@@ -45,6 +51,21 @@ public class PlayerInventory : MonoBehaviour
         {
             GachaItemsInventoryCount[i].text = "Count: 0";
         }
+        for (int i = 0; i < GachaItemsInventoryRank.Length; i++)
+        {
+            GachaItemsInventoryRank[i].text = allitems.items[i].GachaRank.ToString();
+        }
+        for (int i = 0; i < GachaItemsInventoryButtons.Length; i++)
+        {
+            int index = i;
+
+            GachaItemsInventoryButtons[i].onClick.AddListener(
+                () => SelectCharacter(index)
+            );
+        }
+
+        AddToInventory(firstGacha, 1);
+        playerMovement.ReplaceModel(firstGacha);
     }
     
     public void AddToInventory(GachaItem item, int count)
@@ -127,5 +148,30 @@ public class PlayerInventory : MonoBehaviour
 
         GachaItemsInventoryCount[index].text =
             "Count: " + inventoryItem.Count;
+    }
+    
+    private void SelectCharacter(int index)
+    {
+        if (index < 0 || index >= allitems.items.Length)
+        {
+            Debug.LogError("Invalid GachaItem index: " + index);
+            return;
+        }
+
+        GachaItem selectedItem = allitems.items[index];
+
+        InventoryItem inventoryItem = GachaInventory.Find(
+            i => i.gachaItem == selectedItem
+        );
+
+        if (inventoryItem == null || inventoryItem.Count <= 0)
+        {
+            Debug.Log("You don't own " + selectedItem.Name);
+            return;
+        }
+
+        playerMovement.ReplaceModel(selectedItem);
+
+        Debug.Log("Selected character: " + selectedItem.Name);
     }
 }
