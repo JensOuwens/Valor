@@ -90,10 +90,12 @@ public class PlayerInventory : MonoBehaviour
         if (IsBeingDisplayed)
         {
             inventoryCanvas.gameObject.SetActive(false);
+            IsBeingDisplayed = false;
         }
         else
         {
             inventoryCanvas.gameObject.SetActive(true);
+            IsBeingDisplayed = true;
         }
     }
 

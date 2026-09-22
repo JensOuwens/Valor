@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private InputActionReference moveAction;
     [SerializeField] private InputActionReference lookAction;
     [SerializeField] private InputActionReference jumpAction;
+    [SerializeField] private InputActionReference gachaAction;
+    [SerializeField] private InputActionReference inventoryAction;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed = 5f;
@@ -24,9 +26,14 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float minPitch = -30f;
     [SerializeField] private float maxPitch = 70f;
+    
+    [Header("References")]
+    [SerializeField] private GachaManager gachaManager;
+    [SerializeField] private PlayerInventory inventory;
 
     private CharacterController controller;
 
+    private bool canMove = true;
     private Vector3 velocity;
     private float pitch;
     private float yaw;
@@ -47,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
         moveAction.action.Enable();
         lookAction.action.Enable();
         jumpAction.action.Enable();
+        gachaAction.action.Enable();
+        inventoryAction.action.Enable();
     }
 
     private void OnDisable()
@@ -54,6 +63,8 @@ public class PlayerMovement : MonoBehaviour
         moveAction.action.Disable();
         lookAction.action.Disable();
         jumpAction.action.Disable();
+        gachaAction.action.Disable();
+        inventoryAction.action.Disable();
     }
 
     private void LateUpdate()
@@ -65,6 +76,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (gachaAction.action.WasPressedThisFrame())
+        {
+            gachaManager.DisplayGacha();
+            switch (canMove)
+            {
+                case true:
+                    canMove = false;
+                    break;
+                case false:
+                    canMove = true;
+                    break;
+            }
+        }
+
+        if (inventoryAction.action.WasPressedThisFrame())
+        {
+            inventory.DisplayInventory();
+            switch (canMove)
+            {
+                case true:
+                    canMove = false;
+                    break;
+                case false:
+                    canMove = true;
+                    break;
+            }
+        }
+        
+        if (!canMove) return;
         HandleCamera();
         HandleMovement();
     }
@@ -163,4 +203,6 @@ public class PlayerMovement : MonoBehaviour
             movement * Time.deltaTime
         );
     }
+    
+    
 }

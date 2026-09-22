@@ -21,11 +21,6 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private Image[] gachaImages;
     [SerializeField] private TMP_Text[] gachaNameTexts;
     [SerializeField] private TMP_Text[] gacharankTexts;
-
-    private void Start()
-    {
-        GachaPull();
-    }
     
     public void GachaPull()
     {
@@ -87,10 +82,12 @@ public class GachaManager : MonoBehaviour
         if (IsBeingDisplayed)
         {
             gachaCanvas.gameObject.SetActive(false);
+            IsBeingDisplayed = false;
         }
         else
         {
             gachaCanvas.gameObject.SetActive(true);
+            IsBeingDisplayed = true;
         }
     }
 }
