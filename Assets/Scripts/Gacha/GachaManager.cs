@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using TMPro;
 
 /// <summary>
-/// TODO: resources for gacha, surroundings time stop
+/// TODO: surroundings time stop
 /// </summary>
 public class GachaManager : MonoBehaviour
 {
@@ -22,9 +22,16 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private Image[] gachaImages;
     [SerializeField] private TMP_Text[] gachaNameTexts;
     [SerializeField] private TMP_Text[] gacharankTexts;
+    [SerializeField] private TMP_Text gachaTokensText;
+
+    public int gachaTokens = 0;
     
     public void GachaPull()
     {
+        if (gachaTokens ! <= 3) return;
+
+        gachaTokens -= 3;
+        gachaTokensText.text = "Tokens " + gachaTokens.ToString();
         List<GachaItem> currentPulls = new List<GachaItem>();
         for (int i = 0; i < pullItemAmount; i++)
         {
