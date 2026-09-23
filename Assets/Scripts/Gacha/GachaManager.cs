@@ -17,6 +17,7 @@ public class GachaManager : MonoBehaviour
 
     private bool IsBeingDisplayed = false;
     [SerializeField] private GameObject gachaCanvas;
+    [SerializeField] private GameObject playerCanvas;
 
     [SerializeField] private Image[] gachaImages;
     [SerializeField] private TMP_Text[] gachaNameTexts;
@@ -82,11 +83,13 @@ public class GachaManager : MonoBehaviour
         if (IsBeingDisplayed)
         {
             gachaCanvas.gameObject.SetActive(false);
+            playerCanvas.gameObject.SetActive(true);
             IsBeingDisplayed = false;
         }
         else
         {
             gachaCanvas.gameObject.SetActive(true);
+            playerCanvas.gameObject.SetActive(false);
             IsBeingDisplayed = true;
         }
     }

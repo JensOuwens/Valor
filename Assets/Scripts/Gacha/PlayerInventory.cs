@@ -15,7 +15,7 @@ public class InventoryItem
 }
 
 /// <summary>
-/// TODO: pause surroundings when inventory is on, selecting charachter
+/// TODO: pause surroundings when inventory is on
 /// </summary>
 public class PlayerInventory : MonoBehaviour
 {
@@ -24,6 +24,7 @@ public class PlayerInventory : MonoBehaviour
     
     [SerializeField] private GachaItems allitems;
     [SerializeField] private GameObject inventoryCanvas;
+    [SerializeField] private GameObject playerCanvas;
     [SerializeField] private PlayerMovement playerMovement;
     
     [SerializeField] private Image[] GachaItemsInventoryImage;
@@ -111,11 +112,13 @@ public class PlayerInventory : MonoBehaviour
         if (IsBeingDisplayed)
         {
             inventoryCanvas.gameObject.SetActive(false);
+            playerCanvas.gameObject.SetActive(true);
             IsBeingDisplayed = false;
         }
         else
         {
             inventoryCanvas.gameObject.SetActive(true);
+            playerCanvas.gameObject.SetActive(false);
             IsBeingDisplayed = true;
         }
     }

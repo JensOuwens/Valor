@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDamagable
 {
     [Header("Input")]
     [SerializeField] private InputActionReference moveAction;
@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GachaManager gachaManager;
     [SerializeField] private PlayerInventory inventory;
     [SerializeField] private Transform characterModelParent;
+    [SerializeField] private HealthBarUI healthBar;
     private GameObject currentCharacterModel;
 
     private GachaItem currentCharachter;
@@ -41,6 +42,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity;
     private float pitch;
     private float yaw;
+    
+    public int health { get; set; }
+    public int maxHealth { get; set; }
 
     private void Awake()
     {
@@ -51,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
 
         // Store the camera's current world yaw.
         yaw = cameraRig.eulerAngles.y;
+
+        maxHealth = 100;
+        health = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetHealth(health);
     }
 
     private void OnEnable()
@@ -238,5 +247,20 @@ public class PlayerMovement : MonoBehaviour
         currentCharacterModel.transform.localScale = Vector3.one;
 
         currentCharachter = item;
+    }
+    public void Hurt(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            health = 0;
+            Die();
+        }
+        healthBar.SetHealth(health);
+    }
+
+    private void Die()
+    {
+        Debug.Log("Death");
     }
 }
