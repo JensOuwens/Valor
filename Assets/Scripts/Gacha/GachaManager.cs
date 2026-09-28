@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// TODO: surroundings time stop
@@ -25,13 +27,18 @@ public class GachaManager : MonoBehaviour
     [SerializeField] private TMP_Text gachaTokensText;
 
     public int gachaTokens = 0;
-    
+
+    private void Awake()
+    {
+        UpdateTokenDisplay();
+    }
+
     public void GachaPull()
     {
-        if (gachaTokens ! <= 3) return;
-
+        if (gachaTokens ! < 3) return;
+        
         gachaTokens -= 3;
-        gachaTokensText.text = "Tokens " + gachaTokens.ToString();
+        UpdateTokenDisplay();
         List<GachaItem> currentPulls = new List<GachaItem>();
         for (int i = 0; i < pullItemAmount; i++)
         {
@@ -99,5 +106,10 @@ public class GachaManager : MonoBehaviour
             playerCanvas.gameObject.SetActive(false);
             IsBeingDisplayed = true;
         }
+    }
+
+    public void UpdateTokenDisplay()
+    {
+        gachaTokensText.text = "Tokens " + gachaTokens.ToString();
     }
 }
