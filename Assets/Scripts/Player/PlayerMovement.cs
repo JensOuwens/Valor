@@ -26,12 +26,17 @@ public class PlayerMovement : MonoBehaviour, IDamagable
     [SerializeField] private float mouseSensitivity = 0.1f;
     [SerializeField] private float minPitch = -30f;
     [SerializeField] private float maxPitch = 70f;
-    
+
+    [Header("Health Regeneration")]
+    [SerializeField] private float regenDelay = 3f;
+    [SerializeField] private float regenRate = 5f;
+
     [Header("References")]
     [SerializeField] private GachaManager gachaManager;
     [SerializeField] private PlayerInventory inventory;
     [SerializeField] private Transform characterModelParent;
     [SerializeField] private HealthBarUI healthBar;
+
     private GameObject currentCharacterModel;
 
     private GachaItem currentCharachter;
@@ -42,7 +47,9 @@ public class PlayerMovement : MonoBehaviour, IDamagable
     private Vector3 velocity;
     private float pitch;
     private float yaw;
-    
+
+    private float timeSinceLastDamage;
+
     public int health { get; set; }
     public int maxHealth { get; set; }
 
@@ -58,6 +65,7 @@ public class PlayerMovement : MonoBehaviour, IDamagable
 
         maxHealth = 100;
         health = maxHealth;
+
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(health);
     }
@@ -87,14 +95,18 @@ public class PlayerMovement : MonoBehaviour, IDamagable
 
     private void Update()
     {
+        HandleHealthRegeneration();
+
         if (gachaAction.action.WasPressedThisFrame())
         {
             gachaManager.DisplayGacha();
+
             switch (canMove)
             {
                 case true:
                     canMove = false;
                     break;
+
                 case false:
                     canMove = true;
                     break;
@@ -104,20 +116,49 @@ public class PlayerMovement : MonoBehaviour, IDamagable
         if (inventoryAction.action.WasPressedThisFrame())
         {
             inventory.DisplayInventory();
+
             switch (canMove)
             {
                 case true:
                     canMove = false;
                     break;
+
                 case false:
                     canMove = true;
                     break;
             }
         }
-        
+
         if (!canMove) return;
+
         HandleCamera();
         HandleMovement();
+    }
+
+    private void HandleHealthRegeneration()
+    {
+        // Don't regenerate if already at full health.
+        if (health >= maxHealth)
+        {
+            timeSinceLastDamage = 0f;
+            return;
+        }
+
+        timeSinceLastDamage += Time.deltaTime;
+
+        // Wait until the regeneration delay has passed.
+        if (timeSinceLastDamage < regenDelay)
+            return;
+
+        // Regenerate health.
+        float newHealth = health + regenRate * Time.deltaTime;
+
+        health = Mathf.Min(
+            Mathf.FloorToInt(newHealth),
+            maxHealth
+        );
+
+        healthBar.SetHealth(health);
     }
 
     private void HandleCamera()
@@ -136,6 +177,7 @@ public class PlayerMovement : MonoBehaviour, IDamagable
 
         // Vertical camera rotation.
         pitch -= lookInput.y * mouseSensitivity;
+
         pitch = Mathf.Clamp(
             pitch,
             minPitch,
@@ -214,7 +256,7 @@ public class PlayerMovement : MonoBehaviour, IDamagable
             movement * Time.deltaTime
         );
     }
-    
+
     public void ReplaceModel(GachaItem item)
     {
         if (item == null)
@@ -225,7 +267,10 @@ public class PlayerMovement : MonoBehaviour, IDamagable
 
         if (item.Model == null)
         {
-            Debug.LogError("GachaItem '" + item.Name + "' has no Model assigned.");
+            Debug.LogError(
+                "GachaItem '" + item.Name + "' has no Model assigned."
+            );
+
             return;
         }
 
@@ -248,14 +293,20 @@ public class PlayerMovement : MonoBehaviour, IDamagable
 
         currentCharachter = item;
     }
+
     public void Hurt(int damage)
     {
         health -= damage;
+
+        // Reset regeneration timer whenever damage is taken.
+        timeSinceLastDamage = 0f;
+
         if (health <= 0)
         {
             health = 0;
             Die();
         }
+
         healthBar.SetHealth(health);
     }
 
