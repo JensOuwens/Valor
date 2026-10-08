@@ -530,6 +530,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1012,6 +1016,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1939,6 +1947,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5993,6 +6005,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6535,6 +6551,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7018,6 +7038,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9948,6 +9972,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10708,6 +10736,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11116,6 +11148,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11388,6 +11424,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13244,6 +13284,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15734,6 +15778,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17600,6 +17648,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18176,6 +18228,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18588,6 +18644,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20000,6 +20060,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22005,6 +22069,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22413,6 +22481,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22475,6 +22547,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24113,6 +24189,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24175,6 +24255,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24326,6 +24410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24463,6 +24551,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25935,6 +26027,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26858,6 +26954,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28060,6 +28160,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28896,6 +29000,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29025,6 +29133,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29750,6 +29862,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30085,6 +30201,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30299,6 +30419,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -31419,6 +31543,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33620,6 +33748,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33769,6 +33901,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33906,6 +34042,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34785,6 +34925,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34915,6 +35059,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35767,6 +35915,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36322,6 +36474,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36969,6 +37125,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37247,6 +37407,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -38819,6 +38983,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39492,6 +39660,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40012,6 +40184,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40583,6 +40759,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41050,6 +41230,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5388143682875978236, guid: 18745e35dd53b4748939694820b61728, type: 3}
+      propertyPath: gachaManager
+      value: 
+      objectReference: {fileID: 517307894}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
