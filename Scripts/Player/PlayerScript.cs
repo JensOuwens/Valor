@@ -12,8 +12,6 @@ public partial class PlayerScript : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionPressed("Jump")){
-			GD.Print("Hello from C# to Godot :)");
-		}
+		
 	}
 }
