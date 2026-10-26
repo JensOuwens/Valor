@@ -11,6 +11,13 @@ public enum EInputType
 public  class CommandManager
 {
 	public List<IHandler> handlers = new List<IHandler>();
+
+	public void InitializeHandlers()
+	{
+		IHandler handler = new MovementHandler();
+		handlers.Add(handler);
+	}
+	
 	public void SendCommand(CommandContext context, EInputType inputType, int handlerID)
 	{
 		switch (inputType)
@@ -19,10 +26,10 @@ public  class CommandManager
 				handlers[handlerID].OnCLick(context);
 				break;
 			case EInputType.Hold:
-				handlers[handlerID].OnHold();
+				handlers[handlerID].OnHold(context);
 				break;
 			case EInputType.Release:
-				handlers[handlerID].OnRelease();
+				handlers[handlerID].OnRelease(context);
 				break;
 		}
 	}

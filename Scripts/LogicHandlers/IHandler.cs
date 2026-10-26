@@ -1,21 +1,11 @@
 using Godot;
 using System;
 
-public partial class IHandler
+public interface IHandler
 {
-    public CommandContext thisCommandContext;
-    public void OnCLick(CommandContext context)
-    {
-        thisCommandContext = context;
-    }
+    public void OnCLick(CommandContext context);
 
-    public void OnHold()
-    {
-        
-    }
+    public void OnHold(CommandContext context);
 
-    public void OnRelease()
-    {
-        
-    }
+    public void OnRelease(CommandContext context);
 }

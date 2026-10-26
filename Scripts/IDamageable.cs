@@ -3,10 +3,7 @@ using System;
 
 public interface IDamageable
 {
-    public float health { get; set; }
-    
-    public void Hurt(float Damage)
-    {
-        health -= Damage;
-    }
+	public float health { get; set; }
+
+	public void Hurt(float Damage);
 }
