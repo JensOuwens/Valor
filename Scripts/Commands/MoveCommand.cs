@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// this class handles the input for Moving
+/// </summary>
 public class MoveCommand : ICommand
 {
 	public CommandManager CommandManager { get; set; }

@@ -8,14 +8,24 @@ public enum EInputType
 	Hold,
 	Release
 }
+/// <summary>
+/// This class accepts commands from the command classes, and redirects them to the apropriate handlers
+/// </summary>
 public  class CommandManager
 {
 	public List<IHandler> handlers = new List<IHandler>();
 
 	public void InitializeHandlers()
 	{
-		IHandler handler = new MovementHandler();
-		handlers.Add(handler);
+		IHandler movementHandler = new MovementHandler();
+		IHandler attackHandler = new AttackHandler();
+		IHandler healHandler = new HealHandler();
+		IHandler dodgeHandler = new DodgeHandler();
+		
+		handlers.Add(movementHandler);
+		handlers.Add(attackHandler);
+		handlers.Add(healHandler);
+		handlers.Add(dodgeHandler);
 	}
 	
 	public void SendCommand(CommandContext context, EInputType inputType, int handlerID)

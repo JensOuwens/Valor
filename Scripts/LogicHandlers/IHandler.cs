@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// this is an interface that all logic handlers use
+/// </summary>
 public interface IHandler
 {
     public void OnCLick(CommandContext context);

@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// this interface is used by all commands in the command pattern
+/// </summary>
 public interface ICommand
 {
 	public CommandManager CommandManager { get; set; }

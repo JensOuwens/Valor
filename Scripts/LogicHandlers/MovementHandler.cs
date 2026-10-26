@@ -1,20 +1,23 @@
 using Godot;
 using System;
 
+/// <summary>
+/// this class handles player movement logic
+/// </summary>
 public partial class MovementHandler : Node, IHandler
 {
 	public void OnCLick(CommandContext context)
 	{
-		GD.Print("CLICK");
+		GD.Print("Movement started: ", context.Direction);
 	}
 
 	public void OnHold(CommandContext context)
 	{
-		throw new NotImplementedException();
+		GD.Print("Moving in direction: ", context.Direction);
 	}
 
 	public void OnRelease(CommandContext context)
 	{
-		throw new NotImplementedException();
+		GD.Print("Movement stopped");
 	}
 }
