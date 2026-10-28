@@ -25,7 +25,7 @@ public sealed class PlayerBlackboard
 	public float ComboResetTime { get; set; } = 0.8f;
 
 	// Dodge
-	public float DodgeDistance { get; set; } = 100f;
+	public float DodgeDistance { get; set; } = 5f;
 	public float DodgeDuration { get; set; } = 0.2f;
 	public float DodgeCooldown { get; set; } = 0.5f;
 	public float DodgeIFrameFraction { get; set; } = 0.65f;

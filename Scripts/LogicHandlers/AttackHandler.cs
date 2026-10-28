@@ -29,9 +29,11 @@ public class AttackHandler : IHandler
 			GD.Print("[Attack] Input ignored: player is dodging.");
 			return;
 		}
+		
 
 		if (this.Mode == AttackMode.Combo)
 		{
+			this.blackboard.PlayerVisual.PlayAnim(new PlayerVisual.PlayerAnimation{name = PlayerVisual.EPlayerAnimNames.Attack, priority = 1});
 			ExecuteComboHit();
 			return;
 		}

@@ -26,13 +26,13 @@ public class DodgeHandler : IHandler
 			GD.Print($"[Dodge] Rejected: dodge active or cooldown remaining ({this.blackboard.DodgeCooldownTimer:0.##}s).");
 			return;
 		}
-
-		Vector3 direction = context.Direction.Normalized();
-		this.dodgeDirection = new Vector3(direction.X, 0f, direction.Y);
+		
+		this.dodgeDirection = context.Direction.Normalized();
 		if (this.dodgeDirection == Vector3.Zero)
-			this.dodgeDirection = new Vector3(0, 0f, -1);
+			this.dodgeDirection = Vector3.Forward;
 
 		float duration = Mathf.Max(0.01f, this.blackboard.DodgeDuration);
+		this.blackboard.PlayerVisual.PlayAnim(new PlayerVisual.PlayerAnimation{name = PlayerVisual.EPlayerAnimNames.Dodge, priority = 1, duration = duration});
 		this.blackboard.IsDodging = true;
 		this.blackboard.IsInvincible = true;
 		this.blackboard.DodgeTimer = duration;

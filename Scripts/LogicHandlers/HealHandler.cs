@@ -34,6 +34,8 @@ public class HealHandler : IHandler
 		float before = this.blackboard.CurrentHealth;
 		this.blackboard.SetHealth(before + this.blackboard.HealAmount);
 		this.blackboard.SetFlasks(this.blackboard.CurrentFlasks - 1);
+		
+		this.blackboard.PlayerVisual.PlayAnim(new PlayerVisual.PlayerAnimation{name = PlayerVisual.EPlayerAnimNames.Heal, priority = 1});
 
 		GD.Print($"[Heal] Flask used. HP {before:0.##} -> {this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}. Flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}.");
 	}
