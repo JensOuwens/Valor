@@ -8,23 +8,20 @@ public class HealCommand : ICommand
 {
 	public CommandManager CommandManager { get; set; }
 	
-	public HealCommand (CommandManager manager)
+	public HealCommand(CommandManager manager)
 	{
 		this.CommandManager = manager;
 	}
 	
-	public void OnClick(CommandContext context)
-	{
-		CommandManager.SendCommand(context, EInputType.Click, 2);
-	}
+	public void OnClick(CommandContext context) =>
+		CommandManager.SendCommand(
+			context, EInputType.Click, HandlerId.Heal);
 
-	public void OnHold(CommandContext context)
-	{
-		CommandManager.SendCommand(context, EInputType.Hold, 2);
-	}
+	public void OnHold(CommandContext context) =>
+		CommandManager.SendCommand(
+			context, EInputType.Hold, HandlerId.Heal);
 
-	public void OnRelease(CommandContext context)
-	{
-		CommandManager.SendCommand(context, EInputType.Release, 2);
-	}
+	public void OnRelease(CommandContext context) =>
+		CommandManager.SendCommand(
+			context, EInputType.Release, HandlerId.Heal);
 }

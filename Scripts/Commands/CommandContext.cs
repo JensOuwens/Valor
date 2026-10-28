@@ -6,5 +6,6 @@ using System;
 /// </summary>
 public partial class CommandContext
 {
-	public Vector2 Direction { get; set; }
+	public Vector2 Direction { get; set; } = Vector2.Zero;
+	public PlayerBlackboard Blackboard { get; set; }
 }

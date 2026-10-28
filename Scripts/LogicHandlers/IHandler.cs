@@ -11,4 +11,6 @@ public interface IHandler
     public void OnHold(CommandContext context);
 
     public void OnRelease(CommandContext context);
+    
+    void Tick(double delta);
 }
