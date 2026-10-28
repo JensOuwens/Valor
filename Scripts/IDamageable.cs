@@ -6,7 +6,7 @@ using System;
 /// </summary>
 public interface IDamageable
 {
-	public float health { get; set; }
+	public float Health { get; }
 
 	public void Hurt(float Damage);
 }

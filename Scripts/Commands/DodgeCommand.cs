@@ -13,18 +13,15 @@ public class DodgeCommand : ICommand
 		this.CommandManager = manager;
 	}
 	
-	public void OnClick(CommandContext context)
-	{
-		CommandManager.SendCommand(context, EInputType.Click, 3);
-	}
+	public void OnClick(CommandContext context) =>
+		CommandManager.SendCommand(
+			context, EInputType.Click, HandlerId.Dodge);
 
-	public void OnHold(CommandContext context)
-	{
-		CommandManager.SendCommand(context, EInputType.Hold, 3);
-	}
+	public void OnHold(CommandContext context) =>
+		CommandManager.SendCommand(
+			context, EInputType.Hold, HandlerId.Dodge);
 
-	public void OnRelease(CommandContext context)
-	{
-		CommandManager.SendCommand(context, EInputType.Release, 3);
-	}
+	public void OnRelease(CommandContext context) =>
+		CommandManager.SendCommand(
+			context, EInputType.Release, HandlerId.Dodge);
 }

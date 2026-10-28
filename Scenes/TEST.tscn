@@ -2,22 +2,46 @@
 
 [ext_resource type="Script" uid="uid://5x58mwiy5far" path="res://Scripts/Player/PlayerScript.cs" id="1_30rdv"]
 [ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://icon.svg" id="1_832wm"]
+[ext_resource type="Script" uid="uid://v11bg25mt83s" path="res://Scripts/TestEnemy.cs" id="3_1jv68"]
+[ext_resource type="Script" uid="uid://cqi3ah1a01uan" path="res://Scripts/Player/AttackHitbox.cs" id="3_kes0n"]
+[ext_resource type="Material" uid="uid://cvgr82yqqutk7" path="res://Materials/Enemy.tres" id="4_kes0n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_81lj2"]
-size = Vector2(118, 123)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hx3py"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_veby7"]
+size = Vector2(54.199997, 29.2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ady6f"]
 
 [node name="Node2D" type="Node2D" unique_id=231427971]
 
-[node name="Player" type="Node2D" parent="." unique_id=1341262678]
-position = Vector2(532, 562)
+[node name="Player" type="CharacterBody2D" parent="." unique_id=318117559]
+position = Vector2(519, 229)
 script = ExtResource("1_30rdv")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1465113288]
-position = Vector2(0, -1)
+[node name="Sprite2D" type="Sprite2D" parent="Player" unique_id=1172793310]
 texture = ExtResource("1_832wm")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="Player" unique_id=1104132395]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=1038130016]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_hx3py")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/CharacterBody2D" unique_id=1588893526]
-position = Vector2(0, -1.5)
-shape = SubResource("RectangleShape2D_81lj2")
+[node name="Area2D" type="Area2D" parent="Player" unique_id=598101531]
+script = ExtResource("3_kes0n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D" unique_id=582619153]
+position = Vector2(2, 94)
+scale = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_veby7")
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=1877286858]
+position = Vector2(529, 562)
+script = ExtResource("3_1jv68")
+
+[node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=1977852483]
+material = ExtResource("4_kes0n")
+texture = ExtResource("1_832wm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=830263325]
+scale = Vector2(6, 6)
+shape = SubResource("RectangleShape2D_ady6f")
