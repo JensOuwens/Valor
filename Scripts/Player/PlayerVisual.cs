@@ -22,9 +22,11 @@ public partial class PlayerVisual : Node3D
         public EPlayerAnimNames name;
         public int priority;
         public double duration;
+        public Action callback;
     }
     
     [Export] private AnimationPlayer animationPlayer;
+    [Export] private AnimationFunctionBank functionBank;
     [Export] private Node3D handOne;
     [Export] private Node3D handTwo;
     private PlayerAnimation currentAnimation;
@@ -61,6 +63,9 @@ public partial class PlayerVisual : Node3D
         this.currentAnimation = animation;
 
         string animString = AnimEnumToString(this.currentAnimation.name);
+        
+        if (this.currentAnimation.callback != null) 
+            this.functionBank.RegisterFunction(animString, this.currentAnimation.callback);
         
         switch (this.currentAnimation.name)
         {

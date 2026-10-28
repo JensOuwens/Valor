@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://dsjbnsxwuhrpa"]
+
+[ext_resource type="Script" uid="uid://v11bg25mt83s" path="res://Scripts/DummyEnemy.cs" id="1_mifjp"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_44saq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_44saq"]
+radius = 0.3
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_5aqtf"]
+radius = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_44saq"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_44saq"]
+top_radius = 0.8105469
+bottom_radius = 0.8105469
+height = 0.099999964
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_mifjp"]
+top_radius = 0.39794922
+bottom_radius = 0.39794922
+height = 0.20136717
+
+[node name="Dummy" type="Node3D" unique_id=2026560007]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1371073923 node_paths=PackedStringArray("joint")]
+collision_layer = 2
+script = ExtResource("1_mifjp")
+flinchStrengthDegrees = 80.0
+joint = NodePath("Joint")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1083137556]
+shape = SubResource("CapsuleShape3D_44saq")
+
+[node name="Joint" type="Node3D" parent="CharacterBody3D" unique_id=186285756]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0691133, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Joint" unique_id=633015503]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0691133, 0)
+mesh = SubResource("CapsuleMesh_44saq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D" unique_id=1325848556]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0.3489529, 0)
+mesh = SubResource("CapsuleMesh_5aqtf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D" unique_id=277941126]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("SphereMesh_44saq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D/MeshInstance3D" unique_id=1075244023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31118822, 0)
+mesh = SubResource("CylinderMesh_44saq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D/MeshInstance3D" unique_id=1271150340]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44974887, 0)
+mesh = SubResource("CylinderMesh_mifjp")

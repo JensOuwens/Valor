@@ -82,13 +82,6 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 			this.healCommand.OnClick(context);
 		}
 
-		// Test-only input: lets you verify health and dodge i-frames without enemy AI.
-		if (Input.IsActionJustPressed("DebugDamage"))
-		{
-			GD.Print("[Input] DebugDamage pressed; attempting to apply 15 damage to player.");
-			Hurt(15f);
-		}
-
 		if (Input.IsActionJustPressed("Dodge"))
 		{
 			GD.Print("[Input] Dodge pressed.");
@@ -143,7 +136,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		GD.Print($"[Player] Attack mode changed to {mode}.");
 	}
 
-	public void Hurt(float damage)
+	public void Hurt(float damage, Vector3 hitDirection)
 	{
 		if (this.blackboard == null)
 		{

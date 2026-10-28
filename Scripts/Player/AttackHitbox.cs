@@ -11,7 +11,7 @@ public partial class AttackHitbox : Area3D
 {
 	[Export] public float ActiveDuration { get; set; } = 0.12f;
 	[Export] public float ForwardOffset { get; set; } = 22f;
-	[Export] public Vector3 BoxSize { get; set; } = new Vector3(32f, 32f, 24f);
+	[Export] public Vector3 BoxSize { get; set; } = new(32f, 32f, 24f);
 
 	private PlayerBlackboard blackboard;
 	private CollisionShape3D collisionShape;
@@ -36,8 +36,8 @@ public partial class AttackHitbox : Area3D
 			this.collisionShape.Shape = new BoxShape3D { Size = this.BoxSize };
 			GD.Print($"[Hitbox] No shape resource assigned; created RectangleShape3D size={this.BoxSize}.");
 		}
-		else if (this.collisionShape.Shape is BoxShape3D rectangle) 
-			rectangle.Size = this.BoxSize;
+		else if (this.collisionShape.Shape is BoxShape3D box) 
+			box.Size = this.BoxSize;
 
 		this.collisionShape.Disabled = false;
 		this.CollisionLayer = 0;
@@ -112,8 +112,9 @@ public partial class AttackHitbox : Area3D
 
 		if (body is IDamageable damageable)
 		{
+			Vector3 hitDirection = (body.GlobalPosition - this.blackboard!.Player!.GlobalPosition).Normalized();
 			GD.Print($"[Hitbox] {this.attackName} hit '{body.Name}' for {this.damage:0.##} damage. Target HP before hit={damageable.Health:0.##}.");
-			damageable.Hurt(this.damage);
+			damageable.Hurt(this.damage, hitDirection);
 		}
 		else
 			GD.Print($"[Hitbox] Overlapped '{body.Name}', but it does not implement IDamageable.");

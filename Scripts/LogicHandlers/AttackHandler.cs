@@ -33,8 +33,12 @@ public class AttackHandler : IHandler
 
 		if (this.Mode == AttackMode.Combo)
 		{
-			this.blackboard.PlayerVisual.PlayAnim(new PlayerVisual.PlayerAnimation{name = PlayerVisual.EPlayerAnimNames.Attack, priority = 1});
-			ExecuteComboHit();
+			this.blackboard.PlayerVisual.PlayAnim(new PlayerVisual.PlayerAnimation
+			{
+				name = PlayerVisual.EPlayerAnimNames.Attack, 
+				priority = 1, 
+				callback = ExecuteComboHit
+			});
 			return;
 		}
 

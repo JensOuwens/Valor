@@ -1,3 +1,5 @@
+using Godot;
+
 namespace Valor;
 
 /// <summary>
@@ -7,5 +9,5 @@ public interface IDamageable
 {
 	public float Health { get; }
 
-	public void Hurt(float damage);
+	public void Hurt(float damage, Vector3 hitDirection);
 }

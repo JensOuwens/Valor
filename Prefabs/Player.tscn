@@ -10,7 +10,7 @@ radius = 0.5390625
 height = 2.1376953
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_44saq"]
-size = Vector3(1, 1, 1.4291992)
+size = Vector3(3, 1, 2.5)
 
 [node name="Player" type="Node3D" unique_id=1862965497]
 
@@ -29,9 +29,10 @@ shape = SubResource("CapsuleShape3D_44saq")
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("3_b43ah")
+ForwardOffset = 1.0
+BoxSize = Vector3(3, 1, 2.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/AttackHitbox" unique_id=586747850]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4381888)
 shape = SubResource("BoxShape3D_44saq")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=427308607 node_paths=PackedStringArray("player")]
