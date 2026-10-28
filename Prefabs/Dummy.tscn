@@ -4,6 +4,9 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_44saq"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jm03n"]
+albedo_color = Color(0.76378804, 0.4471882, 0.06949692, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_44saq"]
 radius = 0.3
 
@@ -11,6 +14,9 @@ radius = 0.3
 radius = 0.2
 
 [sub_resource type="SphereMesh" id="SphereMesh_44saq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mifjp"]
+albedo_color = Color(0.45882353, 0.043137256, 0.10980392, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_44saq"]
 top_radius = 0.8105469
@@ -38,20 +44,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0691133, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Joint" unique_id=633015503]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0691133, 0)
+material_override = SubResource("StandardMaterial3D_jm03n")
 mesh = SubResource("CapsuleMesh_44saq")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D" unique_id=1325848556]
 transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0.3489529, 0)
+material_override = SubResource("StandardMaterial3D_jm03n")
 mesh = SubResource("CapsuleMesh_5aqtf")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D" unique_id=277941126]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = SubResource("StandardMaterial3D_jm03n")
 mesh = SubResource("SphereMesh_44saq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D/MeshInstance3D" unique_id=1075244023]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31118822, 0)
+material_override = SubResource("StandardMaterial3D_mifjp")
 mesh = SubResource("CylinderMesh_44saq")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Joint/MeshInstance3D/MeshInstance3D" unique_id=1271150340]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44974887, 0)
+material_override = SubResource("StandardMaterial3D_mifjp")
 mesh = SubResource("CylinderMesh_mifjp")

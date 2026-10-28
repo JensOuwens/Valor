@@ -13,8 +13,29 @@ albedo_color = Color(0.30015695, 0.13533476, 0.01632369, 1)
 material = SubResource("StandardMaterial3D_44saq")
 size = Vector3(40, 0.1, 40)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jm03n"]
+albedo_color = Color(0.4601658, 0.57261217, 0.6678152, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g0a5w"]
+albedo_color = Color(0.66250014, 0.19, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c0yfh"]
+albedo_color = Color(0.41230243, 0.49534482, 0.12988186, 1)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bghhj"]
 albedo_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_bghhj"]
+
+[sub_resource type="Environment" id="Environment_44saq"]
+background_mode = 2
+background_color = Color(0.16087501, 0.0975, 0.39, 1)
+sky = SubResource("Sky_bghhj")
+ambient_light_source = 2
+ambient_light_color = Color(0.6218837, 0.46087503, 0.5209562, 1)
+glow_enabled = true
+glow_intensity = 1.0
+glow_bloom = 0.2
 
 [node name="SectionOneGameshopHub" type="Node3D" unique_id=2015010177]
 
@@ -37,37 +58,44 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9999999, 29.766758)
 use_collision = true
 size = Vector3(7, 4, 5)
+material = SubResource("StandardMaterial3D_jm03n")
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="Walls/House" unique_id=2079844957]
 transform = Transform3D(4.375, 0, 0, 0, 4.375, 0, 0, 0, 4.375, 0, 2, 3)
 polygon = PackedVector2Array(0, 0.48, -1, 0, 1, 0)
 depth = 1.4
+material = SubResource("StandardMaterial3D_g0a5w")
 
 [node name="MainWall" type="CSGCylinder3D" parent="Walls" unique_id=1961479419]
 transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, 0, 1, 0)
 use_collision = true
 radius = 19.0
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Walls/MainWall" unique_id=1429129491]
 operation = 2
 radius = 16.699
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Walls/MainWall" unique_id=238582138]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16666667, 0.9999999, 18)
 operation = 2
 size = Vector3(2, 5, 3)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D4" type="CSGBox3D" parent="Walls/MainWall" unique_id=409146077]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.16699998, 0.9999999, -18)
 operation = 2
 size = Vector3(4, 5, 3)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Walls/MainWall" unique_id=1407892366]
 transform = Transform3D(0.5, 0, 0.86602545, 0, 1, 0, -0.86602545, 0, 0.5, 14.953165, 0.9999999, 9.739992)
 operation = 2
 size = Vector3(2, 5, 3)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Walls/MainWall" unique_id=1902699098]
 transform = Transform3D(-0.13341686, 0, 0.51801324, 0, 1.0000001, 0, -0.49791846, 0, -0.1388012, -10.3426895, 0.11474252, -9.207592)
@@ -75,86 +103,103 @@ operation = 2
 radius = 16.699
 height = 2.2294922
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Walls/MainWall" unique_id=1273366042]
 transform = Transform3D(0.49999985, 0, -0.86602545, 0, 1, 0, 0.86602545, 0, 0.49999985, -14.953001, 0.9999999, 9.74)
 operation = 2
 size = Vector3(2, 5, 3)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="LeftInnerWall0" type="CSGBox3D" parent="Walls" unique_id=1928386938]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08154297, 1.0964234, 42.26855)
 use_collision = true
 size = Vector3(17.163086, 1.7928467, 2.8168945)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="LeftInnerWall1" type="CSGCylinder3D" parent="Walls" unique_id=354552964]
 transform = Transform3D(1.56, 0, 0, 0, 1, 0, 0, 0, 1.56, -4.3, 1, 14.4)
 use_collision = true
 radius = 19.0
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Walls/LeftInnerWall1" unique_id=1712379545]
 transform = Transform3D(0.99131376, 0, 0, 0, 1.0000004, 0, 0, 0, 1.0313208, 0, 0, 0)
 operation = 2
 radius = 16.699
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Walls/LeftInnerWall1" unique_id=974357529]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.1935425, 0.7962645, -1.5513616)
 operation = 2
 size = Vector3(23.93103, 5.1760254, 44.74115)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Walls/LeftInnerWall1" unique_id=225953187]
 transform = Transform3D(0.7318476, 0, -0.6814683, 0, 1, 0, 0.6814683, 0, 0.7318476, -11.176564, 0.7962645, -12.285675)
 operation = 2
 size = Vector3(23.93103, 5.1760254, 21.297752)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="LeftInnerWall2" type="CSGCylinder3D" parent="Walls" unique_id=1934744545]
 transform = Transform3D(-0.4037577, 0, 1.5068442, 0, 1, 0, -1.5068442, 0, -0.4037577, -29.697565, 0.9999924, -26.431458)
 use_collision = true
 radius = 19.0
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="Walls/LeftInnerWall2" unique_id=1538830985]
 transform = Transform3D(0.9913137, 0, 2.9802322e-08, 0, 1.0000004, 0, -1.4901161e-08, 0, 1.0313207, 0.9583893, 3.8146973e-06, -0.6261816)
 operation = 2
 radius = 16.699
 sides = 64
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="Walls/LeftInnerWall2" unique_id=1982147863]
 transform = Transform3D(0.9343515, -0.009280543, -0.35623157, -0.0033046012, 0.99939215, -0.0347038, 0.35633698, 0.03360275, 0.93375313, 6.870613, 0.23335183, 17.686178)
 operation = 2
 size = Vector3(23.93103, 5.1760254, 12.3003845)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="Walls/LeftInnerWall2" unique_id=1169311192]
 transform = Transform3D(0.91043717, 0, 0.41364712, 0, 1, 0, -0.41364712, 0, 0.91043717, -12.891252, 0.7962645, -10.884685)
 operation = 2
 size = Vector3(19.448822, 5.1760254, 8.241478)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="LeftInnerWall3" type="CSGBox3D" parent="Walls" unique_id=1294219780]
 transform = Transform3D(0.99999994, 0, 1.4901161e-08, 0, 1, 0, -1.4901161e-08, 0, 0.99999994, -12.203785, 1.0989869, -42.210793)
 use_collision = true
 size = Vector3(3.6313477, 1.7979736, 18.27539)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="LeftInnerWall3" type="CSGBox3D" parent="Walls/LeftInnerWall3" unique_id=1412605323]
 transform = Transform3D(-5.8611846e-08, 0, 0.99999315, 0, 1, 0, -0.99999315, 0, -5.8611846e-08, 5.1841583, 0, 8.980766)
 size = Vector3(3.631, 1.798, 14.013)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="LeftInnerWall4" type="CSGBox3D" parent="Walls/LeftInnerWall3" unique_id=1874285158]
 transform = Transform3D(-5.861127e-08, 0, 0.9999876, 0, 1, 0, -0.9999876, 0, -5.861127e-08, 10.190464, 0, 9.665085)
 size = Vector3(5, 1.798, 4)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="RighttInnerWall0" type="CSGBox3D" parent="Walls" unique_id=1199847006]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.580269, 1.0964234, -13.514004)
 use_collision = true
 size = Vector3(3.7470703, 1.7928467, 50.53833)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="RighttInnerWall1" type="CSGBox3D" parent="Walls/RighttInnerWall0" unique_id=1144439834]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.626465, 0, 23.269165)
 size = Vector3(15, 1.7928467, 4)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="RighttInnerWall2" type="CSGBox3D" parent="Walls/RighttInnerWall0" unique_id=290990859]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.126465, 0, 31.269165)
 size = Vector3(4, 1.7928467, 20)
+material = SubResource("StandardMaterial3D_c0yfh")
 
 [node name="UnlockDoors" type="Node3D" parent="." unique_id=1536751202]
 
@@ -200,3 +245,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.700296, 1.2049942, 5.93261
 
 [node name="Dummy5" parent="." unique_id=1835764275 instance=ExtResource("2_jm03n")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6160588, 1.2049942, 15.706894)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1436851363]
+environment = SubResource("Environment_44saq")

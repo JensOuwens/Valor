@@ -392,7 +392,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -404,7 +404,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
@@ -416,7 +416,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -428,7 +428,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -440,7 +440,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -452,7 +452,7 @@ tracks/5/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/6/type = "value"
 tracks/6/imported = false
@@ -464,7 +464,7 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 tracks/7/type = "value"
 tracks/7/imported = false
@@ -476,7 +476,7 @@ tracks/7/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(0.12854643, 1, 29.857058),
 "update": 0,
-"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(0.86, 0.86, 0.86, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
+"values": [Color(0.583972, 0.1853944, 0.85984993, 1), Color(1.8247963, 1.8247963, 1.8247963, 1), Color(0.583972, 0.1853944, 0.85984993, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_js767"]
