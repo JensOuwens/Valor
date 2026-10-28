@@ -27,7 +27,7 @@ public class DodgeHandler : IHandler
 			return;
 		}
 
-		Vector2 direction = context.Direction.Normalized();
+		Vector3 direction = context.Direction.Normalized();
 		this.dodgeDirection = new Vector3(direction.X, 0f, direction.Y);
 		if (this.dodgeDirection == Vector3.Zero)
 			this.dodgeDirection = new Vector3(0, 0f, -1);

@@ -14,8 +14,9 @@ size = Vector3(1, 1, 1.4291992)
 
 [node name="Player" type="Node3D" unique_id=1862965497]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=389838570]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=389838570 node_paths=PackedStringArray("playerVisual")]
 script = ExtResource("1_x3d5u")
+playerVisual = NodePath("PlayerVisual")
 
 [node name="PlayerVisual" parent="CharacterBody3D" unique_id=1180394923 instance=ExtResource("1_um8lo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89919233, 0)

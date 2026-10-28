@@ -33,7 +33,7 @@ public partial class AttackHitbox : Area3D
 
 		if (this.collisionShape.Shape == null)
 		{
-			this.collisionShape.Shape = new BoxShape3D() { Size = this.BoxSize };
+			this.collisionShape.Shape = new BoxShape3D { Size = this.BoxSize };
 			GD.Print($"[Hitbox] No shape resource assigned; created RectangleShape3D size={this.BoxSize}.");
 		}
 		else if (this.collisionShape.Shape is BoxShape3D rectangle) 
@@ -52,10 +52,9 @@ public partial class AttackHitbox : Area3D
 
 	public void Initialize(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
-	public void PerformAttack(float damage, Vector2 direction, string attackName)
+	public void PerformAttack(float damage, Vector3 direction, string attackName)
 	{
-		if (direction == Vector2.Zero)
-			direction = Vector2.Down;
+		if (direction == Vector3.Zero) direction = Vector3.Forward;
 		direction = direction.Normalized();
 
 		this.damage = Mathf.Max(0f, damage);
@@ -64,8 +63,8 @@ public partial class AttackHitbox : Area3D
 		this.remaining = Mathf.Max(0.01f, this.ActiveDuration);
 		this.active = true;
 
-		this.Position = new Vector3(direction.X, 0f, direction.Y) * this.ForwardOffset;
-		this.Rotation = new Vector3(0f, -direction.Angle(), 0f);
+		this.Position = direction * this.ForwardOffset;
+		this.Rotation = new Vector3(0f, -new Vector2(direction.X, direction.Z).Angle(), 0f);
 		this.Monitoring = true;
 		if (this.blackboard != null) this.blackboard.IsAttacking = true;
 
@@ -74,8 +73,7 @@ public partial class AttackHitbox : Area3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!this.active)
-			return;
+		if (!this.active) return;
 
 		Array<Node3D> bodies = GetOverlappingBodies();
 
@@ -91,8 +89,7 @@ public partial class AttackHitbox : Area3D
 		// a body that was already overlapping when monitoring became active.
 
 		this.remaining -= (float)delta;
-		if (this.remaining <= 0f)
-			EndAttack();
+		if (this.remaining <= 0f) EndAttack();
 	}
 
 	private void OnBodyEntered(Node3D body)
@@ -103,18 +100,15 @@ public partial class AttackHitbox : Area3D
 			$"IsDamageable={body is IDamageable}"
 		);
 
-		if (this.active)
-			TryDamageBody(body);
+		if (this.active) TryDamageBody(body);
 	}
 
 	private void TryDamageBody(Node3D body)
 	{
-		if (body == null || body == this.blackboard?.Player)
-			return;
+		if (body == null || body == this.blackboard?.Player) return;
 
 		ulong id = body.GetInstanceId();
-		if (!this.hitBodyIds.Add(id))
-			return;
+		if (!this.hitBodyIds.Add(id)) return;
 
 		if (body is IDamageable damageable)
 		{

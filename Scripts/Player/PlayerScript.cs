@@ -7,8 +7,10 @@ namespace Valor;
 
 public partial class PlayerScript : CharacterBody3D, IDamageable
 {
+	[Export] private PlayerVisual playerVisual;
+	
 	[Export] public AttackMode StartingAttackMode { get; set; } = AttackMode.Combo;
-
+	
 	private ICommand attackCommand;
 	private ICommand dodgeCommand;
 	private ICommand healCommand;
@@ -17,8 +19,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	private PlayerBlackboard blackboard;
 	private AttackHitbox attackHitbox;
 	private bool wasMoving;
-	private Vector2 lastMovementDirection = Vector2.Down;
-	
+	private Vector3 lastMovementDirection = Vector3.Forward;
 	
 
 	public PlayerBlackboard Blackboard => this.blackboard;
@@ -30,7 +31,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		this.CollisionLayer = 1;
 		this.CollisionMask = 3;
 
-		this.blackboard = new PlayerBlackboard { Player = this };
+		this.blackboard = new PlayerBlackboard { Player = this, PlayerVisual = this.playerVisual };
 		this.commandManager = new CommandManager();
 		this.commandManager.InitializeHandlers(this.blackboard);
 
@@ -53,10 +54,11 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 
 	public override void _Process(double delta)
 	{
-		Vector2 direction = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
-		if (direction != Vector2.Zero) this.lastMovementDirection = direction.Normalized();
+		Vector2 inputDir = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
+		Vector3 direction = new (inputDir.X, 0f, inputDir.Y);
+		if (inputDir != Vector2.Zero) this.lastMovementDirection = direction.Normalized();
 
-		CommandContext context = new CommandContext
+		CommandContext context = new()
 		{
 			Direction = direction,
 			Blackboard = this.blackboard
@@ -90,11 +92,11 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		if (Input.IsActionJustPressed("Dodge"))
 		{
 			GD.Print("[Input] Dodge pressed.");
-			context.Direction = direction != Vector2.Zero ? direction.Normalized() : this.lastMovementDirection;
+			context.Direction = direction != Vector3.Zero ? direction.Normalized() : this.lastMovementDirection;
 			this.dodgeCommand.OnClick(context);
 		}
 
-		if (direction != Vector2.Zero)
+		if (inputDir != Vector2.Zero)
 		{
 			if (!this.wasMoving)
 				this.moveCommand.OnClick(context);
@@ -122,6 +124,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		// Move first, then advance timers. This avoids ending a dodge before its final movement step.
 		MoveAndSlide();
 		this.commandManager.Tick(delta);
+
+		this.playerVisual.PlayAnim(this.Velocity != Vector3.Zero
+			? new PlayerVisual.PlayerAnimation { name = PlayerVisual.EPlayerAnimNames.Walk }
+			: new PlayerVisual.PlayerAnimation { name = PlayerVisual.EPlayerAnimNames.Idle });
 	}
 
 	private void OnComboAttackTriggered(int comboStep, float damage) => 

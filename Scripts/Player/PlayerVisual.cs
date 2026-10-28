@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace Valor;
@@ -7,12 +8,25 @@ namespace Valor;
 /// </summary>
 public partial class PlayerVisual : Node3D
 {
+    public enum EPlayerAnimNames
+    {
+        Idle,
+        Walk,
+        Heal,
+        Dodge,
+        Attack
+    }
+
+    public struct PlayerAnimation
+    {
+        public EPlayerAnimNames name;
+        public int priority;
+    }
+    
     [Export] private AnimationPlayer animationPlayer;
     [Export] private Node3D handOne;
     [Export] private Node3D handTwo;
-
-    // public override void _Ready() => 
-    //     this.animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+    private PlayerAnimation currentAnimation;
     
     private bool CanPlayAnimation() => this.animationPlayer != null;
     private bool CanAddToHand(Node3D hand) => hand != null && hand.GetChildCount() == 0;
@@ -35,33 +49,31 @@ public partial class PlayerVisual : Node3D
     
     // TODO: Remove Item from hand func
 
-    public void PlayIdleAnim()
+    public void PlayAnim(PlayerAnimation animation)
     {
         if (!CanPlayAnimation()) return;
-        this.animationPlayer.Play("Idle");
-    }
-    
-    public void PlayWalkAnim()
-    {
-        if (!CanPlayAnimation()) return;
-        this.animationPlayer.Play("Walk");
-    }
-    
-    public void PlayAttackAnim()
-    {
-        if (!CanPlayAnimation()) return;
-        this.animationPlayer.Play("Attack0");
-    }
-    
-    public void PlayHealAnim()
-    {
-        if (!CanPlayAnimation()) return;
-        this.animationPlayer.Play("Heal");
-    }
-    
-    public void PlayDodgeAnim()
-    {
-        if (!CanPlayAnimation()) return;
-        this.animationPlayer.Play("Dodge");
+        if (animation.priority < this.currentAnimation.priority) return;
+        this.currentAnimation = animation;
+
+        switch (this.currentAnimation.name)
+        {
+            case EPlayerAnimNames.Idle:
+                this.animationPlayer.Play("Idle");
+                break;
+            case EPlayerAnimNames.Walk:
+                this.animationPlayer.Play("Walk");
+                break;
+            case EPlayerAnimNames.Heal:
+                this.animationPlayer.Play("Heal");
+                break;
+            case EPlayerAnimNames.Dodge:
+                this.animationPlayer.Play("Dodge");
+                break;
+            case EPlayerAnimNames.Attack:
+                this.animationPlayer.Play("Attack0");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 }

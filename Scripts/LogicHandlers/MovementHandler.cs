@@ -8,7 +8,7 @@ namespace Valor;
 public class MovementHandler : IHandler
 {
 	private readonly PlayerBlackboard blackboard;
-	private Vector2 lastLoggedDirection = Vector2.Zero;
+	private Vector3 lastLoggedDirection = Vector3.Zero;
 
 	public MovementHandler(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
@@ -23,8 +23,11 @@ public class MovementHandler : IHandler
 		if (this.blackboard.Player == null || this.blackboard.IsDodging)
 			return;
 
-		Vector2 direction = context.Direction.Normalized();
-		this.blackboard.Player.Velocity = new Vector3(direction.X, 0f, direction.Y) * this.blackboard.MoveSpeed;
+		Vector3 direction = context.Direction.Normalized();
+		this.blackboard.Player.Velocity = direction * this.blackboard.MoveSpeed;
+		
+		PlayerVisual visual = this.blackboard.PlayerVisual;
+		if (visual != null) visual.Rotation = new Vector3(0f, new Vector2(direction.Z, direction.X).Angle(), 0f);;
 
 		if (direction == this.lastLoggedDirection) return;
 		this.lastLoggedDirection = direction;
@@ -33,16 +36,12 @@ public class MovementHandler : IHandler
 
 	public void OnRelease(CommandContext context)
 	{
-		if (this.blackboard.Player == null || this.blackboard.IsDodging)
-			return;
+		if (this.blackboard.Player == null || this.blackboard.IsDodging) return;
 
 		this.blackboard.Player.Velocity = Vector3.Zero;
-		this.lastLoggedDirection = Vector2.Zero;
+		this.lastLoggedDirection = Vector3.Zero;
 		GD.Print("[Movement] Movement stopped.");
 	}
 
-	public void Tick(double delta)
-	{
-		this.blackboard.Player?.MoveAndSlide();
-	}
+	public void Tick(double delta) => this.blackboard.Player?.MoveAndSlide();
 }

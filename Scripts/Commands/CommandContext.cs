@@ -7,6 +7,6 @@ namespace Valor;
 /// </summary>
 public partial class CommandContext
 {
-	public Vector2 Direction { get; set; } = Vector2.Zero;
+	public Vector3 Direction { get; set; } = Vector3.Zero;
 	public PlayerBlackboard Blackboard { get; set; }
 }

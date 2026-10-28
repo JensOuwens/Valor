@@ -39,6 +39,7 @@ public sealed class PlayerBlackboard
 	public float DodgeCooldownTimer { get; set; }
 
 	public CharacterBody3D Player { get; set; }
+	public PlayerVisual PlayerVisual { get; set; }
 
 	public bool CanHeal => this.CurrentFlasks > 0 && this.CurrentHealth > 0f && this.CurrentHealth < this.MaxHealth;
 	public bool CanDodge => !this.IsDodging && this.DodgeCooldownTimer <= 0f;
