@@ -26,16 +26,20 @@ texture = ExtResource("1_832wm")
 scale = Vector2(6, 6)
 shape = SubResource("RectangleShape2D_hx3py")
 
-[node name="Area2D" type="Area2D" parent="Player" unique_id=598101531]
+[node name="AttackHitbox" type="Area2D" parent="Player" unique_id=598101531]
+position = Vector2(0, 71)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("3_kes0n")
+BoxSize = Vector2(100, 100)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Area2D" unique_id=582619153]
-position = Vector2(2, 94)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/AttackHitbox" unique_id=582619153]
 scale = Vector2(5, 5)
 shape = SubResource("RectangleShape2D_veby7")
 
 [node name="Enemy" type="CharacterBody2D" parent="." unique_id=1877286858]
-position = Vector2(529, 562)
+position = Vector2(525, 430)
+collision_layer = 2
 script = ExtResource("3_1jv68")
 
 [node name="Sprite2D" type="Sprite2D" parent="Enemy" unique_id=1977852483]

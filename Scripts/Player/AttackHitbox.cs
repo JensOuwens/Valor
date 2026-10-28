@@ -68,7 +68,7 @@ public partial class AttackHitbox : Area2D
 
 		// The local +X axis is the forward axis. Rotation turns the box toward direction.
 		Rotation = direction.Angle();
-		Position = new Vector2(ForwardOffset, 0f);
+		Position = direction * ForwardOffset;
 		Monitoring = true;
 		if (_blackboard != null)
 			_blackboard.IsAttacking = true;
@@ -81,10 +81,18 @@ public partial class AttackHitbox : Area2D
 		if (!_active)
 			return;
 
+		var bodies = GetOverlappingBodies();
+
+		GD.Print(
+			$"[Hitbox DEBUG] Active={_active}, " +
+			$"Overlapping bodies={bodies.Count}"
+		);
+
+		foreach (Node2D body in bodies)
+			TryDamageBody(body);
+		
 		// BodyEntered is the normal path. Scanning overlap results also catches
 		// a body that was already overlapping when monitoring became active.
-		foreach (Node2D body in GetOverlappingBodies())
-			TryDamageBody(body);
 
 		_remaining -= (float)delta;
 		if (_remaining <= 0f)
@@ -93,6 +101,12 @@ public partial class AttackHitbox : Area2D
 
 	private void OnBodyEntered(Node2D body)
 	{
+		GD.Print(
+			$"[Hitbox DEBUG] BodyEntered: {body.Name}, " +
+			$"Active={_active}, Monitoring={Monitoring}, " +
+			$"IsDamageable={body is IDamageable}"
+		);
+
 		if (_active)
 			TryDamageBody(body);
 	}
