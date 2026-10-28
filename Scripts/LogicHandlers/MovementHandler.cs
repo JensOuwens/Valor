@@ -1,14 +1,16 @@
 using Godot;
 
+namespace Valor;
+
 /// <summary>
 /// this class handles player movement logic
 /// </summary>
 public class MovementHandler : IHandler
 {
-	private readonly PlayerBlackboard _blackboard;
-	private Vector2 _lastLoggedDirection = Vector2.Zero;
+	private readonly PlayerBlackboard blackboard;
+	private Vector2 lastLoggedDirection = Vector2.Zero;
 
-	public MovementHandler(PlayerBlackboard blackboard) => _blackboard = blackboard;
+	public MovementHandler(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
 	public void OnCLick(CommandContext context)
 	{
@@ -18,28 +20,29 @@ public class MovementHandler : IHandler
 
 	public void OnHold(CommandContext context)
 	{
-		if (_blackboard.Player == null || _blackboard.IsDodging)
+		if (this.blackboard.Player == null || this.blackboard.IsDodging)
 			return;
 
 		Vector2 direction = context.Direction.Normalized();
-		_blackboard.Player.Velocity = direction * _blackboard.MoveSpeed;
+		this.blackboard.Player.Velocity = new Vector3(direction.X, 0f, direction.Y) * this.blackboard.MoveSpeed;
 
-		if (direction != _lastLoggedDirection)
-		{
-			_lastLoggedDirection = direction;
-			GD.Print($"[Movement] Direction={direction}, speed={_blackboard.MoveSpeed:0.##} px/s, velocity={_blackboard.Player.Velocity}.");
-		}
+		if (direction == this.lastLoggedDirection) return;
+		this.lastLoggedDirection = direction;
+		GD.Print($"[Movement] Direction={direction}, speed={this.blackboard.MoveSpeed:0.##} px/s, velocity={this.blackboard.Player.Velocity}.");
 	}
 
 	public void OnRelease(CommandContext context)
 	{
-		if (_blackboard.Player == null || _blackboard.IsDodging)
+		if (this.blackboard.Player == null || this.blackboard.IsDodging)
 			return;
 
-		_blackboard.Player.Velocity = Vector2.Zero;
-		_lastLoggedDirection = Vector2.Zero;
+		this.blackboard.Player.Velocity = Vector3.Zero;
+		this.lastLoggedDirection = Vector2.Zero;
 		GD.Print("[Movement] Movement stopped.");
 	}
 
-	public void Tick(double delta) { }
+	public void Tick(double delta)
+	{
+		this.blackboard.Player?.MoveAndSlide();
+	}
 }

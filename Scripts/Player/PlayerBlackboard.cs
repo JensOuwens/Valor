@@ -1,5 +1,7 @@
 using Godot;
 
+namespace Valor;
+
 /// <summary>
 /// Shared, runtime-only player state. Charm systems can modify the stat properties.
 /// </summary>
@@ -13,7 +15,7 @@ public sealed class PlayerBlackboard
 	public int CurrentFlasks { get; set; } = 3;
 
 	// Movement
-	public float MoveSpeed { get; set; } = 200f;
+	public float MoveSpeed { get; set; } = 5f;
 
 	// Attacks
 	public float AttackDamage { get; set; } = 20f;
@@ -36,18 +38,14 @@ public sealed class PlayerBlackboard
 	public float DodgeTimer { get; set; }
 	public float DodgeCooldownTimer { get; set; }
 
-	public CharacterBody2D Player { get; set; }
+	public CharacterBody3D Player { get; set; }
 
-	public bool CanHeal => CurrentFlasks > 0 && CurrentHealth > 0f && CurrentHealth < MaxHealth;
-	public bool CanDodge => !IsDodging && DodgeCooldownTimer <= 0f;
+	public bool CanHeal => this.CurrentFlasks > 0 && this.CurrentHealth > 0f && this.CurrentHealth < this.MaxHealth;
+	public bool CanDodge => !this.IsDodging && this.DodgeCooldownTimer <= 0f;
 
-	public void SetHealth(float value)
-	{
-		CurrentHealth = Mathf.Clamp(value, 0f, Mathf.Max(0f, MaxHealth));
-	}
+	public void SetHealth(float value) => 
+		this.CurrentHealth = Mathf.Clamp(value, 0f, Mathf.Max(0f, this.MaxHealth));
 
-	public void SetFlasks(int value)
-	{
-		CurrentFlasks = Mathf.Clamp(value, 0, Mathf.Max(0, MaxFlasks));
-	}
+	public void SetFlasks(int value) => 
+		this.CurrentFlasks = Mathf.Clamp(value, 0, Mathf.Max(0, this.MaxFlasks));
 }

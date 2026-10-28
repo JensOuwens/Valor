@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace Valor;
 
 /// <summary>
 /// this class handles the input for healing
@@ -14,14 +13,14 @@ public class HealCommand : ICommand
 	}
 	
 	public void OnClick(CommandContext context) =>
-		CommandManager.SendCommand(
+		this.CommandManager.SendCommand(
 			context, EInputType.Click, HandlerId.Heal);
 
 	public void OnHold(CommandContext context) =>
-		CommandManager.SendCommand(
+		this.CommandManager.SendCommand(
 			context, EInputType.Hold, HandlerId.Heal);
 
 	public void OnRelease(CommandContext context) =>
-		CommandManager.SendCommand(
+		this.CommandManager.SendCommand(
 			context, EInputType.Release, HandlerId.Heal);
 }

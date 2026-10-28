@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace Valor;
 
 /// <summary>
 /// interface to signify this class is able to take damage
@@ -8,5 +7,5 @@ public interface IDamageable
 {
 	public float Health { get; }
 
-	public void Hurt(float Damage);
+	public void Hurt(float damage);
 }

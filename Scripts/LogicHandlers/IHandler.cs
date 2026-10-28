@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace Valor;
 
 /// <summary>
 /// this is an interface that all logic handlers use

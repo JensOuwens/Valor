@@ -1,58 +1,56 @@
 using System.Collections.Generic;
 using Godot;
+using Godot.Collections;
+
+namespace Valor;
 
 /// <summary>
-/// Temporary melee Area2D. It damages each damageable body at most once per swing.
+/// Temporary melee Area3D. It damages each damageable body at most once per swing.
 /// </summary>
-public partial class AttackHitbox : Area2D
+public partial class AttackHitbox : Area3D
 {
 	[Export] public float ActiveDuration { get; set; } = 0.12f;
 	[Export] public float ForwardOffset { get; set; } = 22f;
-	[Export] public Vector2 BoxSize { get; set; } = new Vector2(32f, 24f);
+	[Export] public Vector3 BoxSize { get; set; } = new Vector3(32f, 32f, 24f);
 
-	private PlayerBlackboard _blackboard;
-	private CollisionShape2D _collisionShape;
-	private readonly HashSet<ulong> _hitBodyIds = new();
-	private float _damage;
-	private float _remaining;
-	private bool _active;
-	private string _attackName = "Attack";
+	private PlayerBlackboard blackboard;
+	private CollisionShape3D collisionShape;
+	private readonly HashSet<ulong> hitBodyIds = [];
+	private float damage;
+	private float remaining;
+	private bool active;
+	private string attackName = "Attack";
 
 	public override void _Ready()
 	{
-		_collisionShape = GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
-		if (_collisionShape == null)
+		this.collisionShape = GetNodeOrNull<CollisionShape3D>("CollisionShape3D");
+		if (this.collisionShape == null)
 		{
-			_collisionShape = new CollisionShape2D { Name = "CollisionShape2D" };
-			AddChild(_collisionShape);
+			this.collisionShape = new CollisionShape3D { Name = "CollisionShape3D" };
+			AddChild(this.collisionShape);
 			GD.Print("[Hitbox] CollisionShape2D was missing; created it at runtime.");
 		}
 
-		if (_collisionShape.Shape == null)
+		if (this.collisionShape.Shape == null)
 		{
-			_collisionShape.Shape = new RectangleShape2D { Size = BoxSize };
-			GD.Print($"[Hitbox] No shape resource assigned; created RectangleShape2D size={BoxSize}.");
+			this.collisionShape.Shape = new BoxShape3D() { Size = this.BoxSize };
+			GD.Print($"[Hitbox] No shape resource assigned; created RectangleShape3D size={this.BoxSize}.");
 		}
-		else if (_collisionShape.Shape is RectangleShape2D rectangle)
-		{
-			rectangle.Size = BoxSize;
-		}
+		else if (this.collisionShape.Shape is BoxShape3D rectangle) 
+			rectangle.Size = this.BoxSize;
 
-		_collisionShape.Disabled = false;
-		CollisionLayer = 0;
-		CollisionMask = 0;
+		this.collisionShape.Disabled = false;
+		this.CollisionLayer = 0;
+		this.CollisionMask = 0;
 		SetCollisionMaskValue(2, true); // Enemy bodies should be on physics layer 2.
-		Monitoring = false;
-		Monitorable = false;
-		BodyEntered += OnBodyEntered;
+		this.Monitoring = false;
+		this.Monitorable = false;
+		this.BodyEntered += OnBodyEntered;
 		SetPhysicsProcess(true);
 		GD.Print("[Hitbox] Ready. Monitoring is off until an attack fires. Collision mask targets layer 2.");
 	}
 
-	public void Initialize(PlayerBlackboard blackboard)
-	{
-		_blackboard = blackboard;
-	}
+	public void Initialize(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
 	public void PerformAttack(float damage, Vector2 direction, string attackName)
 	{
@@ -60,85 +58,80 @@ public partial class AttackHitbox : Area2D
 			direction = Vector2.Down;
 		direction = direction.Normalized();
 
-		_damage = Mathf.Max(0f, damage);
-		_attackName = attackName;
-		_hitBodyIds.Clear();
-		_remaining = Mathf.Max(0.01f, ActiveDuration);
-		_active = true;
+		this.damage = Mathf.Max(0f, damage);
+		this.attackName = attackName;
+		this.hitBodyIds.Clear();
+		this.remaining = Mathf.Max(0.01f, this.ActiveDuration);
+		this.active = true;
 
-		// The local +X axis is the forward axis. Rotation turns the box toward direction.
-		Rotation = direction.Angle();
-		Position = direction * ForwardOffset;
-		Monitoring = true;
-		if (_blackboard != null)
-			_blackboard.IsAttacking = true;
+		this.Position = new Vector3(direction.X, 0f, direction.Y) * this.ForwardOffset;
+		this.Rotation = new Vector3(0f, -direction.Angle(), 0f);
+		this.Monitoring = true;
+		if (this.blackboard != null) this.blackboard.IsAttacking = true;
 
-		GD.Print($"[Hitbox] {_attackName} activated. Damage={_damage:0.##}, duration={_remaining:0.##}s, direction={direction}.");
+		GD.Print($"[Hitbox] {this.attackName} activated. Damage={this.damage:0.##}, duration={this.remaining:0.##}s, direction={direction}.");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!_active)
+		if (!this.active)
 			return;
 
-		var bodies = GetOverlappingBodies();
+		Array<Node3D> bodies = GetOverlappingBodies();
 
 		GD.Print(
-			$"[Hitbox DEBUG] Active={_active}, " +
+			$"[Hitbox DEBUG] Active={this.active}, " +
 			$"Overlapping bodies={bodies.Count}"
 		);
 
-		foreach (Node2D body in bodies)
+		foreach (Node3D body in bodies)
 			TryDamageBody(body);
 		
 		// BodyEntered is the normal path. Scanning overlap results also catches
 		// a body that was already overlapping when monitoring became active.
 
-		_remaining -= (float)delta;
-		if (_remaining <= 0f)
+		this.remaining -= (float)delta;
+		if (this.remaining <= 0f)
 			EndAttack();
 	}
 
-	private void OnBodyEntered(Node2D body)
+	private void OnBodyEntered(Node3D body)
 	{
 		GD.Print(
 			$"[Hitbox DEBUG] BodyEntered: {body.Name}, " +
-			$"Active={_active}, Monitoring={Monitoring}, " +
+			$"Active={this.active}, Monitoring={this.Monitoring}, " +
 			$"IsDamageable={body is IDamageable}"
 		);
 
-		if (_active)
+		if (this.active)
 			TryDamageBody(body);
 	}
 
-	private void TryDamageBody(Node2D body)
+	private void TryDamageBody(Node3D body)
 	{
-		if (body == null || body == _blackboard?.Player)
+		if (body == null || body == this.blackboard?.Player)
 			return;
 
 		ulong id = body.GetInstanceId();
-		if (!_hitBodyIds.Add(id))
+		if (!this.hitBodyIds.Add(id))
 			return;
 
 		if (body is IDamageable damageable)
 		{
-			GD.Print($"[Hitbox] {_attackName} hit '{body.Name}' for {_damage:0.##} damage. Target HP before hit={damageable.Health:0.##}.");
-			damageable.Hurt(_damage);
+			GD.Print($"[Hitbox] {this.attackName} hit '{body.Name}' for {this.damage:0.##} damage. Target HP before hit={damageable.Health:0.##}.");
+			damageable.Hurt(this.damage);
 		}
 		else
-		{
 			GD.Print($"[Hitbox] Overlapped '{body.Name}', but it does not implement IDamageable.");
-		}
 	}
 
 	private void EndAttack()
 	{
-		_active = false;
-		Monitoring = false;
-		Position = Vector2.Zero;
-		Rotation = 0f;
-		if (_blackboard != null)
-			_blackboard.IsAttacking = false;
-		GD.Print($"[Hitbox] {_attackName} window ended.");
+		this.active = false;
+		this.Monitoring = false;
+		this.Position = Vector3.Zero;
+		this.Rotation = Vector3.Zero;
+		if (this.blackboard != null) this.blackboard.IsAttacking = false;
+		GD.Print($"[Hitbox] {this.attackName} window ended.");
 	}
 }

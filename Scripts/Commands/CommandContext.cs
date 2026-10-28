@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace Valor;
 
 /// <summary>
 /// this class provides context for some commands wich need directional data.

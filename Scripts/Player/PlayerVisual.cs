@@ -1,5 +1,6 @@
 using Godot;
-using System;
+
+namespace Valor;
 
 /// <summary>
 /// Holds player visual helper functions

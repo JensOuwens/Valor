@@ -1,5 +1,7 @@
 using Godot;
 
+namespace Valor;
+
 /// <summary>
 /// Temporary enemy for verifying the hitbox and damage logs without art or animations.
 /// Attach to a CharacterBody2D with a CollisionShape2D child.
@@ -11,29 +13,29 @@ public partial class TestEnemy : CharacterBody2D, IDamageable
 
     public override void _Ready()
     {
-        Health = Mathf.Max(0f, MaxHealth);
-        CollisionLayer = 2; // Physics layer 2: attack hitbox target layer.
-        CollisionMask = 1;  // Collide with player/world layer 1.
-        GD.Print($"[TestEnemy:{Name}] Ready. HP={Health:0.##}/{MaxHealth:0.##}, collision layer=2.");
+        this.Health = Mathf.Max(0f, this.MaxHealth);
+        this.CollisionLayer = 2; // Physics layer 2: attack hitbox target layer.
+        this.CollisionMask = 1;  // Collide with player/world layer 1.
+        GD.Print($"[TestEnemy:{this.Name}] Ready. HP={this.Health:0.##}/{this.MaxHealth:0.##}, collision layer=2.");
     }
 
     public void Hurt(float damage)
     {
-        if (damage <= 0f || Health <= 0f)
+        if (damage <= 0f || this.Health <= 0f)
         {
-            GD.Print($"[TestEnemy:{Name}] Ignored damage {damage:0.##}; HP={Health:0.##}.");
+            GD.Print($"[TestEnemy:{this.Name}] Ignored damage {damage:0.##}; HP={this.Health:0.##}.");
             return;
         }
 
-        float before = Health;
-        Health = Mathf.Max(0f, Health - damage);
-        GD.Print($"[TestEnemy:{Name}] Took {damage:0.##} damage. HP {before:0.##} -> {Health:0.##}/{MaxHealth:0.##}.");
+        float before = this.Health;
+        this.Health = Mathf.Max(0f, this.Health - damage);
+        GD.Print($"[TestEnemy:{this.Name}] Took {damage:0.##} damage. HP {before:0.##} -> {this.Health:0.##}/{this.MaxHealth:0.##}.");
 
-        if (Health <= 0f)
+        if (this.Health <= 0f)
         {
-            GD.Print($"[TestEnemy:{Name}] Defeated. Disabling collision layer for test purposes.");
-            CollisionLayer = 0;
-            CollisionMask = 0;
+            GD.Print($"[TestEnemy:{this.Name}] Defeated. Disabling collision layer for test purposes.");
+            this.CollisionLayer = 0;
+            this.CollisionMask = 0;
         }
     }
 }

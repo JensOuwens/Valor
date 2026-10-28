@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace Valor;
 
 /// <summary>
 /// this interface is used by all commands in the command pattern

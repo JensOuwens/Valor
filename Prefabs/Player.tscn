@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://bywgiyujt7q8d"]
+
+[ext_resource type="PackedScene" uid="uid://s8yux8j86rsc" path="res://Prefabs/PlayerVisual.tscn" id="1_um8lo"]
+[ext_resource type="Script" uid="uid://5x58mwiy5far" path="res://Scripts/Player/PlayerScript.cs" id="1_x3d5u"]
+[ext_resource type="Script" uid="uid://cqi3ah1a01uan" path="res://Scripts/Player/AttackHitbox.cs" id="3_b43ah"]
+[ext_resource type="Script" uid="uid://cx3slh77sahpc" path="res://Scripts/Player/PlayerCamera.cs" id="4_shmu5"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_44saq"]
+radius = 0.5390625
+height = 2.1376953
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_44saq"]
+size = Vector3(1, 1, 1.4291992)
+
+[node name="Player" type="Node3D" unique_id=1862965497]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=389838570]
+script = ExtResource("1_x3d5u")
+
+[node name="PlayerVisual" parent="CharacterBody3D" unique_id=1180394923 instance=ExtResource("1_um8lo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89919233, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=219960366]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.068847656, 0)
+shape = SubResource("CapsuleShape3D_44saq")
+
+[node name="AttackHitbox" type="Area3D" parent="CharacterBody3D" unique_id=702273848]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_b43ah")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/AttackHitbox" unique_id=586747850]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4381888)
+shape = SubResource("BoxShape3D_44saq")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=427308607 node_paths=PackedStringArray("player")]
+transform = Transform3D(1, 0, 0, 0, 0.80837256, 0.58867127, 0, -0.58867127, 0.80837256, 0, 23.115118, 23.741093)
+projection = 1
+size = 20.0
+script = ExtResource("4_shmu5")
+player = NodePath("../CharacterBody3D")
+speed = 2.0

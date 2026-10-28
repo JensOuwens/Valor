@@ -1,3 +1,5 @@
+namespace Valor;
+
 public enum EInputType
 {
     Click,

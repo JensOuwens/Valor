@@ -1,53 +1,54 @@
 using Godot;
-using System;
+
+namespace Valor;
 
 /// <summary>
 /// this class handles dodging logic
 /// </summary>
-
 public class DodgeHandler : IHandler
 {
-	private readonly PlayerBlackboard _blackboard;
-	private Vector2 _dodgeDirection;
-	private bool _iFramesEndedLogged;
+	private readonly PlayerBlackboard blackboard;
+	private Vector3 dodgeDirection;
+	private bool iFramesEndedLogged;
 
-	public DodgeHandler(PlayerBlackboard blackboard) => _blackboard = blackboard;
+	public DodgeHandler(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
 	public void OnCLick(CommandContext context)
 	{
-		if (_blackboard.Player == null)
+		if (this.blackboard.Player == null)
 		{
 			GD.Print("[Dodge] Rejected: player reference is missing.");
 			return;
 		}
 
-		if (!_blackboard.CanDodge)
+		if (!this.blackboard.CanDodge)
 		{
-			GD.Print($"[Dodge] Rejected: dodge active or cooldown remaining ({_blackboard.DodgeCooldownTimer:0.##}s).");
+			GD.Print($"[Dodge] Rejected: dodge active or cooldown remaining ({this.blackboard.DodgeCooldownTimer:0.##}s).");
 			return;
 		}
 
-		_dodgeDirection = context.Direction.Normalized();
-		if (_dodgeDirection == Vector2.Zero)
-			_dodgeDirection = Vector2.Down;
+		Vector2 direction = context.Direction.Normalized();
+		this.dodgeDirection = new Vector3(direction.X, 0f, direction.Y);
+		if (this.dodgeDirection == Vector3.Zero)
+			this.dodgeDirection = new Vector3(0, 0f, -1);
 
-		float duration = Mathf.Max(0.01f, _blackboard.DodgeDuration);
-		_blackboard.IsDodging = true;
-		_blackboard.IsInvincible = true;
-		_blackboard.DodgeTimer = duration;
-		_blackboard.DodgeCooldownTimer = Mathf.Max(0f, _blackboard.DodgeCooldown);
-		_iFramesEndedLogged = false;
+		float duration = Mathf.Max(0.01f, this.blackboard.DodgeDuration);
+		this.blackboard.IsDodging = true;
+		this.blackboard.IsInvincible = true;
+		this.blackboard.DodgeTimer = duration;
+		this.blackboard.DodgeCooldownTimer = Mathf.Max(0f, this.blackboard.DodgeCooldown);
+		this.iFramesEndedLogged = false;
 
 		ApplyDodgeVelocity(duration);
-		GD.Print($"[Dodge] Started. Direction={_dodgeDirection}, distance={_blackboard.DodgeDistance:0.##}, duration={duration:0.##}s, invincible for {duration * Mathf.Clamp(_blackboard.DodgeIFrameFraction, 0f, 1f):0.##}s.");
+		GD.Print($"[Dodge] Started. Direction={this.dodgeDirection}, distance={this.blackboard.DodgeDistance:0.##}, duration={duration:0.##}s, invincible for {duration * Mathf.Clamp(this.blackboard.DodgeIFrameFraction, 0f, 1f):0.##}s.");
 	}
 
 	private void ApplyDodgeVelocity(float duration)
 	{
-		if (_blackboard.Player == null)
+		if (this.blackboard.Player == null)
 			return;
 
-		_blackboard.Player.Velocity = _dodgeDirection * (_blackboard.DodgeDistance / duration);
+		this.blackboard.Player.Velocity = this.dodgeDirection * (this.blackboard.DodgeDistance / duration);
 	}
 
 	public void OnHold(CommandContext context) { }
@@ -57,38 +58,33 @@ public class DodgeHandler : IHandler
 	{
 		float dt = (float)delta;
 
-		if (_blackboard.DodgeCooldownTimer > 0f)
+		if (this.blackboard.DodgeCooldownTimer > 0f) 
+			this.blackboard.DodgeCooldownTimer = Mathf.Max(0f, this.blackboard.DodgeCooldownTimer - dt);
+
+		if (!this.blackboard.IsDodging) return;
+
+		this.blackboard.DodgeTimer -= dt;
+		float duration = Mathf.Max(0.01f, this.blackboard.DodgeDuration);
+		float elapsed = duration - Mathf.Max(0f, this.blackboard.DodgeTimer);
+		float iFrameDuration = duration * Mathf.Clamp(this.blackboard.DodgeIFrameFraction, 0f, 1f);
+
+		if (!this.iFramesEndedLogged && elapsed >= iFrameDuration)
 		{
-			_blackboard.DodgeCooldownTimer = Mathf.Max(0f, _blackboard.DodgeCooldownTimer - dt);
-		}
-
-		if (!_blackboard.IsDodging)
-			return;
-
-		_blackboard.DodgeTimer -= dt;
-		float duration = Mathf.Max(0.01f, _blackboard.DodgeDuration);
-		float elapsed = duration - Mathf.Max(0f, _blackboard.DodgeTimer);
-		float iFrameDuration = duration * Mathf.Clamp(_blackboard.DodgeIFrameFraction, 0f, 1f);
-
-		if (!_iFramesEndedLogged && elapsed >= iFrameDuration)
-		{
-			_blackboard.IsInvincible = false;
-			_iFramesEndedLogged = true;
+			this.blackboard.IsInvincible = false;
+			this.iFramesEndedLogged = true;
 			GD.Print("[Dodge] Invincibility frames ended; remaining dodge movement is vulnerable.");
 		}
 
-		if (_blackboard.DodgeTimer <= 0f)
+		if (this.blackboard.DodgeTimer <= 0f)
 		{
-			_blackboard.DodgeTimer = 0f;
-			_blackboard.IsDodging = false;
-			_blackboard.IsInvincible = false;
-			if (_blackboard.Player != null)
-				_blackboard.Player.Velocity = Vector2.Zero;
-			GD.Print($"[Dodge] Finished. Cooldown remaining={_blackboard.DodgeCooldownTimer:0.##}s.");
+			this.blackboard.DodgeTimer = 0f;
+			this.blackboard.IsDodging = false;
+			this.blackboard.IsInvincible = false;
+			if (this.blackboard.Player != null)
+				this.blackboard.Player.Velocity = Vector3.Zero;
+			GD.Print($"[Dodge] Finished. Cooldown remaining={this.blackboard.DodgeCooldownTimer:0.##}s.");
 		}
 		else
-		{
 			ApplyDodgeVelocity(duration);
-		}
 	}
 }

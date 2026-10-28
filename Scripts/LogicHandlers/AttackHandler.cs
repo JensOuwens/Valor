@@ -1,52 +1,52 @@
-using Godot;
 using System;
-
+using Godot;
 /// <summary>
 /// this class handles attack logic
 /// </summary>
-using System;
+
+namespace Valor;
 
 public class AttackHandler : IHandler
 {
-	private readonly PlayerBlackboard _blackboard;
+	private readonly PlayerBlackboard blackboard;
 
 	public AttackMode Mode { get; set; } = AttackMode.Combo;
 	public event Action<int, float> AttackTriggered;
 	public event Action<float> ChargedAttackTriggered;
 
-	private int _comboStep;
-	private float _comboTimer;
-	private float _chargeTimer;
-	private bool _attackHeld;
-	private bool _chargeReadyLogged;
+	private int comboStep;
+	private float comboTimer;
+	private float chargeTimer;
+	private bool attackHeld;
+	private bool chargeReadyLogged;
 
-	public AttackHandler(PlayerBlackboard blackboard) => _blackboard = blackboard;
+	public AttackHandler(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
 	public void OnCLick(CommandContext context)
 	{
-		if (_blackboard.IsDodging)
+		if (this.blackboard.IsDodging)
 		{
 			GD.Print("[Attack] Input ignored: player is dodging.");
 			return;
 		}
 
-		if (Mode == AttackMode.Combo)
+		if (this.Mode == AttackMode.Combo)
 		{
 			ExecuteComboHit();
 			return;
 		}
 
-		if (_attackHeld)
+		if (this.attackHeld)
 		{
 			GD.Print("[Attack] Charge input ignored: attack is already being held.");
 			return;
 		}
 
-		_attackHeld = true;
-		_chargeTimer = 0f;
-		_chargeReadyLogged = false;
-		_blackboard.IsChargingAttack = true;
-		GD.Print($"[Attack] Charge started. Hold for at least {_blackboard.ChargeTime:0.##} seconds.");
+		this.attackHeld = true;
+		this.chargeTimer = 0f;
+		this.chargeReadyLogged = false;
+		this.blackboard.IsChargingAttack = true;
+		GD.Print($"[Attack] Charge started. Hold for at least {this.blackboard.ChargeTime:0.##} seconds.");
 	}
 
 	public void OnHold(CommandContext context)
@@ -56,51 +56,51 @@ public class AttackHandler : IHandler
 
 	public void OnRelease(CommandContext context)
 	{
-		if (Mode != AttackMode.Charge || !_attackHeld)
+		if (this.Mode != AttackMode.Charge || !this.attackHeld)
 			return;
 
-		_attackHeld = false;
-		_blackboard.IsChargingAttack = false;
+		this.attackHeld = false;
+		this.blackboard.IsChargingAttack = false;
 
-		if (_blackboard.IsDodging)
+		if (this.blackboard.IsDodging)
 		{
 			GD.Print("[Attack] Charge canceled because the player started dodging.");
-			_chargeTimer = 0f;
+			this.chargeTimer = 0f;
 			return;
 		}
 
-		if (_chargeTimer >= Mathf.Max(0f, _blackboard.ChargeTime))
+		if (this.chargeTimer >= Mathf.Max(0f, this.blackboard.ChargeTime))
 		{
-			float damage = _blackboard.AttackDamage * _blackboard.ChargedDamageMultiplier;
-			GD.Print($"[Attack] Charged attack released after {_chargeTimer:0.##}s. Damage={damage:0.##}.");
-			ChargedAttackTriggered?.Invoke(damage);
+			float damage = this.blackboard.AttackDamage * this.blackboard.ChargedDamageMultiplier;
+			GD.Print($"[Attack] Charged attack released after {this.chargeTimer:0.##}s. Damage={damage:0.##}.");
+			this.ChargedAttackTriggered?.Invoke(damage);
 		}
 		else
 		{
-			GD.Print($"[Attack] Charge canceled: held {_chargeTimer:0.##}s; required {_blackboard.ChargeTime:0.##}s. No attack fired.");
+			GD.Print($"[Attack] Charge canceled: held {this.chargeTimer:0.##}s; required {this.blackboard.ChargeTime:0.##}s. No attack fired.");
 		}
 
-		_chargeTimer = 0f;
+		this.chargeTimer = 0f;
 	}
 
 	private void ExecuteComboHit()
 	{
-		int maxHits = Mathf.Max(1, _blackboard.MaxComboHits);
-		_comboStep++;
-		float damage = _blackboard.AttackDamage;
+		int maxHits = Mathf.Max(1, this.blackboard.MaxComboHits);
+		this.comboStep++;
+		float damage = this.blackboard.AttackDamage;
 
-		GD.Print($"[Attack] Combo hit {_comboStep}/{maxHits}. Damage={damage:0.##}.");
-		AttackTriggered?.Invoke(_comboStep, damage);
+		GD.Print($"[Attack] Combo hit {this.comboStep}/{maxHits}. Damage={damage:0.##}.");
+		this.AttackTriggered?.Invoke(this.comboStep, damage);
 
-		if (_comboStep >= maxHits)
+		if (this.comboStep >= maxHits)
 		{
 			GD.Print("[Attack] Full combo completed.");
-			_comboStep = 0;
-			_comboTimer = 0f;
+			this.comboStep = 0;
+			this.comboTimer = 0f;
 		}
 		else
 		{
-			_comboTimer = Mathf.Max(0f, _blackboard.ComboResetTime);
+			this.comboTimer = Mathf.Max(0f, this.blackboard.ComboResetTime);
 		}
 	}
 
@@ -108,33 +108,33 @@ public class AttackHandler : IHandler
 	{
 		float dt = (float)delta;
 
-		if (_comboTimer > 0f)
+		if (this.comboTimer > 0f)
 		{
-			_comboTimer -= dt;
-			if (_comboTimer <= 0f && _comboStep > 0)
+			this.comboTimer -= dt;
+			if (this.comboTimer <= 0f && this.comboStep > 0)
 			{
-				_comboTimer = 0f;
-				_comboStep = 0;
+				this.comboTimer = 0f;
+				this.comboStep = 0;
 				GD.Print("[Attack] Combo window expired; next click starts a new combo.");
 			}
 		}
 
-		if (!_attackHeld)
+		if (!this.attackHeld)
 			return;
 
-		if (_blackboard.IsDodging)
+		if (this.blackboard.IsDodging)
 		{
-			_attackHeld = false;
-			_blackboard.IsChargingAttack = false;
-			_chargeTimer = 0f;
+			this.attackHeld = false;
+			this.blackboard.IsChargingAttack = false;
+			this.chargeTimer = 0f;
 			GD.Print("[Attack] Charge canceled because the player is dodging.");
 			return;
 		}
 
-		_chargeTimer += dt;
-		if (!_chargeReadyLogged && _chargeTimer >= Mathf.Max(0f, _blackboard.ChargeTime))
+		this.chargeTimer += dt;
+		if (!this.chargeReadyLogged && this.chargeTimer >= Mathf.Max(0f, this.blackboard.ChargeTime))
 		{
-			_chargeReadyLogged = true;
+			this.chargeReadyLogged = true;
 			GD.Print("[Attack] Charge threshold reached. Release Attack to execute.");
 		}
 	}
