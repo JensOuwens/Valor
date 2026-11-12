@@ -11,6 +11,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	
 	[Export] public AttackMode StartingAttackMode { get; set; } = AttackMode.Combo;
 	
+	[Export] private Button attackButton;
+	[Export] private Button dodgeButton;
+	[Export] private Button healButton;
+	
 	private ICommand attackCommand;
 	private ICommand dodgeCommand;
 	private ICommand healCommand;
@@ -48,6 +52,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		attackHandler.AttackTriggered += OnComboAttackTriggered;
 		attackHandler.ChargedAttackTriggered += OnChargedAttackTriggered;
 
+		attackButton.Pressed += Attack;
+		dodgeButton.Pressed += Dodge;
+		healButton.Pressed += Heal;
+
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");
 	}
@@ -63,31 +71,6 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 			Direction = direction,
 			Blackboard = this.blackboard
 		};
-
-		if (Input.IsActionJustPressed("Attack"))
-		{
-			GD.Print("[Input] Attack pressed.");
-			this.attackCommand.OnClick(context);
-		}
-		if (Input.IsActionPressed("Attack")) this.attackCommand.OnHold(context);
-		if (Input.IsActionJustReleased("Attack"))
-		{
-			GD.Print("[Input] Attack released.");
-			this.attackCommand.OnRelease(context);
-		}
-
-		if (Input.IsActionJustPressed("Heal"))
-		{
-			GD.Print("[Input] Heal pressed.");
-			this.healCommand.OnClick(context);
-		}
-
-		if (Input.IsActionJustPressed("Dodge"))
-		{
-			GD.Print("[Input] Dodge pressed.");
-			context.Direction = direction != Vector3.Zero ? direction.Normalized() : this.lastMovementDirection;
-			this.dodgeCommand.OnClick(context);
-		}
 
 		if (inputDir != Vector2.Zero)
 		{
@@ -173,5 +156,46 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		this.blackboard.MaxHealth += 20f;
 		this.blackboard.SetHealth(this.blackboard.CurrentHealth + 20f);
 		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
+	}
+	
+	private void Attack()
+	{
+		CommandContext context = CalculaDirectionAndContext();
+		
+		GD.Print("[Input] Attack pressed.");
+		this.attackCommand.OnClick(context);
+	}
+
+	private void Heal()
+	{
+		CommandContext context = CalculaDirectionAndContext();
+		
+		GD.Print("[Input] Heal pressed.");
+		this.healCommand.OnClick(context);
+	}
+
+	private void Dodge()
+	{
+		CommandContext context = CalculaDirectionAndContext();
+		
+		GD.Print("[Input] Dodge pressed.");
+		this.dodgeCommand.OnClick(context);
+	}
+
+	private CommandContext CalculaDirectionAndContext()
+	{
+		Vector2 inputDir = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
+		Vector3 direction = new (inputDir.X, 0f, inputDir.Y);
+		if (inputDir != Vector2.Zero) this.lastMovementDirection = direction.Normalized();
+
+		CommandContext context = new()
+		{
+			Direction = direction,
+			Blackboard = this.blackboard
+		};
+		
+		context.Direction = direction != Vector3.Zero ? direction.Normalized() : this.lastMovementDirection;
+		
+		return context;
 	}
 }

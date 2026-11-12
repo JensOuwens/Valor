@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bkbh27d8gnds7"]
 
 [ext_resource type="Script" uid="uid://5x58mwiy5far" path="res://Scripts/Player/PlayerScript.cs" id="1_30rdv"]
-[ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://icon.svg" id="1_832wm"]
-[ext_resource type="Script" uid="uid://v11bg25mt83s" path="res://Scripts/TestEnemy.cs" id="3_1jv68"]
+[ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://Textures/icon.svg" id="1_832wm"]
+[ext_resource type="Script" uid="uid://v11bg25mt83s" path="res://Scripts/DummyEnemy.cs" id="3_1jv68"]
 [ext_resource type="Script" uid="uid://cqi3ah1a01uan" path="res://Scripts/Player/AttackHitbox.cs" id="3_kes0n"]
 [ext_resource type="Material" uid="uid://cvgr82yqqutk7" path="res://Materials/Enemy.tres" id="4_kes0n"]
 

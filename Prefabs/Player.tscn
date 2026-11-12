@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://5x58mwiy5far" path="res://Scripts/Player/PlayerScript.cs" id="1_x3d5u"]
 [ext_resource type="Script" uid="uid://cqi3ah1a01uan" path="res://Scripts/Player/AttackHitbox.cs" id="3_b43ah"]
 [ext_resource type="Script" uid="uid://cx3slh77sahpc" path="res://Scripts/Player/PlayerCamera.cs" id="4_shmu5"]
+[ext_resource type="Texture2D" uid="uid://cichlnex2ld6x" path="res://Textures/UI/TempUIAttack.png" id="5_vxq8l"]
+[ext_resource type="Texture2D" uid="uid://bgmsrnutxfeqn" path="res://Textures/UI/TempUIHeal.png" id="6_gg3t4"]
+[ext_resource type="Texture2D" uid="uid://dspnf4br6w1m4" path="res://Textures/UI/TempUIDodge.png" id="7_javds"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_44saq"]
 radius = 0.5390625
@@ -14,9 +17,12 @@ size = Vector3(3, 1, 2.5)
 
 [node name="Player" type="Node3D" unique_id=1862965497]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=389838570 node_paths=PackedStringArray("playerVisual")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=389838570 node_paths=PackedStringArray("playerVisual", "attackButton", "dodgeButton", "healButton")]
 script = ExtResource("1_x3d5u")
 playerVisual = NodePath("PlayerVisual")
+attackButton = NodePath("../Control/AttackButton")
+dodgeButton = NodePath("../Control/DodgeButton")
+healButton = NodePath("../Control/HealButton")
 
 [node name="PlayerVisual" parent="CharacterBody3D" unique_id=1180394923 instance=ExtResource("1_um8lo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89919233, 0)
@@ -42,3 +48,34 @@ size = 20.0
 script = ExtResource("4_shmu5")
 player = NodePath("../CharacterBody3D")
 speed = 2.0
+
+[node name="Control" type="Control" parent="." unique_id=1450510023]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AttackButton" type="Button" parent="Control" unique_id=827476976]
+layout_mode = 0
+offset_left = 1094.0
+offset_top = 544.0
+offset_right = 1211.0
+offset_bottom = 662.0
+action_mode = 0
+icon = ExtResource("5_vxq8l")
+
+[node name="HealButton" type="Button" parent="Control" unique_id=163601085]
+layout_mode = 0
+offset_left = 1145.0
+offset_top = 458.0
+offset_right = 1214.0
+offset_bottom = 528.0
+icon = ExtResource("6_gg3t4")
+
+[node name="DodgeButton" type="Button" parent="Control" unique_id=2084331223]
+layout_mode = 0
+offset_left = 1009.0
+offset_top = 590.0
+offset_right = 1078.0
+offset_bottom = 661.0
+icon = ExtResource("7_javds")
