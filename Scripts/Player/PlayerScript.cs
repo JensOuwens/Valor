@@ -52,7 +52,8 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		attackHandler.AttackTriggered += OnComboAttackTriggered;
 		attackHandler.ChargedAttackTriggered += OnChargedAttackTriggered;
 
-		attackButton.Pressed += Attack;
+		attackButton.ButtonDown += AttackPressed;
+		attackButton.ButtonUp += AttackReleased;
 		dodgeButton.Pressed += Dodge;
 		healButton.Pressed += Heal;
 
@@ -158,12 +159,22 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
 	}
 	
-	private void Attack()
+	private void AttackPressed()
 	{
 		CommandContext context = CalculaDirectionAndContext();
-		
-		GD.Print("[Input] Attack pressed.");
+
+		GD.Print("[Input] Attack button pressed.");
+
 		this.attackCommand.OnClick(context);
+	}
+
+	private void AttackReleased()
+	{
+		CommandContext context = CalculaDirectionAndContext();
+
+		GD.Print("[Input] Attack button released.");
+
+		this.attackCommand.OnRelease(context);
 	}
 
 	private void Heal()
