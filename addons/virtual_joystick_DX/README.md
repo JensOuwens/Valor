@@ -242,14 +242,14 @@ Prefer `action_fired` over polling `Input` for `ON_RELEASE`/`TAP_GESTURE`: both 
 
 ```gdscript
 func _ready() -> void:
-    var vp := get_viewport().get_visible_rect().size
-    $JoyLeft.use_active_region  = true
-    $JoyLeft.region_w           = vp.x / 2.0
-    $JoyLeft.region_h           = vp.y
-    $JoyRight.use_active_region = true
-    $JoyRight.region_x          = vp.x / 2.0
-    $JoyRight.region_w          = vp.x / 2.0
-    $JoyRight.region_h          = vp.y
+	var vp := get_viewport().get_visible_rect().size
+	$JoyLeft.use_active_region  = true
+	$JoyLeft.region_w           = vp.x / 2.0
+	$JoyLeft.region_h           = vp.y
+	$JoyRight.use_active_region = true
+	$JoyRight.region_x          = vp.x / 2.0
+	$JoyRight.region_w          = vp.x / 2.0
+	$JoyRight.region_h          = vp.y
 ```
 
 `$JoyLeft` drives movement as usual through `action_left/right/up/down`. `$JoyRight` can be set up as a dedicated action stick from the Inspector: disable `use_directional_mapping` if it shouldn't move a character, and add entries to `action_bindings` — for example a `CONTINUOUS` binding named `"shoot"` to fire while the stick is pushed past its deadzone, while `get_value()` on the same node still gives you the aim direction.
