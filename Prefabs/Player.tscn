@@ -79,3 +79,15 @@ offset_top = 590.0
 offset_right = 1078.0
 offset_bottom = 661.0
 icon = ExtResource("7_javds")
+
+[node name="VirtualJoystick" type="VirtualJoystick" parent="Control" unique_id=1291522542]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 501.0
+offset_right = 224.0
+offset_bottom = 685.0
+joystick_size = 164.0
+action_left = &"MoveLeft"
+action_right = &"MoveRight"
+action_up = &"MoveUp"
+action_down = &"MoveDown"
