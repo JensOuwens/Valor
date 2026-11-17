@@ -3,6 +3,9 @@ namespace Valor;
 using Godot;
 using System;
 
+/// <summary>
+/// scriptable object for items. the template
+/// </summary>
 [GlobalClass]
 public partial class ItemData : Resource
 {

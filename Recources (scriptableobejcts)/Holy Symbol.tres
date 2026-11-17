@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://d0cut87rs1t3o"]
+
+[ext_resource type="Texture2D" uid="uid://bgmsrnutxfeqn" path="res://Textures/UI/TempUIHeal.png" id="1_4yeto"]
+[ext_resource type="Script" uid="uid://bxt1kpptdctkw" path="res://Scripts/Player/Inventory/ItemData.cs" id="1_wc061"]
+
+[resource]
+script = ExtResource("1_wc061")
+Item_Name = "Holy symbol"
+Item_Icon = ExtResource("1_4yeto")
+Item_Description = "gfd"
+Item_Type = 2
+metadata/_custom_type_script = "uid://bxt1kpptdctkw"

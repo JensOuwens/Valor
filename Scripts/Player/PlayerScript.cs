@@ -1,6 +1,6 @@
 using Godot;
 /// <summary>
-/// this class handles player input
+/// this class handles player input and played hurt logic
 /// </summary>
 
 namespace Valor;
@@ -14,6 +14,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	[Export] private Button attackButton;
 	[Export] private Button dodgeButton;
 	[Export] private Button healButton;
+
+	[Export] private ItemData Testitem1;
+	[Export] private ItemData Testitem2;
+	[Export] private ItemData Testitem3;
 	
 	private ICommand attackCommand;
 	private ICommand dodgeCommand;
@@ -24,6 +28,8 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	private AttackHitbox attackHitbox;
 	private bool wasMoving;
 	private Vector3 lastMovementDirection = Vector3.Forward;
+
+	public PlayerInventory inventory;
 	
 
 	public PlayerBlackboard Blackboard => this.blackboard;
@@ -56,6 +62,8 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		attackButton.ButtonUp += AttackReleased;
 		dodgeButton.Pressed += Dodge;
 		healButton.Pressed += Heal;
+
+		inventory = new PlayerInventory();
 
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");

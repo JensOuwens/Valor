@@ -2,8 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://s8yux8j86rsc" path="res://Prefabs/PlayerVisual.tscn" id="1_um8lo"]
 [ext_resource type="Script" uid="uid://5x58mwiy5far" path="res://Scripts/Player/PlayerScript.cs" id="1_x3d5u"]
+[ext_resource type="Resource" uid="uid://iqp1t3nefpoc" path="res://Recources (scriptableobejcts)/Gold Disc.tres" id="2_t8lmw"]
 [ext_resource type="Script" uid="uid://cqi3ah1a01uan" path="res://Scripts/Player/AttackHitbox.cs" id="3_b43ah"]
+[ext_resource type="Resource" uid="uid://dd831dipau6h0" path="res://Recources (scriptableobejcts)/Scrap.tres" id="3_k2qb3"]
 [ext_resource type="Script" uid="uid://cx3slh77sahpc" path="res://Scripts/Player/PlayerCamera.cs" id="4_shmu5"]
+[ext_resource type="Resource" uid="uid://d0cut87rs1t3o" path="res://Recources (scriptableobejcts)/Holy Symbol.tres" id="4_wuv02"]
 [ext_resource type="Texture2D" uid="uid://cichlnex2ld6x" path="res://Textures/UI/TempUIAttack.png" id="5_vxq8l"]
 [ext_resource type="Texture2D" uid="uid://bgmsrnutxfeqn" path="res://Textures/UI/TempUIHeal.png" id="6_gg3t4"]
 [ext_resource type="Texture2D" uid="uid://dspnf4br6w1m4" path="res://Textures/UI/TempUIDodge.png" id="7_javds"]
@@ -23,6 +26,9 @@ playerVisual = NodePath("PlayerVisual")
 attackButton = NodePath("../Control/AttackButton")
 dodgeButton = NodePath("../Control/DodgeButton")
 healButton = NodePath("../Control/HealButton")
+Testitem1 = ExtResource("2_t8lmw")
+Testitem2 = ExtResource("3_k2qb3")
+Testitem3 = ExtResource("4_wuv02")
 
 [node name="PlayerVisual" parent="CharacterBody3D" unique_id=1180394923 instance=ExtResource("1_um8lo")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89919233, 0)

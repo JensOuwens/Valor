@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://iqp1t3nefpoc"]
+
+[ext_resource type="Texture2D" uid="uid://bxrfxynyvcvbo" path="res://Textures/UI/TempUIDPad.png" id="1_uls7t"]
+[ext_resource type="Script" uid="uid://bxt1kpptdctkw" path="res://Scripts/Player/Inventory/ItemData.cs" id="1_y26ii"]
+
+[resource]
+script = ExtResource("1_y26ii")
+Item_Name = "Gold disc"
+Item_Icon = ExtResource("1_uls7t")
+Item_Description = "gsf"
+metadata/_custom_type_script = "uid://bxt1kpptdctkw"
