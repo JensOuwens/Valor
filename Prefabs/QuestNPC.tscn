@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cwhd46fqckdaw"]
+
+[ext_resource type="Script" uid="uid://b1i7qvbtmva4n" path="res://Scripts/QuestSystem/QuestNPC.cs" id="1_o17tu"]
+[ext_resource type="Resource" uid="uid://cp86ru2n6qmo" path="res://Recources (scriptableobejcts)/Quests/TurtorialQuest.tres" id="2_yxkej"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_81lj2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y4iqa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_81lj2"]
+
+[node name="QuestNpc" type="Node3D" unique_id=117920559]
+
+[node name="Area3D" type="Area3D" parent="." unique_id=216791791]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D" unique_id=1284956380]
+mesh = SubResource("CapsuleMesh_81lj2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1776988320]
+shape = SubResource("CapsuleShape3D_y4iqa")
+
+[node name="TalkCollision" type="Area3D" parent="." unique_id=573737524]
+script = ExtResource("1_o17tu")
+Quests = Array[Object]([ExtResource("2_yxkej")])
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TalkCollision" unique_id=134728366]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
+shape = SubResource("BoxShape3D_81lj2")

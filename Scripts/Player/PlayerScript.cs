@@ -30,8 +30,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	private Vector3 lastMovementDirection = Vector3.Forward;
 
 	public PlayerInventory inventory;
-	
 
+	public bool IsQuestActive;
+	public QuestData CurrentQuest;
+	
 	public PlayerBlackboard Blackboard => this.blackboard;
 	public float Health => this.blackboard?.CurrentHealth ?? 0f;
 

@@ -3,9 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://bywgiyujt7q8d" path="res://Prefabs/Player.tscn" id="1_8wjow"]
 [ext_resource type="PackedScene" uid="uid://dsjbnsxwuhrpa" path="res://Prefabs/Dummy.tscn" id="2_jm03n"]
 [ext_resource type="PackedScene" uid="uid://ct225mrcob1vv" path="res://Prefabs/Item.tscn" id="3_g0a5w"]
-[ext_resource type="Resource" uid="uid://d0cut87rs1t3o" path="res://Recources (scriptableobejcts)/Holy Symbol.tres" id="4_c0yfh"]
-[ext_resource type="Resource" uid="uid://iqp1t3nefpoc" path="res://Recources (scriptableobejcts)/Gold Disc.tres" id="5_jcqpc"]
-[ext_resource type="Resource" uid="uid://dd831dipau6h0" path="res://Recources (scriptableobejcts)/Scrap.tres" id="6_ydncx"]
+[ext_resource type="Resource" uid="uid://iqp1t3nefpoc" path="res://Recources (scriptableobejcts)/Items/Gold Disc.tres" id="5_jcqpc"]
+[ext_resource type="PackedScene" uid="uid://cwhd46fqckdaw" path="res://Prefabs/QuestNPC.tscn" id="6_jcqpc"]
+[ext_resource type="Resource" uid="uid://dd831dipau6h0" path="res://Recources (scriptableobejcts)/Items/Scrap.tres" id="6_ydncx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_44saq"]
 size = Vector3(320, 0.1, 320)
@@ -255,7 +255,7 @@ environment = SubResource("Environment_44saq")
 
 [node name="Item" parent="." unique_id=1670988156 instance=ExtResource("3_g0a5w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66678905, 0)
-ItemData = ExtResource("4_c0yfh")
+ItemData = ExtResource("6_ydncx")
 
 [node name="Item2" parent="." unique_id=2027085613 instance=ExtResource("3_g0a5w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66678905, 5.6782713)
@@ -264,3 +264,6 @@ ItemData = ExtResource("5_jcqpc")
 [node name="Item3" parent="." unique_id=1778143737 instance=ExtResource("3_g0a5w")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.8548346, 0.66678905, 0)
 ItemData = ExtResource("6_ydncx")
+
+[node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("6_jcqpc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.185353, 1.2246628, 18.261568)

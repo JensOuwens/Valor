@@ -4,6 +4,7 @@ using Valor;
 
 /// <summary>
 /// Handles player inventory management
+/// TODO: add inventory displaying
 /// </summary>
 public partial class PlayerInventory
 {
@@ -24,6 +25,20 @@ public partial class PlayerInventory
 				break;
 			}
 		}
+	}
+
+	public bool IsInInvetory(string ItemName)
+	{
+		foreach (ItemData item in items)
+		{
+			if (item.Item_Name == ItemName)
+			{
+				return true;
+				break;
+			}
+		}
+
+		return false;
 	}
 	
 	public void DebugInventory()
