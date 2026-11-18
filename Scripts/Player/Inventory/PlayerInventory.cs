@@ -9,10 +9,16 @@ using Valor;
 public partial class PlayerInventory
 {
 	private Godot.Collections.Array<ItemData> items  = new Godot.Collections.Array<ItemData>();
+	private RichTextLabel targetLabel;
+	public PlayerInventory(RichTextLabel targetLabel)
+	{
+		this.targetLabel = targetLabel;
+	}
 
 	public void AddToInventory(ItemData item)
 	{
 		items.Add(item);
+		DisplayInventory();
 	}
 	
 	public void RemoveFromInventory(string ItemName)
@@ -25,6 +31,8 @@ public partial class PlayerInventory
 				break;
 			}
 		}
+
+		DisplayInventory();
 	}
 
 	public bool IsInInvetory(string ItemName)
@@ -47,6 +55,15 @@ public partial class PlayerInventory
 		foreach (ItemData item in items)
 		{
 			GD.Print(item.Item_Name);
+		}
+	}
+
+	public void DisplayInventory()
+	{
+		targetLabel.Text = "";
+		foreach (ItemData item in items)
+		{
+			targetLabel.Text += item.Item_Name + "\n";
 		}
 	}
 }

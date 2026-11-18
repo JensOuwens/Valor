@@ -16,11 +16,8 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	[Export] private Button dodgeButton;
 	[Export] private Button healButton;
 
-	[Export] private ItemData Testitem1;
-	[Export] private ItemData Testitem2;
-	[Export] private ItemData Testitem3;
-
-	[Export] private RichTextLabel acquired;
+	[Export] private RichTextLabel acquiredLabel;
+	[Export] private RichTextLabel InventoryLabel;
 	
 	private ICommand attackCommand;
 	private ICommand dodgeCommand;
@@ -68,7 +65,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		dodgeButton.Pressed += Dodge;
 		healButton.Pressed += Heal;
 
-		inventory = new PlayerInventory();
+		inventory = new PlayerInventory(InventoryLabel);
 
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");
@@ -225,10 +222,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 
 	public async Task Playerpickedup(string itemname)
 	{
-		acquired.Text = "you have picked up " +  itemname;
+		acquiredLabel.Text = "you have picked up " +  itemname;
 		
 		await Task.Delay(1000);
 
-		acquired.Text = "";
+		acquiredLabel.Text = "";
 	}
 }
