@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bywgiyujt7q8d"]
 
-[ext_resource type="PackedScene" uid="uid://s8yux8j86rsc" path="res://Prefabs/PlayerVisual.tscn" id="1_um8lo"]
+[ext_resource type="PackedScene" uid="uid://cgbeem02dm8dx" path="res://Prefabs/PlayerVisual.scn" id="1_um8lo"]
 [ext_resource type="Script" uid="uid://5x58mwiy5far" path="res://Scripts/Player/PlayerScript.cs" id="1_x3d5u"]
 [ext_resource type="Script" uid="uid://cqi3ah1a01uan" path="res://Scripts/Player/AttackHitbox.cs" id="3_b43ah"]
 [ext_resource type="Script" uid="uid://cx3slh77sahpc" path="res://Scripts/Player/PlayerCamera.cs" id="4_shmu5"]
