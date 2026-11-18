@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ct225mrcob1vv"]
+
+[ext_resource type="Script" uid="uid://dxrruwb0ovpba" path="res://Scripts/Player/Inventory/PickupableItem.cs" id="1_3s507"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_veby7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hx3py"]
+
+[node name="Item" type="Area3D" unique_id=2027085613]
+script = ExtResource("1_3s507")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1416800914]
+mesh = SubResource("BoxMesh_veby7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1989982542]
+shape = SubResource("BoxShape3D_hx3py")

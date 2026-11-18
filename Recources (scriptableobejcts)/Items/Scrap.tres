@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dd831dipau6h0"]
+
+[ext_resource type="Script" uid="uid://bxt1kpptdctkw" path="res://Scripts/Player/Inventory/ItemData.cs" id="1_r2y3m"]
+[ext_resource type="Texture2D" uid="uid://cichlnex2ld6x" path="res://Textures/UI/TempUIAttack.png" id="1_xcal4"]
+
+[resource]
+script = ExtResource("1_r2y3m")
+Item_Name = "Scrap"
+Item_Icon = ExtResource("1_xcal4")
+Item_Description = "gfd"
+Item_Type = 1
+metadata/_custom_type_script = "uid://bxt1kpptdctkw"

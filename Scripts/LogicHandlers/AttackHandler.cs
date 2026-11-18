@@ -29,30 +29,17 @@ public class AttackHandler : IHandler
 			GD.Print("[Attack] Input ignored: player is dodging.");
 			return;
 		}
-		
-
-		if (this.Mode == AttackMode.Combo)
-		{
-			this.blackboard.PlayerVisual.PlayAnim(new PlayerVisual.PlayerAnimation
-			{
-				name = PlayerVisual.EPlayerAnimNames.Attack, 
-				priority = 1, 
-				callback = ExecuteComboHit
-			});
-			return;
-		}
 
 		if (this.attackHeld)
-		{
-			GD.Print("[Attack] Charge input ignored: attack is already being held.");
 			return;
-		}
 
 		this.attackHeld = true;
 		this.chargeTimer = 0f;
 		this.chargeReadyLogged = false;
+
 		this.blackboard.IsChargingAttack = true;
-		GD.Print($"[Attack] Charge started. Hold for at least {this.blackboard.ChargeTime:0.##} seconds.");
+
+		GD.Print("[Attack] Attack button held.");
 	}
 
 	public void OnHold(CommandContext context)
@@ -62,7 +49,7 @@ public class AttackHandler : IHandler
 
 	public void OnRelease(CommandContext context)
 	{
-		if (this.Mode != AttackMode.Charge || !this.attackHeld)
+		if (!this.attackHeld)
 			return;
 
 		this.attackHeld = false;
@@ -70,23 +57,39 @@ public class AttackHandler : IHandler
 
 		if (this.blackboard.IsDodging)
 		{
-			GD.Print("[Attack] Charge canceled because the player started dodging.");
 			this.chargeTimer = 0f;
 			return;
 		}
 
-		if (this.chargeTimer >= Mathf.Max(0f, this.blackboard.ChargeTime))
+		float requiredTime = Mathf.Max(0f, this.blackboard.ChargeTime);
+
+		if (this.chargeTimer >= requiredTime)
 		{
-			float damage = this.blackboard.AttackDamage * this.blackboard.ChargedDamageMultiplier;
-			GD.Print($"[Attack] Charged attack released after {this.chargeTimer:0.##}s. Damage={damage:0.##}.");
+			float damage = this.blackboard.AttackDamage *
+			               this.blackboard.ChargedDamageMultiplier;
+
+			GD.Print($"[Attack] Charged attack executed! Damage: {damage:0.##}");
+
 			this.ChargedAttackTriggered?.Invoke(damage);
 		}
 		else
 		{
-			GD.Print($"[Attack] Charge canceled: held {this.chargeTimer:0.##}s; required {this.blackboard.ChargeTime:0.##}s. No attack fired.");
+			if (this.Mode == AttackMode.Combo)
+			{
+				this.blackboard.PlayerVisual.PlayAnim(
+					new PlayerVisual.PlayerAnimation
+					{
+						name = PlayerVisual.EPlayerAnimNames.Attack,
+						priority = 1,
+						callback = ExecuteComboHit
+					});
+			}
+
+			GD.Print("[Attack] Normal attack executed.");
 		}
 
 		this.chargeTimer = 0f;
+		this.chargeReadyLogged = false;
 	}
 
 	private void ExecuteComboHit()

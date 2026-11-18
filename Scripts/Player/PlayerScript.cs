@@ -1,6 +1,7 @@
+using System.Threading.Tasks;
 using Godot;
 /// <summary>
-/// this class handles player input
+/// this class handles player input and played hurt logic
 /// </summary>
 
 namespace Valor;
@@ -14,6 +15,9 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	[Export] private Button attackButton;
 	[Export] private Button dodgeButton;
 	[Export] private Button healButton;
+
+	[Export] private RichTextLabel acquiredLabel;
+	[Export] private RichTextLabel InventoryLabel;
 	
 	private ICommand attackCommand;
 	private ICommand dodgeCommand;
@@ -24,8 +28,12 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	private AttackHitbox attackHitbox;
 	private bool wasMoving;
 	private Vector3 lastMovementDirection = Vector3.Forward;
-	
 
+	public PlayerInventory inventory;
+
+	public bool IsQuestActive;
+	public QuestData CurrentQuest;
+	
 	public PlayerBlackboard Blackboard => this.blackboard;
 	public float Health => this.blackboard?.CurrentHealth ?? 0f;
 
@@ -52,9 +60,12 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		attackHandler.AttackTriggered += OnComboAttackTriggered;
 		attackHandler.ChargedAttackTriggered += OnChargedAttackTriggered;
 
-		attackButton.Pressed += Attack;
+		attackButton.ButtonDown += AttackPressed;
+		attackButton.ButtonUp += AttackReleased;
 		dodgeButton.Pressed += Dodge;
 		healButton.Pressed += Heal;
+
+		inventory = new PlayerInventory(InventoryLabel);
 
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");
@@ -158,12 +169,22 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
 	}
 	
-	private void Attack()
+	private void AttackPressed()
 	{
 		CommandContext context = CalculaDirectionAndContext();
-		
-		GD.Print("[Input] Attack pressed.");
+
+		GD.Print("[Input] Attack button pressed.");
+
 		this.attackCommand.OnClick(context);
+	}
+
+	private void AttackReleased()
+	{
+		CommandContext context = CalculaDirectionAndContext();
+
+		GD.Print("[Input] Attack button released.");
+
+		this.attackCommand.OnRelease(context);
 	}
 
 	private void Heal()
@@ -197,5 +218,14 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		context.Direction = direction != Vector3.Zero ? direction.Normalized() : this.lastMovementDirection;
 		
 		return context;
+	}
+
+	public async Task Playerpickedup(string itemname)
+	{
+		acquiredLabel.Text = "you have picked up " +  itemname;
+		
+		await Task.Delay(1000);
+
+		acquiredLabel.Text = "";
 	}
 }
