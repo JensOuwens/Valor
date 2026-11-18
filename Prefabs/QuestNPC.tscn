@@ -19,10 +19,19 @@ mesh = SubResource("CapsuleMesh_81lj2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1776988320]
 shape = SubResource("CapsuleShape3D_y4iqa")
 
-[node name="TalkCollision" type="Area3D" parent="." unique_id=573737524]
+[node name="TalkCollision" type="Area3D" parent="." unique_id=573737524 node_paths=PackedStringArray("QuestLabel")]
 script = ExtResource("1_o17tu")
 Quests = Array[Object]([ExtResource("2_yxkej")])
+QuestLabel = NodePath("../TextEdit")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TalkCollision" unique_id=134728366]
 transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 0, 0)
 shape = SubResource("BoxShape3D_81lj2")
+
+[node name="TextEdit" type="RichTextLabel" parent="." unique_id=212259357]
+offset_left = 1086.0
+offset_top = 7.0
+offset_right = 1275.0
+offset_bottom = 197.0
+text = "Quest"
+fit_content = true

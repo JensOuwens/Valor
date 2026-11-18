@@ -10,10 +10,12 @@ using Valor;
 public partial class QuestNPC : Area3D
 {
 	[Export] public QuestData[] Quests;
+	[Export] public RichTextLabel QuestLabel;
 	
 	public override void _Ready()
 	{
 		BodyEntered += OnBodyEntered;
+		QuestLabel.Text = "No quest";
 	}
 
 	private void OnBodyEntered(Node3D body)
@@ -49,6 +51,8 @@ public partial class QuestNPC : Area3D
 	{
 		player.CurrentQuest = Quests.Last();
 		player.IsQuestActive = true;
+		
+		QuestLabel.Text = player.CurrentQuest.quest_Name + " - give me: " + player.CurrentQuest.QuestItems[0].Item_Name;
 		//also play dialouge i geuss
 	}
 	
@@ -68,6 +72,7 @@ public partial class QuestNPC : Area3D
 				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
 				{
 					player.inventory.AddToInventory(questReward);
+					player.Playerpickedup(questReward.Item_Name);
 				}
 				break;
 			case QuestRewardTypes.Land: //unlock area from list
@@ -76,6 +81,7 @@ public partial class QuestNPC : Area3D
 				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
 				{
 					player.inventory.AddToInventory(questReward);
+					player.Playerpickedup(questReward.Item_Name);
 				}
 				//unlock area from list
 				break;
@@ -83,6 +89,8 @@ public partial class QuestNPC : Area3D
 		
 		player.CurrentQuest = null;
 		player.IsQuestActive = false;
+
+		QuestLabel.Text = "No quest";
 	}
 
 	private void DuringDialogue(QuestData quest)

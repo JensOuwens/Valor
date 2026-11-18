@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Godot;
 /// <summary>
 /// this class handles player input and played hurt logic
@@ -18,6 +19,8 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	[Export] private ItemData Testitem1;
 	[Export] private ItemData Testitem2;
 	[Export] private ItemData Testitem3;
+
+	[Export] private RichTextLabel acquired;
 	
 	private ICommand attackCommand;
 	private ICommand dodgeCommand;
@@ -218,5 +221,14 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		context.Direction = direction != Vector3.Zero ? direction.Normalized() : this.lastMovementDirection;
 		
 		return context;
+	}
+
+	public async Task Playerpickedup(string itemname)
+	{
+		acquired.Text = "you have picked up " +  itemname;
+		
+		await Task.Delay(1000);
+
+		acquired.Text = "";
 	}
 }

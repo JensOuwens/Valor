@@ -16,6 +16,7 @@ public partial class PickupableItem : Area3D
 		if (body is PlayerScript player)
 		{
 			player.inventory.AddToInventory(ItemData);
+			player.Playerpickedup(ItemData.Item_Name);
 
 			QueueFree();
 		}
