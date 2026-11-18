@@ -76,10 +76,17 @@ public class AttackHandler : IHandler
 		{
 			if (this.Mode == AttackMode.Combo)
 			{
+				PlayerVisual.EPlayerAnimNames attackAnimName = this.comboStep switch
+				{
+					1 => PlayerVisual.EPlayerAnimNames.AttackOne,
+					2 => PlayerVisual.EPlayerAnimNames.AttackTwo,
+					_ => PlayerVisual.EPlayerAnimNames.Attack
+				};
+				
 				this.blackboard.PlayerVisual.PlayAnim(
 					new PlayerVisual.PlayerAnimation
 					{
-						name = PlayerVisual.EPlayerAnimNames.Attack,
+						name = attackAnimName,
 						priority = 1,
 						callback = ExecuteComboHit
 					});

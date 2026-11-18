@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://comaw4xdbj0o5"
 path.s3tc="res://.godot/imported/Cassette_1.png-5e2023a11aa98ad0392730390d5d1716.s3tc.ctex"
+path.etc2="res://.godot/imported/Cassette_1.png-5e2023a11aa98ad0392730390d5d1716.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Models/Player/Cassette_1.png"
-dest_files=["res://.godot/imported/Cassette_1.png-5e2023a11aa98ad0392730390d5d1716.s3tc.ctex"]
+dest_files=["res://.godot/imported/Cassette_1.png-5e2023a11aa98ad0392730390d5d1716.s3tc.ctex", "res://.godot/imported/Cassette_1.png-5e2023a11aa98ad0392730390d5d1716.etc2.ctex"]
 
 [params]
 

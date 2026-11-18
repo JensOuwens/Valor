@@ -14,7 +14,9 @@ public partial class PlayerVisual : Node3D
         Walk,
         Heal,
         Dodge,
-        Attack
+        Attack,
+        AttackOne,
+        AttackTwo
     }
 
     public struct PlayerAnimation
@@ -28,7 +30,7 @@ public partial class PlayerVisual : Node3D
     [Export] private AnimationPlayer animationPlayer;
     [Export] private AnimationFunctionBank functionBank;
     [Export] private Node3D handOne;
-    [Export] private Node3D handTwo;
+    // [Export] private Node3D handTwo;
     private PlayerAnimation currentAnimation;
 
     public override void _Ready()
@@ -41,7 +43,7 @@ public partial class PlayerVisual : Node3D
     private bool CanAddToHand(Node3D hand) => hand != null && hand.GetChildCount() == 0;
     
     public void AddItemToHandOne(Node3D newItem) => AddItemToHand(this.handOne, newItem);
-    public void AddItemToHandTwo(Node3D newItem) => AddItemToHand(this.handTwo, newItem);
+    // public void AddItemToHandTwo(Node3D newItem) => AddItemToHand(this.handTwo, newItem);
     private void AddItemToHand(Node3D hand, Node3D newItem)
     {
         if (newItem == null)
@@ -74,6 +76,8 @@ public partial class PlayerVisual : Node3D
             case EPlayerAnimNames.Heal:
             case EPlayerAnimNames.Dodge:
             case EPlayerAnimNames.Attack:
+            case EPlayerAnimNames.AttackOne:
+            case EPlayerAnimNames.AttackTwo:
                 PlayAnimationWithDuration(animString, this.currentAnimation.duration);
                 break;
             default:
@@ -103,8 +107,10 @@ public partial class PlayerVisual : Node3D
             EPlayerAnimNames.Idle => "Idle",
             EPlayerAnimNames.Walk => "Walk",
             EPlayerAnimNames.Heal => "Heal",
-            EPlayerAnimNames.Dodge => "Dodge",
-            EPlayerAnimNames.Attack => "Attack0",
+            EPlayerAnimNames.Dodge => "Dodgeroll",
+            EPlayerAnimNames.Attack => "Attack_0",
+            EPlayerAnimNames.AttackOne => "Attack_1",
+            EPlayerAnimNames.AttackTwo => "Attack_2",
             _ => throw new ArgumentOutOfRangeException()
         };
     }
@@ -116,8 +122,10 @@ public partial class PlayerVisual : Node3D
             "Idle" => EPlayerAnimNames.Idle,
             "Walk" => EPlayerAnimNames.Walk,
             "Heal" => EPlayerAnimNames.Heal,
-            "Dodge" => EPlayerAnimNames.Dodge,
-            "Attack0" => EPlayerAnimNames.Attack,
+            "Dodgeroll" => EPlayerAnimNames.Dodge,
+            "Attack_0" => EPlayerAnimNames.Attack,
+            "Attack_1" => EPlayerAnimNames.AttackOne,
+            "Attack_2" => EPlayerAnimNames.AttackTwo,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

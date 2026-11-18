@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://de36wrm3v7cff"
 path.s3tc="res://.godot/imported/Player_Eye_8.png-b1278ca8971f04f1cf05b8a7c37b1f2a.s3tc.ctex"
+path.etc2="res://.godot/imported/Player_Eye_8.png-b1278ca8971f04f1cf05b8a7c37b1f2a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Player/Player_Eye_8.png"
-dest_files=["res://.godot/imported/Player_Eye_8.png-b1278ca8971f04f1cf05b8a7c37b1f2a.s3tc.ctex"]
+dest_files=["res://.godot/imported/Player_Eye_8.png-b1278ca8971f04f1cf05b8a7c37b1f2a.s3tc.ctex", "res://.godot/imported/Player_Eye_8.png-b1278ca8971f04f1cf05b8a7c37b1f2a.etc2.ctex"]
 
 [params]
 

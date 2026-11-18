@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://3tldgu5mt2yr"
 path.s3tc="res://.godot/imported/EyeLid.png-23a19692791124ea23dfc6cb9e94197a.s3tc.ctex"
+path.etc2="res://.godot/imported/EyeLid.png-23a19692791124ea23dfc6cb9e94197a.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Models/Player/EyeLid.png"
-dest_files=["res://.godot/imported/EyeLid.png-23a19692791124ea23dfc6cb9e94197a.s3tc.ctex"]
+dest_files=["res://.godot/imported/EyeLid.png-23a19692791124ea23dfc6cb9e94197a.s3tc.ctex", "res://.godot/imported/EyeLid.png-23a19692791124ea23dfc6cb9e94197a.etc2.ctex"]
 
 [params]
 

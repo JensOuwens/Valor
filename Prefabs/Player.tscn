@@ -27,7 +27,7 @@ acquiredLabel = NodePath("../Control/ItemAcquired")
 InventoryLabel = NodePath("../Control/InventoryItems")
 
 [node name="PlayerVisual" parent="CharacterBody3D" unique_id=1180394923 instance=ExtResource("1_um8lo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.89919233, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=219960366]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.068847656, 0)

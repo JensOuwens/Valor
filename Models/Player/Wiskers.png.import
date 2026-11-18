@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bqoolw3gw7v0k"
 path.s3tc="res://.godot/imported/Wiskers.png-eecff3bd5ee95a098b22ac9e14f9820f.s3tc.ctex"
+path.etc2="res://.godot/imported/Wiskers.png-eecff3bd5ee95a098b22ac9e14f9820f.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Models/Player/Wiskers.png"
-dest_files=["res://.godot/imported/Wiskers.png-eecff3bd5ee95a098b22ac9e14f9820f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Wiskers.png-eecff3bd5ee95a098b22ac9e14f9820f.s3tc.ctex", "res://.godot/imported/Wiskers.png-eecff3bd5ee95a098b22ac9e14f9820f.etc2.ctex"]
 
 [params]
 

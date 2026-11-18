@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://def2ffa22orai"
 path.s3tc="res://.godot/imported/Player_Eyebrow.png-6381157107ef5ec0e232f4db7a874978.s3tc.ctex"
+path.etc2="res://.godot/imported/Player_Eyebrow.png-6381157107ef5ec0e232f4db7a874978.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Models/Player/Player_Eyebrow.png"
-dest_files=["res://.godot/imported/Player_Eyebrow.png-6381157107ef5ec0e232f4db7a874978.s3tc.ctex"]
+dest_files=["res://.godot/imported/Player_Eyebrow.png-6381157107ef5ec0e232f4db7a874978.s3tc.ctex", "res://.godot/imported/Player_Eyebrow.png-6381157107ef5ec0e232f4db7a874978.etc2.ctex"]
 
 [params]
 
