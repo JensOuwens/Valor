@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dkj4bydh2ksig"]
+
+[ext_resource type="PackedScene" uid="uid://614amf8nvf1s" path="res://Models/Items/Cartridge.glb" id="1_3sq0e"]
+[ext_resource type="Script" uid="uid://dn4e6t7jgfd3d" path="res://Scripts/AnimationUtil/SineBobber.cs" id="2_5bsgp"]
+[ext_resource type="Script" uid="uid://dygf0tce0q8iu" path="res://Scripts/AnimationUtil/AxisSpinner.cs" id="3_5bsgp"]
+
+[node name="Node3D" type="Node3D" unique_id=1253353725]
+
+[node name="Cartridge2" parent="." unique_id=2120232468 instance=ExtResource("1_3sq0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="sinebobber" type="Node" parent="." unique_id=711692256 node_paths=PackedStringArray("Target")]
+script = ExtResource("2_5bsgp")
+Target = NodePath("../Cartridge2")
+
+[node name="spinner" type="Node" parent="." unique_id=11993774 node_paths=PackedStringArray("Target")]
+script = ExtResource("3_5bsgp")
+Target = NodePath("../Cartridge2")

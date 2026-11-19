@@ -1,6 +1,8 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using Godot;
+
+namespace Valor.AnimationUtil;
 
 public partial class AnimationFunctionBank : Node
 {
