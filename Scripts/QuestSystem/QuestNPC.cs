@@ -14,45 +14,39 @@ public partial class QuestNPC : Area3D
 	
 	public override void _Ready()
 	{
-		BodyEntered += OnBodyEntered;
-		QuestLabel.Text = "No quest";
+		this.BodyEntered += OnBodyEntered;
+		this.QuestLabel.Text = "No quest";
 	}
 
 	private void OnBodyEntered(Node3D body)
 	{
-		if (body is PlayerScript player)
+		if (body is not PlayerScript player) return;
+		if (player.IsQuestActive)
 		{
-			if (player.IsQuestActive)
+			int questItemCount = player.CurrentQuest.QuestItems.Length;
+			int currentQuestItems = 0;
+			foreach (ItemData questItem in player.CurrentQuest.QuestItems)
 			{
-				int questItemCount = player.CurrentQuest.QuestItems.Length;
-				int currentQuestItems = 0;
-				foreach (ItemData questitem in player.CurrentQuest.QuestItems)
-				{
-					if (player.inventory.IsInInvetory(questitem.Item_Name))
-					{
-						currentQuestItems++;
+				if (!player.inventory.IsInInvetory(questItem.Item_Name)) continue;
+				currentQuestItems++;
 
-						if (questItemCount != currentQuestItems) continue;
+				if (questItemCount != currentQuestItems) continue;
 
-						CompleteQuest(player);
-						break;
-					}
-				}
-				DuringDialogue(player.CurrentQuest);
+				CompleteQuest(player);
+				break;
 			}
-			else
-			{
-				GiveQuest(player);
-			}
+			DuringDialogue(player.CurrentQuest);
 		}
+		else
+			GiveQuest(player);
 	}
 	
 	private void GiveQuest(PlayerScript player)
 	{
-		player.CurrentQuest = Quests.Last();
+		player.CurrentQuest = this.Quests.Last();
 		player.IsQuestActive = true;
-		
-		QuestLabel.Text = player.CurrentQuest.quest_Name + " - give me: " + player.CurrentQuest.QuestItems[0].Item_Name;
+
+		this.QuestLabel.Text = player.CurrentQuest.quest_Name + " - give me: " + player.CurrentQuest.QuestItems[0].Item_Name;
 		//also play dialouge i geuss
 	}
 	
@@ -90,7 +84,7 @@ public partial class QuestNPC : Area3D
 		player.CurrentQuest = null;
 		player.IsQuestActive = false;
 
-		QuestLabel.Text = "No quest";
+		this.QuestLabel.Text = "No quest";
 	}
 
 	private void DuringDialogue(QuestData quest)

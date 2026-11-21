@@ -60,12 +60,12 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		attackHandler.AttackTriggered += OnComboAttackTriggered;
 		attackHandler.ChargedAttackTriggered += OnChargedAttackTriggered;
 
-		attackButton.ButtonDown += AttackPressed;
-		attackButton.ButtonUp += AttackReleased;
-		dodgeButton.Pressed += Dodge;
-		healButton.Pressed += Heal;
+		this.attackButton.ButtonDown += AttackPressed;
+		this.attackButton.ButtonUp += AttackReleased;
+		this.dodgeButton.Pressed += Dodge;
+		this.healButton.Pressed += Heal;
 
-		inventory = new PlayerInventory(InventoryLabel);
+		this.inventory = new PlayerInventory(this.InventoryLabel);
 
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");
@@ -222,10 +222,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 
 	public async Task Playerpickedup(string itemname)
 	{
-		acquiredLabel.Text = "you have picked up " +  itemname;
+		this.acquiredLabel.Text = "you have picked up " +  itemname;
 		
 		await Task.Delay(1000);
 
-		acquiredLabel.Text = "";
+		this.acquiredLabel.Text = "";
 	}
 }

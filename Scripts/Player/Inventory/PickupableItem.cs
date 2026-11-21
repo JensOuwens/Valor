@@ -6,19 +6,14 @@ public partial class PickupableItem : Area3D
 {
 	[Export] public ItemData ItemData { get; set; }
 
-	public override void _Ready()
-	{
-		BodyEntered += OnBodyEntered;
-	}
+	public override void _Ready() => this.BodyEntered += OnBodyEntered;
 
 	private void OnBodyEntered(Node3D body)
 	{
-		if (body is PlayerScript player)
-		{
-			player.inventory.AddToInventory(ItemData);
-			player.Playerpickedup(ItemData.Item_Name);
+		if (body is not PlayerScript player) return;
+		player.inventory.AddToInventory(this.ItemData);
+		player.Playerpickedup(this.ItemData.Item_Name);
 
-			QueueFree();
-		}
+		QueueFree();
 	}
 }
