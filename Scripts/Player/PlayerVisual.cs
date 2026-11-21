@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using Valor.AnimationUtil;
 
 namespace Valor;
 

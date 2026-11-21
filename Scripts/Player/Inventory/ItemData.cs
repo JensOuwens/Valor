@@ -10,7 +10,8 @@ using System;
 public partial class ItemData : Resource
 {
 	[Export] public string Item_Name;
-	[Export] public Texture2D Item_Icon;
+    [Export] public Texture2D Item_Icon;
+    [Export] public PackedScene Item_Model;
 	[Export] public string Item_Description;
 	[Export] public ItemType  Item_Type;
 	

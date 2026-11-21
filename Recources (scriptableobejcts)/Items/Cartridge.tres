@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bxxd753pg6v58"]
+
+[ext_resource type="Texture2D" uid="uid://bgeep6k867724" path="res://Models/Items/CartridgeIcon.png" id="1_0n3d7"]
+[ext_resource type="Script" uid="uid://bxt1kpptdctkw" path="res://Scripts/Player/Inventory/ItemData.cs" id="2_0n3d7"]
+[ext_resource type="PackedScene" uid="uid://dkj4bydh2ksig" path="res://Prefabs/Items/CartridgeModel.tscn" id="2_ww6qd"]
+
+[resource]
+script = ExtResource("2_0n3d7")
+Item_Name = "Cartridge"
+Item_Icon = ExtResource("1_0n3d7")
+Item_Model = ExtResource("2_ww6qd")
+Item_Description = "gfd"
+metadata/_custom_type_script = "uid://bxt1kpptdctkw"
