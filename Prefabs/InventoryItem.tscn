@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bn8x6lnvgfbtw"]
+
+[ext_resource type="Script" uid="uid://rpvnx3gxyqtq" path="res://Scripts/UI/FontScaledContainer.cs" id="1_nu5ft"]
+[ext_resource type="Script" uid="uid://6vex2cwltplq" path="res://Scripts/UI/InventoryItem.cs" id="1_tpfll"]
+[ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://Textures/icon.svg" id="2_tpfll"]
+
+[node name="InventoryItem" type="MarginContainer" unique_id=1512034100 node_paths=PackedStringArray("AmountLabel", "IconRect")]
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+script = ExtResource("1_tpfll")
+AmountLabel = NodePath("MarginContainer/Label")
+IconRect = NodePath("FontScaledContainer/ItemIcon")
+
+[node name="FontScaledContainer" type="Container" parent="." unique_id=372376453]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+script = ExtResource("1_nu5ft")
+TargetSiblingPath = NodePath("../../QuestDialogue")
+WidthScale = 2.0
+HeightScale = 2.0
+MaxSize = Vector2(3.4028235e+38, 3.4028235e+38)
+
+[node name="MarginContainer" type="MarginContainer" parent="FontScaledContainer" unique_id=1854214847]
+layout_mode = 2
+theme_override_constants/margin_left = -6
+theme_override_constants/margin_top = -6
+theme_override_constants/margin_right = -6
+theme_override_constants/margin_bottom = -6
+
+[node name="ItemBackground" type="TextureRect" parent="FontScaledContainer/MarginContainer" unique_id=782496394]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_tpfll")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="ItemIcon" type="TextureRect" parent="FontScaledContainer" unique_id=1748310066]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("2_tpfll")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=185983357]
+layout_mode = 2
+theme_override_constants/margin_left = -3
+theme_override_constants/margin_top = -3
+theme_override_constants/margin_right = -3
+theme_override_constants/margin_bottom = -6
+
+[node name="Label" type="Label" parent="MarginContainer" unique_id=1084162080]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "3x"
+horizontal_alignment = 2
+vertical_alignment = 2

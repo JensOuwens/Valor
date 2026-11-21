@@ -2,21 +2,23 @@ using Godot;
 using System;
 using System.Linq;
 using Valor;
+using Valor.AnimationUtil;
+using DialogueManager = Valor.UI.DialogueManager;
 
 /// <summary>
 /// Handles quest giving and completion, also giving out rewards
 /// TODO: add dialouge thingies
 /// </summary>
-public partial class QuestNPC : Area3D
+public partial class QuestNPC : Node3D
 {
 	[Export] public QuestData[] Quests;
-	[Export] public RichTextLabel QuestLabel;
-	
+	private Area3D talkCollider;
+
 	public override void _Ready()
 	{
-		this.BodyEntered += OnBodyEntered;
-		this.BodyExited += OnBodyExited;
-		this.QuestLabel.Text = "No quest";
+		this.talkCollider = GetNode<Area3D>("TalkCollision");
+		this.talkCollider.BodyEntered += OnBodyEntered;
+		this.talkCollider.BodyExited += OnBodyExited;
 	}
 
 	private void OnBodyEntered(Node3D body)
@@ -63,11 +65,13 @@ public partial class QuestNPC : Area3D
 	
 	private void GiveQuest(PlayerScript player)
 	{
-		player.CurrentQuest = this.Quests.Last();
-		player.IsQuestActive = true;
+		// TODO: Should only be activated if player accepts
+		// player.CurrentQuest = this.Quests.Last();
+		// player.IsQuestActive = true;
 
-		this.QuestLabel.Text = player.CurrentQuest.quest_Name + " - give me: " + player.CurrentQuest.QuestItems[0].Item_Name;
+		// this.QuestLabel.Text = player.CurrentQuest.quest_Name + " - give me: " + player.CurrentQuest.QuestItems[0].Item_Name;
 		//also play dialouge i geuss
+		DialogueManager.Instance.ShowQuestPopup(player.CurrentQuest, this.GlobalPosition);
 	}
 	
 	private void CompleteQuest(PlayerScript player)
@@ -105,8 +109,6 @@ public partial class QuestNPC : Area3D
 		
 		player.CurrentQuest = null;
 		player.IsQuestActive = false;
-
-		this.QuestLabel.Text = "No quest";
 	}
 
 	private void DuringDialogue(QuestData quest)

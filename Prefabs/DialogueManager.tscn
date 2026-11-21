@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://doq2pugt7w3f2"]
+
+[ext_resource type="Script" uid="uid://bm7fc42c27f3u" path="res://Scripts/UI/DialogueManager.cs" id="1_fw0lu"]
+[ext_resource type="Texture2D" uid="uid://d8elbqf4ok8a" path="res://Textures/UI/WoodBoard_1x4.png" id="2_tmgqm"]
+[ext_resource type="Script" uid="uid://6a3pv23qbxkl" path="res://Scripts/UI/TextBoxWithItemIcons.cs" id="3_gchfb"]
+[ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://Textures/icon.svg" id="3_i8p73"]
+[ext_resource type="PackedScene" uid="uid://bn8x6lnvgfbtw" path="res://Prefabs/InventoryItem.tscn" id="4_gchfb"]
+
+[node name="DialogueManager" type="Control" unique_id=467966402]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fw0lu")
+
+[node name="QuestPopUp" type="AspectRatioContainer" parent="." unique_id=1453280911]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -193.0
+offset_top = -206.0
+offset_right = 193.0
+offset_bottom = 206.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="MarginContainer" parent="QuestPopUp" unique_id=1497316950]
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="QuestPopUp/Control" unique_id=1548781774]
+layout_mode = 2
+texture = ExtResource("2_tmgqm")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/Control" unique_id=827203130]
+layout_mode = 2
+theme_override_constants/margin_left = 45
+theme_override_constants/margin_top = 75
+theme_override_constants/margin_right = 45
+theme_override_constants/margin_bottom = 87
+
+[node name="VBoxContainer" type="VBoxContainer" parent="QuestPopUp/Control/MarginContainer" unique_id=1927718730]
+layout_mode = 2
+
+[node name="NameQuestNPC" type="Label" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1424365861]
+layout_mode = 2
+text = "Bob"
+
+[node name="NameQuest" type="Label" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1042285634]
+layout_mode = 2
+text = "Quest name"
+
+[node name="HFlowContainer" type="HFlowContainer" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1734291547]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_gchfb")
+InventoryItem = ExtResource("4_gchfb")
+Text = "You received ItemIcon:{\"Amount\":3,\"ItemIconResourcePath\":\"uid://bgeep6k867724\"} from the chest!"
+
+[node name="Spacer" type="Control" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=2072859363]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1086743777]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="HBoxContainer" type="HBoxContainer" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer" unique_id=2083496166]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=688302289]
+layout_mode = 2
+texture_normal = ExtResource("3_i8p73")
+
+[node name="Spacer" type="Control" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1353862800]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextureButton2" type="TextureButton" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1836029057]
+layout_mode = 2
+texture_normal = ExtResource("3_i8p73")
