@@ -1,11 +1,12 @@
+using System;
 using System.Threading.Tasks;
 using Godot;
-/// <summary>
-/// this class handles player input and played hurt logic
-/// </summary>
 
 namespace Valor;
 
+/// <summary>
+/// this class handles player input and played hurt logic
+/// </summary>
 public partial class PlayerScript : CharacterBody3D, IDamageable
 {
 	[Export] private PlayerVisual playerVisual;
@@ -24,6 +25,9 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	private ICommand healCommand;
 	private ICommand moveCommand;
 	private CommandManager commandManager;
+	
+	private ICommand attackCommandBuffer; // used to swap between
+	
 	private PlayerBlackboard blackboard;
 	private AttackHitbox attackHitbox;
 	private bool wasMoving;
@@ -167,6 +171,34 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		this.blackboard.MaxHealth += 20f;
 		this.blackboard.SetHealth(this.blackboard.CurrentHealth + 20f);
 		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
+	}
+
+	/// <summary>
+	/// When player is not in combat, set attack button to speak button
+	/// </summary>
+	/// <param name="npcDialogueEntered"></param>
+	public void TryRegisterSpeakCommand(Action npcDialogueEntered)
+	{
+		if (this.attackCommandBuffer is SpeakCommand speakCommand &&
+		    speakCommand.npcDialogueEntered == npcDialogueEntered)
+		{
+			(this.attackCommandBuffer, this.attackCommand) = (this.attackCommand, this.attackCommandBuffer);
+			return;
+		}
+		
+		if (this.attackCommand is AttackCommand)
+			this.attackCommandBuffer = this.attackCommand;
+		this.attackCommand = new SpeakCommand(this.commandManager, npcDialogueEntered);
+		
+		// TODO: set attack Icon to something else
+	}
+
+	public void ResetAttackCommand()
+	{
+		if (this.attackCommandBuffer is not AttackCommand) return;
+		(this.attackCommandBuffer, this.attackCommand) = (this.attackCommand, this.attackCommandBuffer);
+		
+		// TODO: set attack Icon back to attack
 	}
 	
 	private void AttackPressed()

@@ -15,16 +15,37 @@ public partial class QuestNPC : Area3D
 	public override void _Ready()
 	{
 		this.BodyEntered += OnBodyEntered;
+		this.BodyExited += OnBodyExited;
 		this.QuestLabel.Text = "No quest";
 	}
 
 	private void OnBodyEntered(Node3D body)
 	{
 		if (body is not PlayerScript player) return;
-		if (player.IsQuestActive)
+		player.TryRegisterSpeakCommand(() => DialogueEntered(player));
+	}
+	
+	private void OnBodyExited(Node3D body)
+	{
+		if (body is not PlayerScript player) return;
+		player.ResetAttackCommand();
+	}
+
+	/// <summary>
+	/// Function called when player presses the speak button
+	/// </summary>
+	/// <param name="player"></param>
+	private void DialogueEntered(PlayerScript player)
+	{
+		if (!player.IsQuestActive)
+		{
+			GiveQuest(player);
+		}
+		else
 		{
 			int questItemCount = player.CurrentQuest.QuestItems.Length;
 			int currentQuestItems = 0;
+
 			foreach (ItemData questItem in player.CurrentQuest.QuestItems)
 			{
 				if (!player.inventory.IsInInvetory(questItem.Item_Name)) continue;
@@ -35,10 +56,9 @@ public partial class QuestNPC : Area3D
 				CompleteQuest(player);
 				break;
 			}
+
 			DuringDialogue(player.CurrentQuest);
 		}
-		else
-			GiveQuest(player);
 	}
 	
 	private void GiveQuest(PlayerScript player)
@@ -79,6 +99,8 @@ public partial class QuestNPC : Area3D
 				}
 				//unlock area from list
 				break;
+			default:
+				throw new ArgumentOutOfRangeException();
 		}
 		
 		player.CurrentQuest = null;
