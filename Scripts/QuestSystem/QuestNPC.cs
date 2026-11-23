@@ -1,9 +1,9 @@
-using Godot;
 using System;
 using System.Linq;
-using Valor;
-using Valor.AnimationUtil;
+using Godot;
 using DialogueManager = Valor.UI.DialogueManager;
+
+namespace Valor.QuestSystem;
 
 /// <summary>
 /// Handles quest giving and completion, also giving out rewards
@@ -31,6 +31,7 @@ public partial class QuestNPC : Node3D
 	{
 		if (body is not PlayerScript player) return;
 		player.ResetAttackCommand();
+		DialogueManager.Instance.HideQuestPopup(this);
 	}
 
 	/// <summary>
@@ -41,7 +42,7 @@ public partial class QuestNPC : Node3D
 	{
 		if (!player.IsQuestActive)
 		{
-			GiveQuest(player);
+			GiveQuest();
 		}
 		else
 		{
@@ -63,17 +64,9 @@ public partial class QuestNPC : Node3D
 		}
 	}
 	
-	private void GiveQuest(PlayerScript player)
-	{
-		// TODO: Should only be activated if player accepts
-		// player.CurrentQuest = this.Quests.Last();
-		// player.IsQuestActive = true;
+	private void GiveQuest() => 
+		DialogueManager.Instance.ShowQuestPopup(this.Quests.Last(), QuestData.QuestDialogueState.Start, this);
 
-		// this.QuestLabel.Text = player.CurrentQuest.quest_Name + " - give me: " + player.CurrentQuest.QuestItems[0].Item_Name;
-		//also play dialouge i geuss
-		DialogueManager.Instance.ShowQuestPopup(player.CurrentQuest, this.GlobalPosition);
-	}
-	
 	private void CompleteQuest(PlayerScript player)
 	{
 		foreach (ItemData questitem in player.CurrentQuest.QuestItems)
@@ -94,7 +87,7 @@ public partial class QuestNPC : Node3D
 				}
 				break;
 			case QuestRewardTypes.Land: //unlock area from list
-							   break;
+				break;
 			case QuestRewardTypes.ItemAndLand: 
 				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
 				{

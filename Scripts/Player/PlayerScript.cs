@@ -36,7 +36,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	public PlayerInventory inventory;
 
 	public bool IsQuestActive;
-	public QuestData CurrentQuest;
+	public QuestSystem.QuestData CurrentQuest;
 	
 	public PlayerBlackboard Blackboard => this.blackboard;
 	public float Health => this.blackboard?.CurrentHealth ?? 0f;
