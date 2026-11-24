@@ -5,28 +5,28 @@
 [ext_resource type="Resource" uid="uid://bxxd753pg6v58" path="res://Recources (scriptableobejcts)/Items/Cartridge.tres" id="1_ubspi"]
 [ext_resource type="Resource" uid="uid://d0cut87rs1t3o" path="res://Recources (scriptableobejcts)/Items/Holy Symbol.tres" id="2_26td5"]
 
-[sub_resource type="Resource" id="Resource_yxkej"]
+[sub_resource type="Resource" id="Resource_26td5"]
 script = ExtResource("1_26td5")
-Text = "Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
-[sub_resource type="Resource" id="Resource_xpksn"]
+[sub_resource type="Resource" id="Resource_3obgx"]
 script = ExtResource("1_26td5")
 State = 1
-Text = "Ze liggen waarschijnlijk ergens in de buurt als niemand ze heeft opgepakt. Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}"
+Text = "Heb je al mijn oude spellen gevonden? Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Laat me het weten als je ze allemaal hebt."
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
-[sub_resource type="Resource" id="Resource_8dh7q"]
+[sub_resource type="Resource" id="Resource_8t3wp"]
 script = ExtResource("1_26td5")
 State = 2
-Text = "Je hebt mijn spellen terug gevonden! Super bedankt! Hier neem dit als bedankje ItemIcon:{\"Amount\":3,\"IconId\":\"uid://d0j2b527oydve\"}"
+Text = "Ah! Je hebt ze! Super bedankt, hier neem dit als bedankje."
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
 [resource]
 script = ExtResource("1_3nlru")
 NpcName = "Jamal"
-QuestName = "LostCartridges"
+QuestName = "Oude spellen zoek"
 QuestItems = Array[Object]([ExtResource("1_ubspi"), ExtResource("1_ubspi"), ExtResource("1_ubspi")])
 RewardItems = Array[Object]([ExtResource("2_26td5")])
-QuestDialogue = Array[Object]([SubResource("Resource_yxkej"), SubResource("Resource_xpksn"), SubResource("Resource_8dh7q")])
+QuestDialogue = Array[Object]([SubResource("Resource_26td5"), SubResource("Resource_3obgx"), SubResource("Resource_8t3wp")])
 metadata/_custom_type_script = "uid://bx8od2ajmvvhq"

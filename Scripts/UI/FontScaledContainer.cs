@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Godot;
 
 namespace Valor.UI;
@@ -10,6 +11,11 @@ namespace Valor.UI;
 [GlobalClass]
 public partial class FontScaledContainer : Container
 {
+    private int _sortCount;
+    private int _refreshCount;
+    private int _targetChangedCount;
+    private int _parentOrderChangedCount;
+
     private NodePath targetSiblingPath = new();
     private float widthScale = 1f;
     private float heightScale = 1f;
@@ -27,7 +33,7 @@ public partial class FontScaledContainer : Container
             if (!IsActiveInTree()) return;
             ResolveTarget();
             this.lastObservedFontSize = GetTargetFontSize();
-            RefreshMinimumSize();
+            RefreshMinimumSize("Setter:TargetSiblingPath");
         }
     }
 
@@ -39,7 +45,7 @@ public partial class FontScaledContainer : Container
         {
             this.widthScale = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize();
+            RefreshMinimumSize("Setter:WidthScale");
         }
     }
 
@@ -51,7 +57,7 @@ public partial class FontScaledContainer : Container
         {
             this.heightScale = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize();
+            RefreshMinimumSize("Setter:HeightScale");
         }
     }
 
@@ -63,7 +69,7 @@ public partial class FontScaledContainer : Container
         {
             this.padding = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize();
+            RefreshMinimumSize("Setter:Padding");
         }
     }
 
@@ -75,7 +81,7 @@ public partial class FontScaledContainer : Container
         {
             this.minSize = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize();
+            RefreshMinimumSize("Setter:MinSize");
         }
     }
 
@@ -87,7 +93,7 @@ public partial class FontScaledContainer : Container
         {
             this.maxSize = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize();
+            RefreshMinimumSize("Setter:MaxSize");
         }
     }
 
@@ -123,7 +129,8 @@ public partial class FontScaledContainer : Container
         this.isExitingOrDisposing = false;
         ReconnectSubscriptions();
         this.lastObservedFontSize = GetTargetFontSize();
-        RefreshMinimumSize();
+        GD.Print($"[FontScaledContainer:{Name}:_Ready] target={this.resolvedTarget?.Name ?? "null"}, fontSize={this.lastObservedFontSize}");
+        RefreshMinimumSize("_Ready");
     }
 
     public override Vector2 _GetMinimumSize()
@@ -135,11 +142,14 @@ public partial class FontScaledContainer : Container
         float clampedX = Mathf.Clamp(width, this.MinSize.X, this.MaxSize.X);
         float clampedY = Mathf.Clamp(height, this.MinSize.Y, this.MaxSize.Y);
 
-        return new Vector2(clampedX, clampedY);
+        Vector2 result = new(clampedX, clampedY);
+        GD.Print($"[FontScaledContainer:{Name}:_GetMinimumSize] fontSize={fontSize}, raw=({width:0.#},{height:0.#}), clamped={result}");
+        return result;
     }
 
     public override void _ExitTree()
     {
+        GD.Print($"[FontScaledContainer:{Name}:_ExitTree]");
         this.isExitingOrDisposing = true;
         DisconnectAll();
         base._ExitTree();
@@ -160,8 +170,18 @@ public partial class FontScaledContainer : Container
     {
         if (what == NotificationSortChildren)
         {
+            int count = ++this._sortCount;
             if (IsActiveInTree())
+            {
+                Stopwatch sw = Stopwatch.StartNew();
+                GD.Print($"[FontScaledContainer:{Name}:Sort #{count}] Start | Size={this.Size}, Padding={this.Padding}, ChildCount={GetChildCount()}");
                 LayoutChildren();
+                GD.Print($"[FontScaledContainer:{Name}:Sort #{count}] End in {sw.ElapsedMilliseconds}ms | Size={this.Size}");
+            }
+            else
+            {
+                GD.Print($"[FontScaledContainer:{Name}:Sort #{count}] Skipped (not active in tree)");
+            }
         }
         else if (what == NotificationParented)
         {
@@ -171,10 +191,12 @@ public partial class FontScaledContainer : Container
             this.isExitingOrDisposing = false;
             ReconnectSubscriptions();
             this.lastObservedFontSize = GetTargetFontSize();
-            RefreshMinimumSize();
+            GD.Print($"[FontScaledContainer:{Name}:NotificationParented] parent={GetParent()?.Name}, target={this.resolvedTarget?.Name ?? "null"}");
+            RefreshMinimumSize("NotificationParented");
         }
         else if (what == NotificationUnparented)
         {
+            GD.Print($"[FontScaledContainer:{Name}:NotificationUnparented]");
             DisconnectAll();
         }
     }
@@ -203,7 +225,9 @@ public partial class FontScaledContainer : Container
             Mathf.Max(0f, this.Size.X - this.Padding.X),
             Mathf.Max(0f, this.Size.Y - this.Padding.Y)
         );
+        GD.Print($"[FontScaledContainer:{Name}:LayoutChildren] innerRect={innerRect}");
 
+        int idx = 0;
         foreach (Node child in GetChildren())
         {
             if (child is Control { Visible: true } control &&
@@ -211,8 +235,11 @@ public partial class FontScaledContainer : Container
                 !control.IsQueuedForDeletion() &&
                 control.IsInsideTree())
             {
+                GD.Print($"[FontScaledContainer:{Name}:LayoutChildren] Child[{idx}] '{control.Name}' ({control.GetType().Name}) before FitChildInRect: Size={control.Size}, MinSize={control.CustomMinimumSize}");
                 FitChildInRect(control, innerRect);
+                GD.Print($"[FontScaledContainer:{Name}:LayoutChildren] Child[{idx}] '{control.Name}' after FitChildInRect: Size={control.Size}, MinSize={control.CustomMinimumSize}");
             }
+            idx++;
         }
     }
 
@@ -274,6 +301,9 @@ public partial class FontScaledContainer : Container
         if (!IsActiveInTree())
             return;
 
+        int count = ++this._parentOrderChangedCount;
+        GD.Print($"[FontScaledContainer:{Name}:OnParentChildOrderChanged #{count}] parent={GetParent()?.Name}");
+
         // If reparented without a clean notification, keep observedParent accurate.
         if (GetParent() != this.observedParent)
         {
@@ -286,7 +316,7 @@ public partial class FontScaledContainer : Container
             this.lastObservedFontSize = -1;
 
         this.lastObservedFontSize = GetTargetFontSize();
-        RefreshMinimumSize();
+        RefreshMinimumSize($"OnParentChildOrderChanged#{count}");
     }
 
     private void ResolveTarget()
@@ -407,11 +437,13 @@ public partial class FontScaledContainer : Container
             return;
 
         int newSize = GetTargetFontSize();
+        int count = ++this._targetChangedCount;
+        GD.Print($"[FontScaledContainer:{Name}:OnTargetChanged #{count}] last={this.lastObservedFontSize}, new={newSize}");
         if (newSize == this.lastObservedFontSize)
             return;
 
         this.lastObservedFontSize = newSize;
-        RefreshMinimumSize();
+        RefreshMinimumSize($"OnTargetChanged#{count}");
     }
 
     private void OnTargetExited()
@@ -419,19 +451,23 @@ public partial class FontScaledContainer : Container
         if (!IsActiveInTree())
             return;
 
+        GD.Print($"[FontScaledContainer:{Name}:OnTargetExited]");
         ResolveTarget();
         this.lastObservedFontSize = GetTargetFontSize();
-        RefreshMinimumSize();
+        RefreshMinimumSize("OnTargetExited");
     }
 
-    private void RefreshMinimumSize()
+    private void RefreshMinimumSize(string reason = "Unknown")
     {
         if (!IsActiveInTree())
             return;
 
+        int count = ++this._refreshCount;
+        GD.Print($"[FontScaledContainer:{Name}:RefreshMinimumSize #{count}] reason={reason}, Size={this.Size}");
         UpdateMinimumSize();
         ResetSize();
         QueueSort();
+        GD.Print($"[FontScaledContainer:{Name}:RefreshMinimumSize #{count}] done | Size={this.Size}");
     }
 
     private int GetTargetFontSize()

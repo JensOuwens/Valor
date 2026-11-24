@@ -11,14 +11,19 @@
 [ext_resource type="Texture2D" uid="uid://c38kjtd0icm0h" path="res://Textures/UI/WoodBoard_5x4.png" id="8_8wgk5"]
 [ext_resource type="Script" uid="uid://d3seikgoxswho" path="res://Scripts/UI/QuestBackboardList.cs" id="9_8wgk5"]
 [ext_resource type="PackedScene" uid="uid://d2lkfo4cljca1" path="res://Prefabs/TextBoxWithItemIcons.tscn" id="10_8wgk5"]
+[ext_resource type="Texture2D" uid="uid://ctico0fon1hri" path="res://Textures/UI/WoodBoard_1x8.png" id="10_f7cc5"]
 [ext_resource type="PackedScene" uid="uid://bn8x6lnvgfbtw" path="res://Prefabs/InventoryItem.tscn" id="11_k2y0b"]
+[ext_resource type="Texture2D" uid="uid://bw5roq6466usv" path="res://Textures/UI/WoodBoard_2x8.png" id="11_ore83"]
+[ext_resource type="Texture2D" uid="uid://dqniuv547href" path="res://Textures/UI/WoodBoard_3x8.png" id="12_o8mdj"]
+[ext_resource type="Texture2D" uid="uid://cyw20fkr4rmqn" path="res://Textures/UI/WoodBoard_4x8.png" id="13_s0pjf"]
+[ext_resource type="Texture2D" uid="uid://c65dycx08rxgg" path="res://Textures/UI/WoodBoard_5x8.png" id="14_udpci"]
 
 [sub_resource type="Resource" id="Resource_vyltw"]
 script = ExtResource("4_e8v5a")
 WidthKey = 1
 Texture = ExtResource("2_tmgqm")
 MaxSize = Vector2i(425, 360)
-ContentConstraints = Vector2i(361, 296)
+ContentConstraints = Vector2i(285, 185)
 metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 
 [sub_resource type="Resource" id="Resource_5jugq"]
@@ -26,7 +31,7 @@ script = ExtResource("4_e8v5a")
 WidthKey = 2
 Texture = ExtResource("3_5ptar")
 MaxSize = Vector2i(547, 360)
-ContentConstraints = Vector2i(483, 296)
+ContentConstraints = Vector2i(407, 185)
 metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 
 [sub_resource type="Resource" id="Resource_xyms3"]
@@ -34,7 +39,7 @@ script = ExtResource("4_e8v5a")
 WidthKey = 3
 Texture = ExtResource("4_53dfb")
 MaxSize = Vector2i(640, 360)
-ContentConstraints = Vector2i(576, 296)
+ContentConstraints = Vector2i(500, 185)
 metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 
 [sub_resource type="Resource" id="Resource_qh0f2"]
@@ -42,7 +47,7 @@ script = ExtResource("4_e8v5a")
 WidthKey = 4
 Texture = ExtResource("5_e8v5a")
 MaxSize = Vector2i(1027, 360)
-ContentConstraints = Vector2i(963, 296)
+ContentConstraints = Vector2i(887, 185)
 metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 
 [sub_resource type="Resource" id="Resource_h5utu"]
@@ -50,13 +55,67 @@ script = ExtResource("4_e8v5a")
 WidthKey = 5
 Texture = ExtResource("8_8wgk5")
 MaxSize = Vector2i(1192, 360)
-ContentConstraints = Vector2i(1128, 296)
+ContentConstraints = Vector2i(1052, 185)
 metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 
 [sub_resource type="Resource" id="Resource_e8v5a"]
 script = ExtResource("9_8wgk5")
 HeightKey = 4
 Backboards = Array[Resource]([SubResource("Resource_vyltw"), SubResource("Resource_5jugq"), SubResource("Resource_xyms3"), SubResource("Resource_qh0f2"), SubResource("Resource_h5utu")])
+MarginLeft = 64
+MarginTop = 64
+MarginRight = 64
+MarginBottom = 64
+metadata/_custom_type_script = "uid://d3seikgoxswho"
+
+[sub_resource type="Resource" id="Resource_yudai"]
+script = ExtResource("4_e8v5a")
+WidthKey = 1
+Texture = ExtResource("10_f7cc5")
+MaxSize = Vector2i(425, 720)
+ContentConstraints = Vector2i(285, 370)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_le6cg"]
+script = ExtResource("4_e8v5a")
+WidthKey = 2
+Texture = ExtResource("11_ore83")
+MaxSize = Vector2i(547, 720)
+ContentConstraints = Vector2i(407, 370)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_dvw5j"]
+script = ExtResource("4_e8v5a")
+WidthKey = 3
+Texture = ExtResource("12_o8mdj")
+MaxSize = Vector2i(640, 720)
+ContentConstraints = Vector2i(500, 370)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_8t3wp"]
+script = ExtResource("4_e8v5a")
+WidthKey = 4
+Texture = ExtResource("13_s0pjf")
+MaxSize = Vector2i(1027, 720)
+ContentConstraints = Vector2i(887, 370)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_3obgx"]
+script = ExtResource("4_e8v5a")
+WidthKey = 5
+Texture = ExtResource("14_udpci")
+MaxSize = Vector2i(1192, 720)
+ContentConstraints = Vector2i(1052, 370)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_lka5m"]
+script = ExtResource("9_8wgk5")
+HeightKey = 8
+Backboards = Array[Object]([SubResource("Resource_yudai"), SubResource("Resource_le6cg"), SubResource("Resource_dvw5j"), SubResource("Resource_8t3wp"), SubResource("Resource_3obgx")])
+MarginLeft = 128
+MarginTop = 64
+MarginRight = 128
+MarginBottom = 64
 metadata/_custom_type_script = "uid://d3seikgoxswho"
 
 [node name="DialogueManager" type="Control" unique_id=467966402 node_paths=PackedStringArray("QuestPopup")]
@@ -69,8 +128,8 @@ grow_vertical = 2
 script = ExtResource("1_fw0lu")
 QuestPopup = NodePath("QuestPopUp")
 
-[node name="QuestPopUp" type="MarginContainer" parent="." unique_id=1590417159 node_paths=PackedStringArray("Background", "Content", "NameQuestNpc", "NameQuest", "QuestText", "AcceptButton", "DeclineButton")]
-custom_maximum_size = Vector2(425, -1)
+[node name="QuestPopUp" type="MarginContainer" parent="." unique_id=1590417159 node_paths=PackedStringArray("Background", "Content", "ContentMargin", "NameQuestNpc", "NameQuest", "QuestText", "AcceptButton", "DeclineButton")]
+custom_maximum_size = Vector2(425, 720)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -84,9 +143,10 @@ offset_bottom = 162.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_5ptar")
-Backboards = Array[Object]([SubResource("Resource_e8v5a")])
+Backboards = Array[Object]([SubResource("Resource_e8v5a"), SubResource("Resource_lka5m")])
 Background = NodePath("Background")
 Content = NodePath("MarginContainer/MarginContainer/Content")
+ContentMargin = NodePath("MarginContainer")
 NameQuestNpc = NodePath("MarginContainer/MarginContainer/Content/NameQuestNPC")
 NameQuest = NodePath("MarginContainer/MarginContainer/Content/NameQuest")
 QuestText = NodePath("MarginContainer/MarginContainer/Content/TextBoxWithItemIcons")
@@ -95,15 +155,15 @@ DeclineButton = NodePath("MarginContainer/MarginContainer/Content/MarginContaine
 
 [node name="Background" type="TextureRect" parent="QuestPopUp" unique_id=1548781774]
 layout_mode = 2
-texture = ExtResource("2_tmgqm")
+texture = ExtResource("10_f7cc5")
 expand_mode = 2
 stretch_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="QuestPopUp" unique_id=1708525295]
 layout_mode = 2
-theme_override_constants/margin_left = 64
+theme_override_constants/margin_left = 128
 theme_override_constants/margin_top = 64
-theme_override_constants/margin_right = 64
+theme_override_constants/margin_right = 128
 theme_override_constants/margin_bottom = 64
 
 [node name="ColorRect" type="ColorRect" parent="QuestPopUp/MarginContainer" unique_id=227776921]
@@ -134,7 +194,7 @@ text = "Quest name"
 layout_mode = 2
 LabelModulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
 InventoryItemScene = ExtResource("11_k2y0b")
-Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
 
 [node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=2072859363]
 layout_mode = 2

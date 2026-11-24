@@ -46,44 +46,56 @@ albedo_color = Color(0.41230243, 0.49534482, 0.12988186, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bghhj"]
 albedo_color = Color(0.8, 0, 0, 1)
 
-[sub_resource type="Resource" id="Resource_5rdmd"]
+[sub_resource type="Resource" id="Resource_prcnd"]
 script = ExtResource("9_bgk41")
-Text = "Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
-[sub_resource type="Resource" id="Resource_xpksn"]
+[sub_resource type="Resource" id="Resource_lwcog"]
 script = ExtResource("9_bgk41")
 State = 1
-Text = "Ze liggen waarschijnlijk ergens in de buurt als niemand ze heeft opgepakt. Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}"
+Text = "Heb je al mijn oude spellen gevonden? Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Laat me het weten als je ze allemaal hebt."
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
-[sub_resource type="Resource" id="Resource_8dh7q"]
+[sub_resource type="Resource" id="Resource_3lhyg"]
 script = ExtResource("9_bgk41")
 State = 2
-Text = "Je hebt mijn spellen terug gevonden! Super bedankt! Hier neem dit als bedankje ItemIcon:{\"Amount\":3,\"IconId\":\"uid://d0j2b527oydve\"}"
+Text = "Ah! Je hebt ze! Super bedankt, hier neem dit als bedankje."
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
 [sub_resource type="Resource" id="Resource_po0lr"]
 script = ExtResource("11_qvqg1")
 NpcName = "Jamal"
-QuestName = "LostCartridges"
+QuestName = "Oude spellen zoek"
 QuestItems = Array[Object]([ExtResource("6_4mo6u"), ExtResource("6_4mo6u"), ExtResource("6_4mo6u")])
 RewardItems = Array[Object]([ExtResource("10_1ehe8")])
-QuestDialogue = Array[Object]([SubResource("Resource_5rdmd"), SubResource("Resource_xpksn"), SubResource("Resource_8dh7q")])
+QuestDialogue = Array[Object]([SubResource("Resource_prcnd"), SubResource("Resource_lwcog"), SubResource("Resource_3lhyg")])
 metadata/_custom_type_script = "uid://bx8od2ajmvvhq"
 
 [sub_resource type="Resource" id="Resource_bgk41"]
 script = ExtResource("9_bgk41")
-Text = "Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+metadata/_custom_type_script = "uid://cjpg2a46vnarh"
+
+[sub_resource type="Resource" id="Resource_qvqg1"]
+script = ExtResource("9_bgk41")
+State = 1
+Text = "Heb je al mijn oude spellen gevonden? Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Laat me het weten als je ze allemaal hebt."
+metadata/_custom_type_script = "uid://cjpg2a46vnarh"
+
+[sub_resource type="Resource" id="Resource_5rdmd"]
+script = ExtResource("9_bgk41")
+State = 2
+Text = "Ah! Je hebt ze! Super bedankt, hier neem dit als bedankje."
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
 [sub_resource type="Resource" id="Resource_1ehe8"]
 script = ExtResource("11_qvqg1")
 NpcName = "Jamal"
-QuestName = "LostCartridges"
+QuestName = "Oude spellen zoek"
 QuestItems = Array[Object]([ExtResource("6_4mo6u"), ExtResource("6_4mo6u"), ExtResource("6_4mo6u")])
 RewardItems = Array[Object]([ExtResource("10_1ehe8")])
-QuestDialogue = Array[Object]([SubResource("Resource_bgk41"), SubResource("Resource_xpksn"), SubResource("Resource_8dh7q")])
+QuestDialogue = Array[Object]([SubResource("Resource_bgk41"), SubResource("Resource_qvqg1"), SubResource("Resource_5rdmd")])
 metadata/_custom_type_script = "uid://bx8od2ajmvvhq"
 
 [node name="SectionOneGameshopHub" type="Node3D" unique_id=2015010177]

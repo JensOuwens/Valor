@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -10,6 +11,7 @@ namespace Valor.UI;
 [GlobalClass, Tool]
 public partial class TextBoxWithItemIcons : Node
 {
+    private int _splitCallCount;
     private bool isApplyingUpdate;
 
     [Export] private Color LabelModulate { get; set; } = Colors.White;
@@ -36,7 +38,6 @@ public partial class TextBoxWithItemIcons : Node
 
     public void Rebuild()
     {
-        GD.Print($"{this.isApplyingUpdate} || {!IsInstanceValid(this)} || {IsQueuedForDeletion()} || {!IsInsideTree()}");
         if (this.isApplyingUpdate || !IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree())
             return;
 
@@ -215,18 +216,31 @@ public partial class TextBoxWithItemIcons : Node
 
     private string[] SplitTextForParentWidth(string textValue)
     {
+        int callId = ++this._splitCallCount;
+        Stopwatch sw = Stopwatch.StartNew();
+
         if (string.IsNullOrEmpty(textValue))
+        {
+            GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Empty/null text in {sw.ElapsedMilliseconds}ms");
             return [textValue];
+        }
 
         float maxWidth = GetParentMaxWidth();
+        GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Start | len={textValue.Length}, maxWidth={maxWidth}, parent='{GetParent()?.Name}'");
+
         if (maxWidth <= 0f)
+        {
+            GD.Print($"[TextBoxWithItemIcons:Split #{callId}] maxWidth <= 0, returning single chunk in {sw.ElapsedMilliseconds}ms");
             return [textValue];
+        }
 
         List<string> chunks = [];
         string remaining = textValue;
+        int iter = 0;
 
         while (!string.IsNullOrEmpty(remaining))
         {
+            iter++;
             if (MeasureTextWidth(remaining) <= maxWidth)
             {
                 chunks.Add(remaining);
@@ -256,6 +270,7 @@ public partial class TextBoxWithItemIcons : Node
 
             if (string.IsNullOrEmpty(line) || nextRemaining.Length >= remaining.Length)
             {
+                GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Iter {iter}: break guard triggered (line='{line}', remLen={remaining.Length}, nextLen={nextRemaining.Length})");
                 chunks.Add(remaining); break;
             }
 
@@ -263,6 +278,7 @@ public partial class TextBoxWithItemIcons : Node
             remaining = nextRemaining;
         }
 
+        GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Done in {sw.ElapsedMilliseconds}ms | iters={iter}, chunks={chunks.Count}");
         return chunks.Count > 0 ? [.. chunks] : [textValue];
     }
 
