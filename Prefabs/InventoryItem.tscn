@@ -1,7 +1,12 @@
 [gd_scene format=3 uid="uid://bn8x6lnvgfbtw"]
 
 [ext_resource type="Script" uid="uid://6vex2cwltplq" path="res://Scripts/UI/InventoryItem.cs" id="1_tpfll"]
+[ext_resource type="Texture2D" uid="uid://chhmp2ffbb0at" path="res://Textures/UI/inventoryItemBG.png" id="2_qds58"]
 [ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://Textures/icon.svg" id="2_tpfll"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2v374"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="InventoryItem" type="Container" unique_id=601645155 node_paths=PackedStringArray("AmountLabel", "IconRect")]
 offset_right = 32.0
@@ -10,27 +15,29 @@ script = ExtResource("1_tpfll")
 AmountLabel = NodePath("FontScaledContainer/MarginContainer2/MarginContainer/Label")
 IconRect = NodePath("FontScaledContainer/MarginContainer/ItemIcon")
 TargetSiblingPath = NodePath("")
-WidthScale = 2.0
-HeightScale = 2.0
+WidthScale = 4.0
+HeightScale = 4.0
 MaxSize = Vector2(3.4028235e+38, 3.4028235e+38)
 
 [node name="FontScaledContainer" type="MarginContainer" parent="." unique_id=1596910073]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="ItemBackground" type="TextureRect" parent="FontScaledContainer" unique_id=782496394]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("2_tpfll")
+texture = ExtResource("2_qds58")
 expand_mode = 2
 stretch_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="FontScaledContainer" unique_id=1854214847]
 layout_mode = 2
-theme_override_constants/margin_left = 3
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_right = 3
-theme_override_constants/margin_bottom = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
 [node name="ItemIcon" type="TextureRect" parent="FontScaledContainer/MarginContainer" unique_id=1748310066]
 layout_mode = 2
@@ -42,19 +49,20 @@ stretch_mode = 5
 
 [node name="MarginContainer2" type="MarginContainer" parent="FontScaledContainer" unique_id=40282314]
 layout_mode = 2
-theme_override_constants/margin_left = 6
-theme_override_constants/margin_top = 6
-theme_override_constants/margin_right = 1
-theme_override_constants/margin_bottom = 1
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="FontScaledContainer/MarginContainer2" unique_id=1632458527]
 layout_mode = 2
-theme_override_constants/margin_bottom = -3
+theme_override_constants/margin_bottom = -2
 
 [node name="Label" type="Label" parent="FontScaledContainer/MarginContainer2/MarginContainer" unique_id=1084162080]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 text = "3x"
+label_settings = SubResource("LabelSettings_2v374")
 horizontal_alignment = 2
 vertical_alignment = 2

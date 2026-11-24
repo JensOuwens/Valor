@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw5kvwd0ffxsq"
-path="res://.godot/imported/WoodBoard_2x4.png-4bb91a5bfc07d65409acc1e90b6c205c.ctex"
+uid="uid://ddah8y2yee7ly"
+path="res://.godot/imported/WoodCheck.png-91396fbc9adb368be9670f50d562714f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/WoodBoard_2x4.png"
-dest_files=["res://.godot/imported/WoodBoard_2x4.png-4bb91a5bfc07d65409acc1e90b6c205c.ctex"]
+source_file="res://Textures/UI/WoodCheck.png"
+dest_files=["res://.godot/imported/WoodCheck.png-91396fbc9adb368be9670f50d562714f.ctex"]
 
 [params]
 

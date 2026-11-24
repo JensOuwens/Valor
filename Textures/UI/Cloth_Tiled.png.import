@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bw5roq6466usv"
-path="res://.godot/imported/WoodBoard_2x8.png-f3c5d16e5fb739b8d9aeea8aabebab19.ctex"
+uid="uid://bnbmm1s245xo7"
+path="res://.godot/imported/Cloth_Tiled.png-4d35d634d35d2da2d5914d26d51e5f0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/WoodBoard_2x8.png"
-dest_files=["res://.godot/imported/WoodBoard_2x8.png-f3c5d16e5fb739b8d9aeea8aabebab19.ctex"]
+source_file="res://Textures/UI/Cloth_Tiled.png"
+dest_files=["res://.godot/imported/Cloth_Tiled.png-4d35d634d35d2da2d5914d26d51e5f0e.ctex"]
 
 [params]
 
