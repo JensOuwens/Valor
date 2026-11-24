@@ -9,9 +9,8 @@ using Godot;
 namespace Valor.UI;
 
 [GlobalClass, Tool]
-public partial class TextBoxWithItemIcons : Node
+public partial class TextBoxWithItemIcons : FlowContainer
 {
-    private int splitCallCount;
     private bool isApplyingUpdate;
 
     [Export] private Color LabelModulate { get; set; } = Colors.White;
@@ -187,61 +186,34 @@ public partial class TextBoxWithItemIcons : Node
         return null;
     }
 
-    private float GetParentMaxWidth()
-    {
-        if (GetParent() is not Control parentControl || !IsInstanceValid(parentControl) || parentControl.IsQueuedForDeletion())
-            return -1f;
-
-        float width = parentControl.Size.X;
-        if (width <= 0f)
-            width = parentControl.GetCombinedMinimumSize().X;
-
-        return width > 0f ? width : -1f;
-    }
-
     private float MeasureTextWidth(string textValue)
     {
         if (string.IsNullOrEmpty(textValue))
             return 0f;
 
-        if (GetParent() is Control parentControl && IsInstanceValid(parentControl))
-        {
-            Font font = parentControl.GetThemeFont("font", "Label");
-            int fontSize = parentControl.GetThemeFontSize("font_size", "Label");
-            if (font != null)
-                return font.GetStringSize(textValue, HorizontalAlignment.Left, -1f, fontSize).X;
-        }
+        if (GetParent() is not Control parentControl || !IsInstanceValid(parentControl)) return textValue.Length * 8f;
+        Font font = parentControl.GetThemeFont("font", "Label");
+        int fontSize = parentControl.GetThemeFontSize("font_size", "Label");
+        if (font != null)
+            return font.GetStringSize(textValue, HorizontalAlignment.Left, -1f, fontSize).X;
 
         return textValue.Length * 8f;
     }
 
     private string[] SplitTextForParentWidth(string textValue)
     {
-        int callId = ++this.splitCallCount;
-        Stopwatch sw = Stopwatch.StartNew();
-
         if (string.IsNullOrEmpty(textValue))
-        {
-            GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Empty/null text in {sw.ElapsedMilliseconds}ms");
             return [textValue];
-        }
-
-        float maxWidth = GetParentMaxWidth();
-        GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Start | len={textValue.Length}, maxWidth={maxWidth}, parent='{GetParent()?.Name}'");
-
+        
+        float? maxWidth = GetParent<Control>().GetCombinedMinimumSize().X;
         if (maxWidth <= 0f)
-        {
-            GD.Print($"[TextBoxWithItemIcons:Split #{callId}] maxWidth <= 0, returning single chunk in {sw.ElapsedMilliseconds}ms");
             return [textValue];
-        }
 
         List<string> chunks = [];
         string remaining = textValue;
-        int iter = 0;
 
         while (!string.IsNullOrEmpty(remaining))
         {
-            iter++;
             if (MeasureTextWidth(remaining) <= maxWidth)
             {
                 chunks.Add(remaining);
@@ -271,36 +243,29 @@ public partial class TextBoxWithItemIcons : Node
 
             if (string.IsNullOrEmpty(line) || nextRemaining.Length >= remaining.Length)
             {
-                GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Iter {iter}: break guard triggered (line='{line}', remLen={remaining.Length}, nextLen={nextRemaining.Length})");
-                chunks.Add(remaining); break;
+                chunks.Add(remaining); 
+                break;
             }
 
             chunks.Add(line);
             remaining = nextRemaining;
         }
 
-        GD.Print($"[TextBoxWithItemIcons:Split #{callId}] Done in {sw.ElapsedMilliseconds}ms | iters={iter}, chunks={chunks.Count}");
         return chunks.Count > 0 ? [.. chunks] : [textValue];
     }
 
     private InventoryItem InstantiateInventoryItem(Node parent)
     {
         if (this.InventoryItemScene == null)
-        {
-            GD.PushWarning("[UI] InventoryItemScene == null]");
             return null;
-        }
 
         Node instance = this.InventoryItemScene.Instantiate();
-        GD.PushWarning($"[UI] InventoryItemScene == null: {instance == null}]");
         if (instance is InventoryItem typedItem)
         {
-            GD.PushWarning("[UI] added InventoryItemScene]");
             parent.AddChild(typedItem);
             return typedItem;
         }
 
-        GD.PushWarning($"{nameof(TextBoxWithItemIcons)}: InventoryItemScene root must inherit from {nameof(InventoryItem)}.");
         instance?.QueueFree();
         return null;
     }

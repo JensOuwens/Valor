@@ -11,11 +11,6 @@ namespace Valor.UI;
 [GlobalClass]
 public partial class FontScaledContainer : Container
 {
-    private int _sortCount;
-    private int _refreshCount;
-    private int _targetChangedCount;
-    private int _parentOrderChangedCount;
-
     private NodePath targetSiblingPath = new();
     private float widthScale = 1f;
     private float heightScale = 1f;
@@ -33,7 +28,7 @@ public partial class FontScaledContainer : Container
             if (!IsActiveInTree()) return;
             ResolveTarget();
             this.lastObservedFontSize = GetTargetFontSize();
-            RefreshMinimumSize("Setter:TargetSiblingPath");
+            RefreshMinimumSize();
         }
     }
 
@@ -45,7 +40,7 @@ public partial class FontScaledContainer : Container
         {
             this.widthScale = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize("Setter:WidthScale");
+            RefreshMinimumSize();
         }
     }
 
@@ -57,7 +52,7 @@ public partial class FontScaledContainer : Container
         {
             this.heightScale = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize("Setter:HeightScale");
+            RefreshMinimumSize();
         }
     }
 
@@ -69,7 +64,7 @@ public partial class FontScaledContainer : Container
         {
             this.padding = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize("Setter:Padding");
+            RefreshMinimumSize();
         }
     }
 
@@ -81,7 +76,7 @@ public partial class FontScaledContainer : Container
         {
             this.minSize = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize("Setter:MinSize");
+            RefreshMinimumSize();
         }
     }
 
@@ -93,7 +88,7 @@ public partial class FontScaledContainer : Container
         {
             this.maxSize = value;
             if (!IsActiveInTree()) return;
-            RefreshMinimumSize("Setter:MaxSize");
+            RefreshMinimumSize();
         }
     }
 
@@ -129,8 +124,7 @@ public partial class FontScaledContainer : Container
         this.isExitingOrDisposing = false;
         ReconnectSubscriptions();
         this.lastObservedFontSize = GetTargetFontSize();
-        GD.Print($"[FontScaledContainer:{Name}:_Ready] target={this.resolvedTarget?.Name ?? "null"}, fontSize={this.lastObservedFontSize}");
-        RefreshMinimumSize("_Ready");
+        RefreshMinimumSize();
     }
 
     public override Vector2 _GetMinimumSize()
@@ -143,13 +137,11 @@ public partial class FontScaledContainer : Container
         float clampedY = Mathf.Clamp(height, this.MinSize.Y, this.MaxSize.Y);
 
         Vector2 result = new(clampedX, clampedY);
-        GD.Print($"[FontScaledContainer:{Name}:_GetMinimumSize] fontSize={fontSize}, raw=({width:0.#},{height:0.#}), clamped={result}");
         return result;
     }
 
     public override void _ExitTree()
     {
-        GD.Print($"[FontScaledContainer:{Name}:_ExitTree]");
         this.isExitingOrDisposing = true;
         DisconnectAll();
         base._ExitTree();
@@ -170,18 +162,8 @@ public partial class FontScaledContainer : Container
     {
         if (what == NotificationSortChildren)
         {
-            int count = ++this._sortCount;
-            if (IsActiveInTree())
-            {
-                Stopwatch sw = Stopwatch.StartNew();
-                GD.Print($"[FontScaledContainer:{Name}:Sort #{count}] Start | Size={this.Size}, Padding={this.Padding}, ChildCount={GetChildCount()}");
-                LayoutChildren();
-                GD.Print($"[FontScaledContainer:{Name}:Sort #{count}] End in {sw.ElapsedMilliseconds}ms | Size={this.Size}");
-            }
-            else
-            {
-                GD.Print($"[FontScaledContainer:{Name}:Sort #{count}] Skipped (not active in tree)");
-            }
+            if (!IsActiveInTree()) return;
+            LayoutChildren();
         }
         else if (what == NotificationParented)
         {
@@ -191,12 +173,10 @@ public partial class FontScaledContainer : Container
             this.isExitingOrDisposing = false;
             ReconnectSubscriptions();
             this.lastObservedFontSize = GetTargetFontSize();
-            GD.Print($"[FontScaledContainer:{Name}:NotificationParented] parent={GetParent()?.Name}, target={this.resolvedTarget?.Name ?? "null"}");
-            RefreshMinimumSize("NotificationParented");
+            RefreshMinimumSize();
         }
         else if (what == NotificationUnparented)
         {
-            GD.Print($"[FontScaledContainer:{Name}:NotificationUnparented]");
             DisconnectAll();
         }
     }
@@ -225,8 +205,7 @@ public partial class FontScaledContainer : Container
             Mathf.Max(0f, this.Size.X - this.Padding.X),
             Mathf.Max(0f, this.Size.Y - this.Padding.Y)
         );
-        GD.Print($"[FontScaledContainer:{Name}:LayoutChildren] innerRect={innerRect}");
-
+        
         int idx = 0;
         foreach (Node child in GetChildren())
         {
@@ -235,9 +214,7 @@ public partial class FontScaledContainer : Container
                 !control.IsQueuedForDeletion() &&
                 control.IsInsideTree())
             {
-                GD.Print($"[FontScaledContainer:{Name}:LayoutChildren] Child[{idx}] '{control.Name}' ({control.GetType().Name}) before FitChildInRect: Size={control.Size}, MinSize={control.CustomMinimumSize}");
                 FitChildInRect(control, innerRect);
-                GD.Print($"[FontScaledContainer:{Name}:LayoutChildren] Child[{idx}] '{control.Name}' after FitChildInRect: Size={control.Size}, MinSize={control.CustomMinimumSize}");
             }
             idx++;
         }
@@ -300,15 +277,8 @@ public partial class FontScaledContainer : Container
     {
         if (!IsActiveInTree())
             return;
-
-        int count = ++this._parentOrderChangedCount;
-        GD.Print($"[FontScaledContainer:{Name}:OnParentChildOrderChanged #{count}] parent={GetParent()?.Name}");
-
-        // If reparented without a clean notification, keep observedParent accurate.
-        if (GetParent() != this.observedParent)
-        {
-            ObserveParent();
-        }
+        
+        if (GetParent() != this.observedParent) ObserveParent();
 
         Control previous = this.resolvedTarget;
         ResolveTarget();
@@ -316,7 +286,7 @@ public partial class FontScaledContainer : Container
             this.lastObservedFontSize = -1;
 
         this.lastObservedFontSize = GetTargetFontSize();
-        RefreshMinimumSize($"OnParentChildOrderChanged#{count}");
+        RefreshMinimumSize();
     }
 
     private void ResolveTarget()
@@ -437,37 +407,30 @@ public partial class FontScaledContainer : Container
             return;
 
         int newSize = GetTargetFontSize();
-        int count = ++this._targetChangedCount;
-        GD.Print($"[FontScaledContainer:{Name}:OnTargetChanged #{count}] last={this.lastObservedFontSize}, new={newSize}");
         if (newSize == this.lastObservedFontSize)
             return;
 
         this.lastObservedFontSize = newSize;
-        RefreshMinimumSize($"OnTargetChanged#{count}");
+        RefreshMinimumSize();
     }
 
     private void OnTargetExited()
     {
-        if (!IsActiveInTree())
-            return;
+        if (!IsActiveInTree()) return;
 
-        GD.Print($"[FontScaledContainer:{Name}:OnTargetExited]");
         ResolveTarget();
         this.lastObservedFontSize = GetTargetFontSize();
-        RefreshMinimumSize("OnTargetExited");
+        RefreshMinimumSize();
     }
 
-    private void RefreshMinimumSize(string reason = "Unknown")
+    private void RefreshMinimumSize()
     {
         if (!IsActiveInTree())
             return;
 
-        int count = ++this._refreshCount;
-        GD.Print($"[FontScaledContainer:{Name}:RefreshMinimumSize #{count}] reason={reason}, Size={this.Size}");
         UpdateMinimumSize();
         ResetSize();
         QueueSort();
-        GD.Print($"[FontScaledContainer:{Name}:RefreshMinimumSize #{count}] done | Size={this.Size}");
     }
 
     private int GetTargetFontSize()

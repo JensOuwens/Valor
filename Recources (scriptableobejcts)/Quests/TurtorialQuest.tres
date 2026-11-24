@@ -8,18 +8,21 @@
 [sub_resource type="Resource" id="Resource_26td5"]
 script = ExtResource("1_26td5")
 Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+BoxWidth = 320.0
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
 [sub_resource type="Resource" id="Resource_3obgx"]
 script = ExtResource("1_26td5")
 State = 1
 Text = "Heb je al mijn oude spellen gevonden? Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Laat me het weten als je ze allemaal hebt."
+BoxWidth = 320.0
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
 [sub_resource type="Resource" id="Resource_8t3wp"]
 script = ExtResource("1_26td5")
 State = 2
 Text = "Ah! Je hebt ze! Super bedankt, hier neem dit als bedankje."
+BoxWidth = 320.0
 metadata/_custom_type_script = "uid://cjpg2a46vnarh"
 
 [resource]

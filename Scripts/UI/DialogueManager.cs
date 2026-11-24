@@ -60,6 +60,8 @@ public partial class DialogueManager : Node
     {
         base._Process(delta);
         if (this.QuestPopup == null || this.camera3D == null || this.questGiver == null) return;
-        this.QuestPopup.Position = this.camera3D.UnprojectPosition(this.questGiver.GlobalPosition) - new Vector2(this.QuestPopup.Size.X / 2, this.QuestPopup.Size.Y);
+        Vector2 offsetToMiddle = new(this.QuestPopup.Size.X / 2, this.QuestPopup.Size.Y);
+        Vector2 extraOffset = new(0, this.QuestPopup.Size.Y / 8);
+        this.QuestPopup.Position = this.camera3D.UnprojectPosition(this.questGiver.GlobalPosition) - offsetToMiddle - extraOffset;
     }
 }
