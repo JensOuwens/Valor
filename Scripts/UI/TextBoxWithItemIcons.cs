@@ -11,11 +11,12 @@ namespace Valor.UI;
 [GlobalClass, Tool]
 public partial class TextBoxWithItemIcons : Node
 {
-    private int _splitCallCount;
+    private int splitCallCount;
     private bool isApplyingUpdate;
 
     [Export] private Color LabelModulate { get; set; } = Colors.White;
     [Export] public PackedScene InventoryItemScene { get; set; }
+    
     [Export(PropertyHint.MultilineText)]
     public string Text { get; set; } = string.Empty;
     
@@ -216,7 +217,7 @@ public partial class TextBoxWithItemIcons : Node
 
     private string[] SplitTextForParentWidth(string textValue)
     {
-        int callId = ++this._splitCallCount;
+        int callId = ++this.splitCallCount;
         Stopwatch sw = Stopwatch.StartNew();
 
         if (string.IsNullOrEmpty(textValue))

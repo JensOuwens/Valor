@@ -62,10 +62,6 @@ metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 script = ExtResource("9_8wgk5")
 HeightKey = 4
 Backboards = Array[Resource]([SubResource("Resource_vyltw"), SubResource("Resource_5jugq"), SubResource("Resource_xyms3"), SubResource("Resource_qh0f2"), SubResource("Resource_h5utu")])
-MarginLeft = 64
-MarginTop = 64
-MarginRight = 64
-MarginBottom = 64
 metadata/_custom_type_script = "uid://d3seikgoxswho"
 
 [sub_resource type="Resource" id="Resource_yudai"]
@@ -112,10 +108,6 @@ metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
 script = ExtResource("9_8wgk5")
 HeightKey = 8
 Backboards = Array[Object]([SubResource("Resource_yudai"), SubResource("Resource_le6cg"), SubResource("Resource_dvw5j"), SubResource("Resource_8t3wp"), SubResource("Resource_3obgx")])
-MarginLeft = 128
-MarginTop = 64
-MarginRight = 128
-MarginBottom = 64
 metadata/_custom_type_script = "uid://d3seikgoxswho"
 
 [node name="DialogueManager" type="Control" unique_id=467966402 node_paths=PackedStringArray("QuestPopup")]
@@ -146,7 +138,7 @@ script = ExtResource("2_5ptar")
 Backboards = Array[Object]([SubResource("Resource_e8v5a"), SubResource("Resource_lka5m")])
 Background = NodePath("Background")
 Content = NodePath("MarginContainer/MarginContainer/Content")
-ContentMargin = NodePath("MarginContainer")
+ContentMargin = NodePath("MarginContainer/MarginContainer")
 NameQuestNpc = NodePath("MarginContainer/MarginContainer/Content/NameQuestNPC")
 NameQuest = NodePath("MarginContainer/MarginContainer/Content/NameQuest")
 QuestText = NodePath("MarginContainer/MarginContainer/Content/TextBoxWithItemIcons")

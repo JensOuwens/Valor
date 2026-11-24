@@ -83,7 +83,7 @@ public partial class QuestNPC : Node3D
 				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
 				{
 					player.inventory.AddToInventory(questReward);
-					player.Playerpickedup(questReward.Item_Name);
+					_ = player.Playerpickedup(questReward.Item_Name);
 				}
 				break;
 			case QuestRewardTypes.Land: //unlock area from list
@@ -92,7 +92,7 @@ public partial class QuestNPC : Node3D
 				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
 				{
 					player.inventory.AddToInventory(questReward);
-					player.Playerpickedup(questReward.Item_Name);
+					_ = player.Playerpickedup(questReward.Item_Name);
 				}
 				//unlock area from list
 				break;

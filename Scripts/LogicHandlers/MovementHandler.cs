@@ -14,7 +14,7 @@ public class MovementHandler : IHandler
 
 	public void OnCLick(CommandContext context)
 	{
-		GD.Print("[Movement] Movement started.");
+		// GD.Print("[Movement] Movement started.");
 		OnHold(context);
 	}
 
@@ -31,7 +31,7 @@ public class MovementHandler : IHandler
 
 		if (direction == this.lastLoggedDirection) return;
 		this.lastLoggedDirection = direction;
-		GD.Print($"[Movement] Direction={direction}, speed={this.blackboard.MoveSpeed:0.##} px/s, velocity={this.blackboard.Player.Velocity}.");
+		// GD.Print($"[Movement] Direction={direction}, speed={this.blackboard.MoveSpeed:0.##} px/s, velocity={this.blackboard.Player.Velocity}.");
 	}
 
 	public void OnRelease(CommandContext context)
@@ -40,7 +40,7 @@ public class MovementHandler : IHandler
 
 		this.blackboard.Player.Velocity = Vector3.Zero;
 		this.lastLoggedDirection = Vector3.Zero;
-		GD.Print("[Movement] Movement stopped.");
+		// GD.Print("[Movement] Movement stopped.");
 	}
 
 	public void Tick(double delta) => this.blackboard.Player?.MoveAndSlide();

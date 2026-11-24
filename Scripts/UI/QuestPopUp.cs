@@ -78,7 +78,7 @@ public partial class QuestPopUp : Control
         GD.Print($"[QuestPopUp:SetQuest #{runId}] Dispatched TryGetCorrectBlackboard");
     }
 
-    private async Task TryGetCorrectBlackboard(string text, int runId)
+    private async Task TryGetCorrectBlackboard(string text, int runId, CancellationToken token)
     {
         Stopwatch totalSw = Stopwatch.StartNew();
         Stopwatch stepSw = new();
