@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://cwhd46fqckdaw" path="res://Prefabs/QuestNPC.tscn" id="6_jcqpc"]
 [ext_resource type="Resource" uid="uid://dd831dipau6h0" path="res://Recources (scriptableobejcts)/Items/Scrap.tres" id="6_ydncx"]
 [ext_resource type="PackedScene" uid="uid://doq2pugt7w3f2" path="res://Prefabs/DialogueManager.tscn" id="8_4mo6u"]
+[ext_resource type="Script" uid="uid://cjpg2a46vnarh" path="res://Scripts/UI/QuestDialogueEntry.cs" id="9_bgk41"]
+[ext_resource type="Resource" uid="uid://d0cut87rs1t3o" path="res://Recources (scriptableobejcts)/Items/Holy Symbol.tres" id="10_1ehe8"]
+[ext_resource type="Script" uid="uid://bx8od2ajmvvhq" path="res://Scripts/QuestSystem/QuestData.cs" id="11_qvqg1"]
 
 [sub_resource type="Sky" id="Sky_bghhj"]
 
@@ -42,6 +45,46 @@ albedo_color = Color(0.41230243, 0.49534482, 0.12988186, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bghhj"]
 albedo_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="Resource" id="Resource_5rdmd"]
+script = ExtResource("9_bgk41")
+Text = "Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+metadata/_custom_type_script = "uid://cjpg2a46vnarh"
+
+[sub_resource type="Resource" id="Resource_xpksn"]
+script = ExtResource("9_bgk41")
+State = 1
+Text = "Ze liggen waarschijnlijk ergens in de buurt als niemand ze heeft opgepakt. Ze zien er zo uit: ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}"
+metadata/_custom_type_script = "uid://cjpg2a46vnarh"
+
+[sub_resource type="Resource" id="Resource_8dh7q"]
+script = ExtResource("9_bgk41")
+State = 2
+Text = "Je hebt mijn spellen terug gevonden! Super bedankt! Hier neem dit als bedankje ItemIcon:{\"Amount\":3,\"IconId\":\"uid://d0j2b527oydve\"}"
+metadata/_custom_type_script = "uid://cjpg2a46vnarh"
+
+[sub_resource type="Resource" id="Resource_po0lr"]
+script = ExtResource("11_qvqg1")
+NpcName = "Jamal"
+QuestName = "LostCartridges"
+QuestItems = Array[Object]([ExtResource("6_4mo6u"), ExtResource("6_4mo6u"), ExtResource("6_4mo6u")])
+RewardItems = Array[Object]([ExtResource("10_1ehe8")])
+QuestDialogue = Array[Object]([SubResource("Resource_5rdmd"), SubResource("Resource_xpksn"), SubResource("Resource_8dh7q")])
+metadata/_custom_type_script = "uid://bx8od2ajmvvhq"
+
+[sub_resource type="Resource" id="Resource_bgk41"]
+script = ExtResource("9_bgk41")
+Text = "Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+metadata/_custom_type_script = "uid://cjpg2a46vnarh"
+
+[sub_resource type="Resource" id="Resource_1ehe8"]
+script = ExtResource("11_qvqg1")
+NpcName = "Jamal"
+QuestName = "LostCartridges"
+QuestItems = Array[Object]([ExtResource("6_4mo6u"), ExtResource("6_4mo6u"), ExtResource("6_4mo6u")])
+RewardItems = Array[Object]([ExtResource("10_1ehe8")])
+QuestDialogue = Array[Object]([SubResource("Resource_bgk41"), SubResource("Resource_xpksn"), SubResource("Resource_8dh7q")])
+metadata/_custom_type_script = "uid://bx8od2ajmvvhq"
 
 [node name="SectionOneGameshopHub" type="Node3D" unique_id=2015010177]
 
@@ -281,3 +324,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2779717, 34.857147)
 
 [node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("6_jcqpc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.185353, 1.2246628, 18.261568)
+
+[node name="QuestNpc2" parent="." unique_id=149906064 instance=ExtResource("6_jcqpc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.424942, 1.2246618, 22.804794)
+Quests = Array[Object]([SubResource("Resource_po0lr")])
+
+[node name="QuestNpc3" parent="." unique_id=1274688370 instance=ExtResource("6_jcqpc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.119913, 1.2246628, 28.334259)
+Quests = Array[Object]([SubResource("Resource_1ehe8")])

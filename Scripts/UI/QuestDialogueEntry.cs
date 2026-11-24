@@ -3,6 +3,7 @@ using Valor.QuestSystem;
 
 namespace Valor.UI;
 
+[GlobalClass]
 public partial class QuestDialogueEntry : Resource
 {
     [Export]

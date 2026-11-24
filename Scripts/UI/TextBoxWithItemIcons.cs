@@ -1,342 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using Godot;
 
 namespace Valor.UI;
 
-[Tool]
+[GlobalClass, Tool]
 public partial class TextBoxWithItemIcons : Node
 {
-    private PackedScene inventoryItem;
-    private string text = string.Empty;
-
-    private string lastAppliedText;
-    private PackedScene lastAppliedInventoryItem;
-
-    private bool hasAppliedOnce;
-    private bool updateQueued;
     private bool isApplyingUpdate;
-    private bool isTearingDown;
 
-    [ExportToolButton("Bake Copy")]
-    private Callable BakeCopyButton => Callable.From(BakeCopy);
-
-    [Export]
-    public PackedScene InventoryItem
-    {
-        get => this.inventoryItem;
-        set
-        {
-            if (this.inventoryItem == value)
-                return;
-
-            this.inventoryItem = value;
-            ScheduleUpdate();
-        }
-    }
-
+    [Export] private Color LabelModulate { get; set; } = Colors.White;
+    [Export] public PackedScene InventoryItemScene { get; set; }
     [Export(PropertyHint.MultilineText)]
-    public string Text
-    {
-        get => this.text;
-        set
-        {
-            if (this.text == value)
-                return;
+    public string Text { get; set; } = string.Empty;
+    
+    [ExportToolButton("Build")]
+    private Callable BuildButton => Callable.From(Rebuild);
 
-            this.text = value;
-            ScheduleUpdate();
-        }
+    private sealed record ItemIconPayload(
+        int Amount,
+        [property: JsonPropertyName("IconId")] string IconId,
+        [property: JsonPropertyName("ItemIconResourcePath")] string ResourcePath)
+    {
+        public string ResolvedIconId => !string.IsNullOrWhiteSpace(this.IconId) ? this.IconId : this.ResourcePath;
+        public bool IsValid => this.Amount != 0 || !string.IsNullOrWhiteSpace(this.ResolvedIconId);
     }
 
-    private readonly record struct ItemIcon(int Amount, string IconId);
-
-    // ---------------------------------------------------------------------
-    // Bake / Debug Snapshot
-    // ---------------------------------------------------------------------
-
-    public void BakeCopy()
+    private sealed record Segment(string Text, ItemIconPayload Icon)
     {
-        if (!Engine.IsEditorHint())
-        {
-            GD.PushWarning($"{nameof(TextBoxWithItemIcons)}: BakeCopy requires Engine.IsEditorHint() to be true.");
-            return;
-        }
-
-        if (this.isTearingDown || !IsInsideTree() || !IsInstanceValid(this) || IsQueuedForDeletion())
-        {
-            GD.PushWarning($"{nameof(TextBoxWithItemIcons)}: Node is not valid or not inside the scene tree.");
-            return;
-        }
-
-        Node parent = GetParent();
-        Node sceneRoot = GetTree()?.EditedSceneRoot;
-
-        if (parent == null || !IsInstanceValid(parent) || parent.IsQueuedForDeletion() ||
-            sceneRoot == null || !IsInstanceValid(sceneRoot))
-        {
-            GD.PushWarning($"{nameof(TextBoxWithItemIcons)}: Cannot bake copy without a valid parent node and EditedSceneRoot.");
-            return;
-        }
-
-        // Ensure current segments are built before baking.
-        this.updateQueued = false;
-        this.hasAppliedOnce = false;
-        ApplyUpdateChildren();
-
-        if (!IsInstanceValid(this) || IsQueuedForDeletion())
-            return;
-
-        string baseName = Name;
-        int insertIndex = GetIndex() + 1;
-
-        Node bakedRoot = new Node
-        {
-            Name = $"{baseName}_Baked"
-        };
-
-        List<object> segments = ParseSegments(this.text ?? string.Empty);
-        List<(InventoryItem Item, Label SiblingLabel)> pendingSizing = [];
-        Label lastPlacedLabel = null;
-
-        foreach (object segment in segments)
-        {
-            if (segment is string textSegment)
-            {
-                Label label = new Label
-                {
-                    Name = "Label",
-                    Text = textSegment
-                };
-                bakedRoot.AddChild(label);
-                lastPlacedLabel = label;
-            }
-            else if (segment is ItemIcon iconData)
-            {
-                if (this.inventoryItem == null)
-                    continue;
-
-                Node instance = this.inventoryItem.Instantiate();
-                if (instance is not InventoryItem typedItem)
-                {
-                    GD.PushWarning($"{nameof(TextBoxWithItemIcons)}: InventoryItem scene root is not InventoryItem.");
-                    instance?.QueueFree();
-                    continue;
-                }
-
-                bakedRoot.AddChild(typedItem);
-                typedItem.SetData(iconData.Amount, iconData.IconId);
-
-                Label siblingLabel = lastPlacedLabel;
-                if (siblingLabel == null)
-                {
-                    siblingLabel = new Label
-                    {
-                        Name = "Label",
-                        Text = string.Empty
-                    };
-                    bakedRoot.AddChild(siblingLabel);
-                    lastPlacedLabel = siblingLabel;
-                }
-
-                pendingSizing.Add((typedItem, siblingLabel));
-            }
-        }
-
-        parent.AddChild(bakedRoot);
-        parent.MoveChild(bakedRoot, Math.Min(insertIndex, parent.GetChildCount() - 1));
-
-        SetOwnerForBake(bakedRoot, sceneRoot);
-
-        foreach ((InventoryItem item, Label siblingLabel) in pendingSizing)
-        {
-            if (IsInstanceValid(item) && !item.IsQueuedForDeletion() &&
-                IsInstanceValid(siblingLabel) && !siblingLabel.IsQueuedForDeletion())
-            {
-                item.TargetSiblingPath = item.GetPathTo(siblingLabel);
-            }
-        }
+        public bool IsIcon => this.Icon != null;
     }
 
-    private static void SetOwnerForBake(Node node, Node sceneRoot)
+    public void Rebuild()
     {
-        if (node == null || !IsInstanceValid(node) || node.IsQueuedForDeletion())
+        GD.Print($"{this.isApplyingUpdate} || {!IsInstanceValid(this)} || {IsQueuedForDeletion()} || {!IsInsideTree()}");
+        if (this.isApplyingUpdate || !IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree())
             return;
-
-        node.Owner = sceneRoot;
-
-        // Stop before descending into external sub-scene instances (such as InventoryItem)
-        // so their internal nodes and scripts stay owned by their own PackedScene.
-        if (node != sceneRoot && !string.IsNullOrEmpty(node.SceneFilePath))
-            return;
-
-        foreach (Node child in node.GetChildren())
-        {
-            SetOwnerForBake(child, sceneRoot);
-        }
-    }
-
-    // ---------------------------------------------------------------------
-    // Lifecycle
-    // ---------------------------------------------------------------------
-
-    public override void _EnterTree()
-    {
-        this.isTearingDown = false;
-        ScheduleUpdate();
-    }
-
-    public override void _Ready()
-    {
-        ScheduleUpdate();
-    }
-
-    public override void _ExitTree()
-    {
-        this.isTearingDown = true;
-        this.updateQueued = false;
-    }
-
-    // ---------------------------------------------------------------------
-    // Update scheduling
-    // ---------------------------------------------------------------------
-
-    public void ForceRebuild()
-    {
-        this.hasAppliedOnce = false;
-        ScheduleUpdate();
-    }
-
-    private void ScheduleUpdate()
-    {
-        if (this.isTearingDown ||
-            this.isApplyingUpdate ||
-            this.updateQueued ||
-            IsQueuedForDeletion() ||
-            !IsInsideTree())
-        {
-            return;
-        }
-
-        string currentText = this.text ?? string.Empty;
-
-        if (this.hasAppliedOnce &&
-            string.Equals(currentText, this.lastAppliedText, StringComparison.Ordinal) &&
-            this.inventoryItem == this.lastAppliedInventoryItem)
-        {
-            return;
-        }
-
-        this.updateQueued = true;
-
-        new Callable(this, MethodName.OnDeferredUpdate).CallDeferred();
-    }
-
-    private void OnDeferredUpdate()
-    {
-        this.updateQueued = false;
-
-        if (this.isTearingDown ||
-            this.isApplyingUpdate ||
-            !IsInstanceValid(this) ||
-            IsQueuedForDeletion() ||
-            !IsInsideTree())
-        {
-            return;
-        }
 
         ApplyUpdateChildren();
     }
-
-    // ---------------------------------------------------------------------
-    // Preview child reconciliation
-    // ---------------------------------------------------------------------
 
     private void ApplyUpdateChildren()
     {
-        string sourceText = this.text ?? string.Empty;
-
-        if (this.hasAppliedOnce &&
-            string.Equals(sourceText, this.lastAppliedText, StringComparison.Ordinal) &&
-            this.inventoryItem == this.lastAppliedInventoryItem)
-        {
-            return;
-        }
-
+        string sourceText = this.Text ?? string.Empty;
         this.isApplyingUpdate = true;
 
         try
         {
-            List<object> segments = ParseSegments(sourceText);
+            List<Segment> segments = ParseSegments(sourceText);
 
-            List<Label> availableLabels = [];
-            List<InventoryItem> availableItems = [];
+            Queue<Label> availableLabels = new();
+            Queue<InventoryItem> availableItems = new();
 
             foreach (Node child in GetChildren())
             {
-                if (child == null ||
-                    !IsInstanceValid(child) ||
-                    child.IsQueuedForDeletion())
-                {
+                if (child == null || !IsInstanceValid(child) || child.IsQueuedForDeletion())
                     continue;
-                }
 
                 if (child is Label label)
-                    availableLabels.Add(label);
+                    availableLabels.Enqueue(label);
                 else if (child is InventoryItem item)
-                    availableItems.Add(item);
+                    availableItems.Enqueue(item);
             }
 
-            List<(InventoryItem Item, Label SiblingLabel)> pendingSizing = [];
-            Label lastPlacedLabel = null;
-            int placedCount = 0;
-
-            foreach (object segment in segments)
-            {
-                if (segment is string textSegment)
+            PopulateChildren(
+                segments,
+                createLabel: textValue =>
                 {
-                    Label label = AcquireLabel(availableLabels, textSegment);
-                    PlaceChild(label, placedCount++);
-                    lastPlacedLabel = label;
-                }
-                else if (segment is ItemIcon iconData)
+                    Label label = availableLabels.Count > 0
+                        ? availableLabels.Dequeue()
+                        : AddChildAndReturn(new Label { Name = "Label" });
+
+                    if (label.Text != textValue)
+                        label.Text = textValue;
+
+                    if (label.Modulate != this.LabelModulate)
+                        label.Modulate = this.LabelModulate;
+
+                    return label;
+                },
+                createItem: () => availableItems.Count > 0 ? availableItems.Dequeue() : InstantiateInventoryItem(this),
+                placeChild: (child, index) =>
                 {
-                    InventoryItem item = GetAvailableItem(availableItems);
+                    if (child.GetIndex() != index)
+                        MoveChild(child, index);
+                });
 
-                    if (item == null)
-                        continue;
+            foreach (Label unused in availableLabels)
+                if (IsInstanceValid(unused) && !unused.IsQueuedForDeletion())
+                    unused.QueueFree();
 
-                    PlaceChild(item, placedCount++);
-                    item.SetData(iconData.Amount, iconData.IconId);
-
-                    Label siblingLabel = lastPlacedLabel;
-                    if (siblingLabel == null)
-                    {
-                        siblingLabel = AcquireLabel(availableLabels, string.Empty);
-                        PlaceChild(siblingLabel, placedCount++);
-                        lastPlacedLabel = siblingLabel;
-                    }
-
-                    pendingSizing.Add((item, siblingLabel));
-                }
-            }
-
-            RemoveUnusedChildren(availableLabels);
-            RemoveUnusedChildren(availableItems);
-
-            foreach ((InventoryItem item, Label siblingLabel) in pendingSizing)
-            {
-                if (IsInstanceValid(item) && !item.IsQueuedForDeletion() &&
-                    IsInstanceValid(siblingLabel) && !siblingLabel.IsQueuedForDeletion())
-                {
-                    item.TargetSiblingPath = item.GetPathTo(siblingLabel);
-                }
-            }
-
-            this.lastAppliedText = sourceText;
-            this.lastAppliedInventoryItem = this.inventoryItem;
-            this.hasAppliedOnce = true;
+            foreach (InventoryItem unused in availableItems)
+                if (IsInstanceValid(unused) && !unused.IsQueuedForDeletion())
+                    unused.QueueFree();
         }
         finally
         {
@@ -344,304 +103,248 @@ public partial class TextBoxWithItemIcons : Node
         }
     }
 
-    private Label AcquireLabel(List<Label> availableLabels, string textValue)
+    private void PopulateChildren(
+        List<Segment> segments,
+        Func<string, Label> createLabel,
+        Func<InventoryItem> createItem,
+        Action<Node, int> placeChild)
     {
-        Label label;
+        List<(InventoryItem Item, Label SiblingLabel)> pendingSizing = [];
+        Label lastPlacedLabel = null;
+        int placedIndex = 0;
 
-        if (availableLabels.Count > 0)
+        foreach (Segment segment in segments)
         {
-            label = availableLabels[0];
-            availableLabels.RemoveAt(0);
+            if (!segment.IsIcon)
+            {
+                foreach (string chunk in SplitTextForParentWidth(segment.Text))
+                {
+                    Label label = createLabel(chunk);
+                    placeChild(label, placedIndex++);
+                    lastPlacedLabel = label;
+                }
+                continue;
+            }
+
+            InventoryItem item = createItem();
+            if (item == null)
+                continue;
+
+            placeChild(item, placedIndex++);
+            item.SetData(segment.Icon.Amount, segment.Icon.ResolvedIconId);
+
+            if (lastPlacedLabel == null)
+            {
+                lastPlacedLabel = createLabel(string.Empty);
+                placeChild(lastPlacedLabel, placedIndex++);
+            }
+
+            pendingSizing.Add((item, lastPlacedLabel));
         }
-        else
+
+        foreach ((InventoryItem item, Label siblingLabel) in pendingSizing)
         {
-            label = new Label { Name = "Label" };
-            AddChild(label);
+            SceneTree tree = GetTree();
+            if (tree == null ||
+                !IsInstanceValid(item) || item.IsQueuedForDeletion() || !item.IsInsideTree() || item.GetTree() != tree ||
+                !IsInstanceValid(siblingLabel) || siblingLabel.IsQueuedForDeletion() || !siblingLabel.IsInsideTree() || siblingLabel.GetTree() != tree)
+            {
+                continue;
+            }
+
+            if (FindCommonParent(item, siblingLabel) == null && item != siblingLabel.GetParent())
+                continue;
+
+            try
+            {
+                NodePath path = item.GetPathTo(siblingLabel);
+                if (!path.IsEmpty)
+                    item.TargetSiblingPath = path;
+            }
+            catch (InvalidOperationException)
+            {
+                // Node was detached or torn down mid-update.
+            }
         }
-
-        if (label.Text != textValue)
-            label.Text = textValue;
-
-        return label;
     }
 
-    private InventoryItem GetAvailableItem(List<InventoryItem> availableItems)
+    private static Node FindCommonParent(Node first, Node second)
     {
-        if (availableItems.Count > 0)
-        {
-            InventoryItem item = availableItems[0];
-            availableItems.RemoveAt(0);
-            return item;
-        }
-
-        if (this.inventoryItem == null)
+        if (first == null || second == null || !IsInstanceValid(first) || !IsInstanceValid(second))
             return null;
 
-        Node instance = this.inventoryItem.Instantiate();
+        if (first == second)
+            return first.GetParent();
 
-        if (instance is InventoryItem typedItem)
+        for (Node current = first.GetParent(); current != null && IsInstanceValid(current); current = current.GetParent())
         {
-            AddChild(typedItem);
-            return typedItem;
-        }
-
-        if (instance != null)
-        {
-            GD.PushWarning(
-                $"{nameof(TextBoxWithItemIcons)}: InventoryItem scene root is not {nameof(this.InventoryItem)}.");
-
-            instance.QueueFree();
+            if (current == second || current.IsAncestorOf(second))
+                return current;
         }
 
         return null;
     }
 
-    private void PlaceChild(Node child, int index)
+    private float GetParentMaxWidth()
     {
-        if (child.GetIndex() != index)
-            MoveChild(child, index);
+        if (GetParent() is not Control parentControl || !IsInstanceValid(parentControl) || parentControl.IsQueuedForDeletion())
+            return -1f;
+
+        float width = parentControl.Size.X;
+        if (width <= 0f)
+            width = parentControl.GetCombinedMinimumSize().X;
+
+        return width > 0f ? width : -1f;
     }
 
-    private void RemoveUnusedChildren<T>(List<T> unusedChildren) where T : Node
+    private float MeasureTextWidth(string textValue)
     {
-        foreach (T child in unusedChildren)
-        {
-            if (child == null ||
-                !IsInstanceValid(child) ||
-                child.IsQueuedForDeletion())
-            {
-                continue;
-            }
+        if (string.IsNullOrEmpty(textValue))
+            return 0f;
 
-            child.QueueFree();
+        if (GetParent() is Control parentControl && IsInstanceValid(parentControl))
+        {
+            Font font = parentControl.GetThemeFont("font", "Label");
+            int fontSize = parentControl.GetThemeFontSize("font_size", "Label");
+            if (font != null)
+                return font.GetStringSize(textValue, HorizontalAlignment.Left, -1f, fontSize).X;
         }
+
+        return textValue.Length * 8f;
     }
 
-    // ---------------------------------------------------------------------
-    // Parsing
-    // ---------------------------------------------------------------------
-
-    private static List<object> ParseSegments(string sourceText)
+    private string[] SplitTextForParentWidth(string textValue)
     {
-        List<object> segments = [];
+        if (string.IsNullOrEmpty(textValue))
+            return [textValue];
 
-        const string prefix = "ItemIcon:";
-        int lastIndex = 0;
+        float maxWidth = GetParentMaxWidth();
+        if (maxWidth <= 0f)
+            return [textValue];
 
-        while (lastIndex < sourceText.Length)
+        List<string> chunks = [];
+        string remaining = textValue;
+
+        while (!string.IsNullOrEmpty(remaining))
         {
-            int prefixIndex = sourceText.IndexOf(
-                prefix,
-                lastIndex,
-                StringComparison.Ordinal);
-
-            if (prefixIndex == -1)
+            if (MeasureTextWidth(remaining) <= maxWidth)
             {
-                segments.Add(sourceText[lastIndex..]);
+                chunks.Add(remaining);
                 break;
             }
 
-            if (prefixIndex > lastIndex)
-                segments.Add(sourceText[lastIndex..prefixIndex]);
-
-            int jsonStart = prefixIndex + prefix.Length;
-
-            if (jsonStart >= sourceText.Length ||
-                sourceText[jsonStart] != '{')
+            int fitLength = 0;
+            for (int i = 1; i <= remaining.Length; i++)
             {
-                segments.Add(sourceText[prefixIndex..(prefixIndex + prefix.Length)]);
-                lastIndex = prefixIndex + prefix.Length;
-                continue;
+                if (!(MeasureTextWidth(remaining[..i]) <= maxWidth)) break;
+                fitLength = i;
             }
 
-            if (!TryFindMatchingBrace(sourceText, jsonStart, out int jsonEnd))
+            int splitIndex = -1;
+            for (int i = fitLength; i >= 1; i--)
             {
-                segments.Add(sourceText[prefixIndex..]);
+                if (!char.IsWhiteSpace(remaining[i - 1])) continue;
+                splitIndex = i;
                 break;
             }
 
-            string jsonSlice = sourceText[jsonStart..(jsonEnd + 1)];
+            if (splitIndex <= 0)
+                splitIndex = Math.Max(1, fitLength);
 
-            if (TryParseItemIcon(jsonSlice, out ItemIcon iconData))
+            string line = remaining[..splitIndex].TrimEnd();
+            string nextRemaining = remaining[splitIndex..].TrimStart();
+
+            if (string.IsNullOrEmpty(line) || nextRemaining.Length >= remaining.Length)
             {
-                segments.Add(iconData);
-                lastIndex = jsonEnd + 1;
+                chunks.Add(remaining); break;
+            }
+
+            chunks.Add(line);
+            remaining = nextRemaining;
+        }
+
+        return chunks.Count > 0 ? [.. chunks] : [textValue];
+    }
+
+    private InventoryItem InstantiateInventoryItem(Node parent)
+    {
+        if (this.InventoryItemScene == null)
+        {
+            GD.PushWarning("[UI] InventoryItemScene == null]");
+            return null;
+        }
+
+        Node instance = this.InventoryItemScene.Instantiate();
+        GD.PushWarning($"[UI] InventoryItemScene == null: {instance == null}]");
+        if (instance is InventoryItem typedItem)
+        {
+            GD.PushWarning("[UI] added InventoryItemScene]");
+            parent.AddChild(typedItem);
+            return typedItem;
+        }
+
+        GD.PushWarning($"{nameof(TextBoxWithItemIcons)}: InventoryItemScene root must inherit from {nameof(InventoryItem)}.");
+        instance?.QueueFree();
+        return null;
+    }
+
+    private T AddChildAndReturn<T>(T node) where T : Node
+    {
+        AddChild(node);
+        return node;
+    }
+
+    private static readonly Regex ItemIconRegex = GetItemIconRegex();
+    private static List<Segment> ParseSegments(string sourceText)
+    {
+        List<Segment> segments = [];
+        int cursor = 0;
+
+        foreach (Match match in ItemIconRegex.Matches(sourceText))
+        {
+            if (match.Index > cursor)
+                segments.Add(new Segment(sourceText[cursor..match.Index], null));
+
+            string json = match.Groups[1].Value;
+            if (TryDeserializeIcon(json, out ItemIconPayload payload))
+            {
+                segments.Add(new Segment(null, payload));
+                cursor = match.Index + match.Length;
             }
             else
             {
-                segments.Add(sourceText[prefixIndex..(jsonEnd + 1)]);
-                lastIndex = jsonEnd + 1;
+                segments.Add(new Segment(match.Value, null));
+                cursor = match.Index + match.Length;
             }
         }
+
+        if (cursor < sourceText.Length)
+            segments.Add(new Segment(sourceText[cursor..], null));
 
         return segments;
     }
 
-    private static bool TryParseItemIcon(
-        string jsonSlice,
-        out ItemIcon iconData)
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new() { AllowTrailingCommas = true };
+    private static bool TryDeserializeIcon(string json, out ItemIconPayload payload)
     {
-        iconData = default;
+        payload = null;
+        try
+        {
+            ItemIconPayload parsed = JsonSerializer.Deserialize<ItemIconPayload>(
+                json,
+                JsonSerializerOptions);
 
-        if (string.IsNullOrWhiteSpace(jsonSlice))
+            if (parsed is not { IsValid: true }) return false;
+
+            payload = parsed;
+            return true;
+        }
+        catch (JsonException)
+        {
             return false;
-
-        int amount = 0;
-        bool hasAmount = false;
-        string iconId = null;
-
-        int amountKeyIndex = jsonSlice.IndexOf(
-            "\"Amount\"",
-            StringComparison.OrdinalIgnoreCase);
-
-        if (amountKeyIndex != -1)
-        {
-            int colonIndex = jsonSlice.IndexOf(':', amountKeyIndex);
-
-            if (colonIndex != -1)
-            {
-                int start = colonIndex + 1;
-
-                while (start < jsonSlice.Length &&
-                       char.IsWhiteSpace(jsonSlice[start]))
-                {
-                    start++;
-                }
-
-                int end = start;
-
-                if (end < jsonSlice.Length &&
-                    (jsonSlice[end] == '-' || jsonSlice[end] == '+'))
-                {
-                    end++;
-                }
-
-                while (end < jsonSlice.Length &&
-                       char.IsDigit(jsonSlice[end]))
-                {
-                    end++;
-                }
-
-                if (end > start &&
-                    int.TryParse(
-                        jsonSlice[start..end],
-                        NumberStyles.Integer,
-                        CultureInfo.InvariantCulture,
-                        out int parsedAmount))
-                {
-                    amount = parsedAmount;
-                    hasAmount = true;
-                }
-            }
         }
-
-        int iconKeyIndex = jsonSlice.IndexOf(
-            "\"ItemIconResourcePath\"",
-            StringComparison.OrdinalIgnoreCase);
-
-        if (iconKeyIndex == -1)
-        {
-            iconKeyIndex = jsonSlice.IndexOf(
-                "\"IconId\"",
-                StringComparison.OrdinalIgnoreCase);
-        }
-
-        if (iconKeyIndex != -1)
-        {
-            int colonIndex = jsonSlice.IndexOf(':', iconKeyIndex);
-
-            if (colonIndex != -1)
-            {
-                int firstQuote = jsonSlice.IndexOf('"', colonIndex + 1);
-
-                if (firstQuote != -1)
-                {
-                    int i = firstQuote + 1;
-                    bool escaped = false;
-
-                    while (i < jsonSlice.Length)
-                    {
-                        char c = jsonSlice[i];
-
-                        if (escaped)
-                        {
-                            escaped = false;
-                        }
-                        else if (c == '\\')
-                        {
-                            escaped = true;
-                        }
-                        else if (c == '"')
-                        {
-                            iconId = jsonSlice[(firstQuote + 1)..i];
-                            break;
-                        }
-
-                        i++;
-                    }
-                }
-            }
-        }
-
-        if (!hasAmount && string.IsNullOrWhiteSpace(iconId))
-            return false;
-
-        iconData = new ItemIcon(amount, iconId);
-        return true;
     }
 
-    private static bool TryFindMatchingBrace(
-        string text,
-        int openBraceIndex,
-        out int closeBraceIndex)
-    {
-        int depth = 0;
-        bool inString = false;
-        bool escaped = false;
-
-        for (int i = openBraceIndex; i < text.Length; i++)
-        {
-            char c = text[i];
-
-            if (inString)
-            {
-                if (escaped)
-                {
-                    escaped = false;
-                }
-                else if (c == '\\')
-                {
-                    escaped = true;
-                }
-                else if (c == '"')
-                {
-                    inString = false;
-                }
-
-                continue;
-            }
-
-            if (c == '"')
-            {
-                inString = true;
-            }
-            else if (c == '{')
-            {
-                depth++;
-            }
-            else if (c == '}')
-            {
-                depth--;
-
-                if (depth == 0)
-                {
-                    closeBraceIndex = i;
-                    return true;
-                }
-            }
-        }
-
-        closeBraceIndex = -1;
-        return false;
-    }
+    [GeneratedRegex(@"ItemIcon:(\{[^{}]*\})", RegexOptions.Compiled)]
+    private static partial Regex GetItemIconRegex();
 }

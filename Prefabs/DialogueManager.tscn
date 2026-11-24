@@ -4,10 +4,60 @@
 [ext_resource type="Script" uid="uid://g4ifsyfh1okk" path="res://Scripts/UI/QuestPopUp.cs" id="2_5ptar"]
 [ext_resource type="Texture2D" uid="uid://d8elbqf4ok8a" path="res://Textures/UI/WoodBoard_1x4.png" id="2_tmgqm"]
 [ext_resource type="Texture2D" uid="uid://dw5kvwd0ffxsq" path="res://Textures/UI/WoodBoard_2x4.png" id="3_5ptar"]
-[ext_resource type="PackedScene" uid="uid://d2lkfo4cljca1" path="res://Prefabs/TextBoxWithItemIcons.tscn" id="3_fw0lu"]
 [ext_resource type="Texture2D" uid="uid://igbd7f3a31kt" path="res://Textures/icon.svg" id="3_i8p73"]
 [ext_resource type="Texture2D" uid="uid://dxg6lg4s3pjwh" path="res://Textures/UI/WoodBoard_3x4.png" id="4_53dfb"]
+[ext_resource type="Script" uid="uid://ck24dlxyuqcxw" path="res://Scripts/UI/QuestBackboard.cs" id="4_e8v5a"]
 [ext_resource type="Texture2D" uid="uid://b8vdhsmyr8pma" path="res://Textures/UI/WoodBoard_4x4.png" id="5_e8v5a"]
+[ext_resource type="Texture2D" uid="uid://c38kjtd0icm0h" path="res://Textures/UI/WoodBoard_5x4.png" id="8_8wgk5"]
+[ext_resource type="Script" uid="uid://d3seikgoxswho" path="res://Scripts/UI/QuestBackboardList.cs" id="9_8wgk5"]
+[ext_resource type="PackedScene" uid="uid://d2lkfo4cljca1" path="res://Prefabs/TextBoxWithItemIcons.tscn" id="10_8wgk5"]
+[ext_resource type="PackedScene" uid="uid://bn8x6lnvgfbtw" path="res://Prefabs/InventoryItem.tscn" id="11_k2y0b"]
+
+[sub_resource type="Resource" id="Resource_vyltw"]
+script = ExtResource("4_e8v5a")
+WidthKey = 1
+Texture = ExtResource("2_tmgqm")
+MaxSize = Vector2i(425, 360)
+ContentConstraints = Vector2i(361, 296)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_5jugq"]
+script = ExtResource("4_e8v5a")
+WidthKey = 2
+Texture = ExtResource("3_5ptar")
+MaxSize = Vector2i(547, 360)
+ContentConstraints = Vector2i(483, 296)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_xyms3"]
+script = ExtResource("4_e8v5a")
+WidthKey = 3
+Texture = ExtResource("4_53dfb")
+MaxSize = Vector2i(640, 360)
+ContentConstraints = Vector2i(576, 296)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_qh0f2"]
+script = ExtResource("4_e8v5a")
+WidthKey = 4
+Texture = ExtResource("5_e8v5a")
+MaxSize = Vector2i(1027, 360)
+ContentConstraints = Vector2i(963, 296)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_h5utu"]
+script = ExtResource("4_e8v5a")
+WidthKey = 5
+Texture = ExtResource("8_8wgk5")
+MaxSize = Vector2i(1192, 360)
+ContentConstraints = Vector2i(1128, 296)
+metadata/_custom_type_script = "uid://ck24dlxyuqcxw"
+
+[sub_resource type="Resource" id="Resource_e8v5a"]
+script = ExtResource("9_8wgk5")
+HeightKey = 4
+Backboards = Array[Resource]([SubResource("Resource_vyltw"), SubResource("Resource_5jugq"), SubResource("Resource_xyms3"), SubResource("Resource_qh0f2"), SubResource("Resource_h5utu")])
+metadata/_custom_type_script = "uid://d3seikgoxswho"
 
 [node name="DialogueManager" type="Control" unique_id=467966402 node_paths=PackedStringArray("QuestPopup")]
 layout_mode = 3
@@ -19,92 +69,117 @@ grow_vertical = 2
 script = ExtResource("1_fw0lu")
 QuestPopup = NodePath("QuestPopUp")
 
-[node name="QuestPopUp" type="AspectRatioContainer" parent="." unique_id=1453280911 node_paths=PackedStringArray("Background", "NameQuestNpc", "NameQuest", "QuestText", "AcceptButton", "DeclineButton")]
+[node name="QuestPopUp" type="MarginContainer" parent="." unique_id=1590417159 node_paths=PackedStringArray("Background", "Content", "NameQuestNpc", "NameQuest", "QuestText", "AcceptButton", "DeclineButton")]
+custom_maximum_size = Vector2(425, -1)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -193.0
-offset_top = -206.0
-offset_right = 193.0
-offset_bottom = 206.0
+offset_left = -252.0
+offset_top = -162.5
+offset_right = 252.0
+offset_bottom = 162.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_5ptar")
-Backboards = Dictionary[Vector2i, Texture2D]({
-Vector2i(1, 4): ExtResource("2_tmgqm"),
-Vector2i(2, 4): ExtResource("3_5ptar"),
-Vector2i(3, 4): ExtResource("4_53dfb"),
-Vector2i(4, 4): ExtResource("5_e8v5a")
-})
-Background = NodePath("Control/Background")
-NameQuestNpc = NodePath("Control/MarginContainer/VBoxContainer/NameQuestNPC")
-NameQuest = NodePath("Control/MarginContainer/VBoxContainer/NameQuest")
-QuestText = NodePath("Control/MarginContainer/VBoxContainer/TextBoxWithItemIcons")
-AcceptButton = NodePath("Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/TextureButton")
-DeclineButton = NodePath("Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/TextureButton2")
+Backboards = Array[Object]([SubResource("Resource_e8v5a")])
+Background = NodePath("Background")
+Content = NodePath("MarginContainer/MarginContainer/Content")
+NameQuestNpc = NodePath("MarginContainer/MarginContainer/Content/NameQuestNPC")
+NameQuest = NodePath("MarginContainer/MarginContainer/Content/NameQuest")
+QuestText = NodePath("MarginContainer/MarginContainer/Content/TextBoxWithItemIcons")
+AcceptButton = NodePath("MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer/TextureButton")
+DeclineButton = NodePath("MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer/TextureButton2")
 
-[node name="Control" type="MarginContainer" parent="QuestPopUp" unique_id=1497316950]
-layout_mode = 2
-
-[node name="Background" type="TextureRect" parent="QuestPopUp/Control" unique_id=1548781774]
+[node name="Background" type="TextureRect" parent="QuestPopUp" unique_id=1548781774]
 layout_mode = 2
 texture = ExtResource("2_tmgqm")
+expand_mode = 2
 stretch_mode = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/Control" unique_id=827203130]
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp" unique_id=1708525295]
 layout_mode = 2
-theme_override_constants/margin_left = 45
-theme_override_constants/margin_top = 75
-theme_override_constants/margin_right = 45
-theme_override_constants/margin_bottom = 87
+theme_override_constants/margin_left = 64
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_right = 64
+theme_override_constants/margin_bottom = 64
 
-[node name="VBoxContainer" type="VBoxContainer" parent="QuestPopUp/Control/MarginContainer" unique_id=1927718730]
+[node name="ColorRect" type="ColorRect" parent="QuestPopUp/MarginContainer" unique_id=227776921]
+layout_mode = 2
+color = Color(0.84, 0.58463997, 0.2016, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/MarginContainer" unique_id=685333828]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="Content" type="VBoxContainer" parent="QuestPopUp/MarginContainer/MarginContainer" unique_id=1927718730]
 layout_mode = 2
 
-[node name="NameQuestNPC" type="Label" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1424365861]
+[node name="NameQuestNPC" type="Label" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=1424365861]
+modulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
 layout_mode = 2
 text = "Bob"
 
-[node name="NameQuest" type="Label" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1042285634]
+[node name="NameQuest" type="Label" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=1042285634]
+modulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
 layout_mode = 2
 text = "Quest name"
 
-[node name="TextBoxWithItemIcons" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=777119915 instance=ExtResource("3_fw0lu")]
+[node name="TextBoxWithItemIcons" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=777119915 instance=ExtResource("10_8wgk5")]
 layout_mode = 2
-Text = "Hi, ik ben een paar oude spellen kwijt. ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
+LabelModulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
+InventoryItemScene = ExtResource("11_k2y0b")
+Text = "Hi, ik ben een paar oude spellen kwijt.ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"}Zou jij mij kunnen helpen dezen terug te vinden?"
 
-[node name="Spacer" type="Control" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=2072859363]
+[node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=2072859363]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/Control/MarginContainer/VBoxContainer" unique_id=1086743777]
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=1086743777]
 layout_mode = 2
 theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 
-[node name="HBoxContainer" type="HBoxContainer" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer" unique_id=2083496166]
+[node name="HBoxContainer2" type="HBoxContainer" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer" unique_id=1801178177]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2" unique_id=2077918560]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2" unique_id=2083496166]
+custom_minimum_size = Vector2(0, 64)
 custom_maximum_size = Vector2(-1, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 alignment = 1
 
-[node name="TextureButton" type="TextureButton" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=688302289]
+[node name="TextureButton" type="TextureButton" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer" unique_id=688302289]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 4
 texture_normal = ExtResource("3_i8p73")
 stretch_mode = 5
 
-[node name="Spacer" type="Control" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1353862800]
+[node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer" unique_id=1353862800]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TextureButton2" type="TextureButton" parent="QuestPopUp/Control/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=1836029057]
+[node name="TextureButton2" type="TextureButton" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer" unique_id=1836029057]
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_vertical = 4
 texture_normal = ExtResource("3_i8p73")
 stretch_mode = 5
+
+[node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2" unique_id=444572254]
+layout_mode = 2
+size_flags_horizontal = 3

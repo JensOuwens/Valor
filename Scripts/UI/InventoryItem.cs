@@ -2,7 +2,7 @@
 
 namespace Valor.UI;
 
-[Tool] // added so that it works with TextBoxWithItemIcons
+[Tool]
 public partial class InventoryItem : FontScaledContainer
 {
     [Export] public Label AmountLabel;

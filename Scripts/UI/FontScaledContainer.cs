@@ -1,13 +1,11 @@
 ﻿using System;
 using Godot;
 
-
-/// <summary>
-/// Generated using Gemini, this should scale itself and its children based on a sibling text component
-/// </summary>
-
 namespace Valor.UI;
 
+/// <summary>
+/// Scales itself and its children based on a sibling text/control component.
+/// </summary>
 [Tool]
 [GlobalClass]
 public partial class FontScaledContainer : Container
@@ -26,8 +24,9 @@ public partial class FontScaledContainer : Container
         set
         {
             this.targetSiblingPath = value;
-            if (!IsInsideTree() || this.isExitingOrDisposing) return;
+            if (!IsActiveInTree()) return;
             ResolveTarget();
+            this.lastObservedFontSize = GetTargetFontSize();
             RefreshMinimumSize();
         }
     }
@@ -39,7 +38,7 @@ public partial class FontScaledContainer : Container
         set
         {
             this.widthScale = value;
-            if (!IsInsideTree() || this.isExitingOrDisposing) return;
+            if (!IsActiveInTree()) return;
             RefreshMinimumSize();
         }
     }
@@ -51,7 +50,7 @@ public partial class FontScaledContainer : Container
         set
         {
             this.heightScale = value;
-            if (!IsInsideTree() || this.isExitingOrDisposing) return;
+            if (!IsActiveInTree()) return;
             RefreshMinimumSize();
         }
     }
@@ -63,7 +62,7 @@ public partial class FontScaledContainer : Container
         set
         {
             this.padding = value;
-            if (!IsInsideTree() || this.isExitingOrDisposing) return;
+            if (!IsActiveInTree()) return;
             RefreshMinimumSize();
         }
     }
@@ -75,7 +74,7 @@ public partial class FontScaledContainer : Container
         set
         {
             this.minSize = value;
-            if (!IsInsideTree() || this.isExitingOrDisposing) return;
+            if (!IsActiveInTree()) return;
             RefreshMinimumSize();
         }
     }
@@ -87,7 +86,7 @@ public partial class FontScaledContainer : Container
         set
         {
             this.maxSize = value;
-            if (!IsInsideTree() || this.isExitingOrDisposing) return;
+            if (!IsActiveInTree()) return;
             RefreshMinimumSize();
         }
     }
@@ -99,11 +98,30 @@ public partial class FontScaledContainer : Container
     private bool isExitingOrDisposing;
     private int lastObservedFontSize = -1;
 
+    private Action parentChildOrderChangedHandler;
+    private Action targetChangedHandler;
+    private Action targetExitedHandler;
+
+    public FontScaledContainer()
+    {
+        this.parentChildOrderChangedHandler = OnParentChildOrderChanged;
+        this.targetChangedHandler = OnTargetChanged;
+        this.targetExitedHandler = OnTargetExited;
+    }
+
+    private bool IsActiveInTree() =>
+        !this.isExitingOrDisposing &&
+        IsInstanceValid(this) &&
+        !IsQueuedForDeletion() &&
+        IsInsideTree();
+
     public override void _Ready()
     {
+        if (!IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree())
+            return;
+
         this.isExitingOrDisposing = false;
-        ObserveParent();
-        ResolveTarget();
+        ReconnectSubscriptions();
         this.lastObservedFontSize = GetTargetFontSize();
         RefreshMinimumSize();
     }
@@ -123,8 +141,7 @@ public partial class FontScaledContainer : Container
     public override void _ExitTree()
     {
         this.isExitingOrDisposing = true;
-        DisconnectTarget();
-        DisconnectParent();
+        DisconnectAll();
         base._ExitTree();
     }
 
@@ -133,8 +150,7 @@ public partial class FontScaledContainer : Container
         this.isExitingOrDisposing = true;
         if (disposing)
         {
-            DisconnectTarget();
-            DisconnectParent();
+            DisconnectAll();
         }
 
         base.Dispose(disposing);
@@ -144,28 +160,39 @@ public partial class FontScaledContainer : Container
     {
         if (what == NotificationSortChildren)
         {
-            if (!this.isExitingOrDisposing)
+            if (IsActiveInTree())
                 LayoutChildren();
-        }
-        else if (what == NotificationChildOrderChanged)
-        {
-            if (this.isExitingOrDisposing || !IsInsideTree()) return;
-            ResolveTarget();
-            RefreshMinimumSize();
         }
         else if (what == NotificationParented)
         {
+            if (!IsInstanceValid(this) || IsQueuedForDeletion() || !IsInsideTree())
+                return;
+
             this.isExitingOrDisposing = false;
-            if (!IsInsideTree()) return;
-            ObserveParent();
-            ResolveTarget();
+            ReconnectSubscriptions();
+            this.lastObservedFontSize = GetTargetFontSize();
             RefreshMinimumSize();
         }
         else if (what == NotificationUnparented)
         {
-            DisconnectTarget();
-            DisconnectParent();
+            DisconnectAll();
         }
+    }
+
+    private void ReconnectSubscriptions()
+    {
+        DisconnectAll();
+        if (!IsActiveInTree())
+            return;
+
+        ObserveParent();
+        ResolveTarget();
+    }
+
+    private void DisconnectAll()
+    {
+        DisconnectTarget();
+        DisconnectParent();
     }
 
     private void LayoutChildren()
@@ -179,8 +206,13 @@ public partial class FontScaledContainer : Container
 
         foreach (Node child in GetChildren())
         {
-            if (child is Control { Visible: true } control && IsInstanceValid(control) && !control.IsQueuedForDeletion())
+            if (child is Control { Visible: true } control &&
+                IsInstanceValid(control) &&
+                !control.IsQueuedForDeletion() &&
+                control.IsInsideTree())
+            {
                 FitChildInRect(control, innerRect);
+            }
         }
     }
 
@@ -188,47 +220,72 @@ public partial class FontScaledContainer : Container
     {
         DisconnectParent();
 
-        if (this.isExitingOrDisposing || !IsInsideTree())
+        if (!IsActiveInTree())
             return;
 
         Node nextParent = GetParent();
-        if (nextParent == null || !IsInstanceValid(nextParent) || nextParent.IsQueuedForDeletion())
+        if (nextParent == null || !IsInstanceValid(nextParent) || nextParent.IsQueuedForDeletion() || !nextParent.IsInsideTree())
             return;
 
-        this.observedParent = nextParent;
-        this.observedParent.ChildOrderChanged += OnParentChildOrderChanged;
-        this.isParentSubscribed = true;
+        try
+        {
+            if (!nextParent.IsConnected(Node.SignalName.ChildOrderChanged, Callable.From(this.parentChildOrderChangedHandler)))
+            {
+                nextParent.ChildOrderChanged += this.parentChildOrderChangedHandler;
+            }
+
+            this.observedParent = nextParent;
+            this.isParentSubscribed = true;
+        }
+        catch (ObjectDisposedException)
+        {
+            this.observedParent = null;
+            this.isParentSubscribed = false;
+        }
     }
 
     private void DisconnectParent()
     {
-        if (this.isParentSubscribed && this.observedParent != null)
+        Node parentToDisconnect = this.observedParent;
+        bool wasSubscribed = this.isParentSubscribed;
+
+        this.observedParent = null;
+        this.isParentSubscribed = false;
+
+        if (!wasSubscribed || parentToDisconnect == null)
+            return;
+
+        try
         {
-            try
+            if (IsInstanceValid(parentToDisconnect) &&
+                parentToDisconnect.IsConnected(Node.SignalName.ChildOrderChanged, Callable.From(this.parentChildOrderChangedHandler)))
             {
-                if (IsInstanceValid(this.observedParent))
-                    this.observedParent.ChildOrderChanged -= OnParentChildOrderChanged;
-            }
-            catch (ObjectDisposedException)
-            {
-                // Ignore if already disposed during shutdown/reload.
+                parentToDisconnect.ChildOrderChanged -= this.parentChildOrderChangedHandler;
             }
         }
-
-        this.isParentSubscribed = false;
-        this.observedParent = null;
+        catch (ObjectDisposedException)
+        {
+            // Ignore if already disposed during shutdown/reload.
+        }
     }
 
     private void OnParentChildOrderChanged()
     {
-        if (this.isExitingOrDisposing || !IsInsideTree() || IsQueuedForDeletion())
+        if (!IsActiveInTree())
             return;
+
+        // If reparented without a clean notification, keep observedParent accurate.
+        if (GetParent() != this.observedParent)
+        {
+            ObserveParent();
+        }
 
         Control previous = this.resolvedTarget;
         ResolveTarget();
         if (previous != this.resolvedTarget)
             this.lastObservedFontSize = -1;
 
+        this.lastObservedFontSize = GetTargetFontSize();
         RefreshMinimumSize();
     }
 
@@ -236,59 +293,109 @@ public partial class FontScaledContainer : Container
     {
         DisconnectTarget();
 
-        if (this.isExitingOrDisposing || !IsInsideTree() || IsQueuedForDeletion())
+        if (!IsActiveInTree())
             return;
 
         Control candidate = null;
-        if (!this.TargetSiblingPath.IsEmpty)
-            candidate = GetNodeOrNull<Control>(this.TargetSiblingPath);
+        if (!this.TargetSiblingPath.IsEmpty && HasNode(this.TargetSiblingPath))
+        {
+            Node found = GetNodeOrNull<Node>(this.TargetSiblingPath);
+            if (found is Control control &&
+                control != this &&
+                IsInstanceValid(control) &&
+                !control.IsQueuedForDeletion() &&
+                control.IsInsideTree() &&
+                control.GetTree() == GetTree())
+            {
+                candidate = control;
+            }
+        }
 
         candidate ??= FindFirstSiblingControl();
 
-        if (candidate == null || !IsInstanceValid(candidate) || candidate.IsQueuedForDeletion())
+        if (candidate == null ||
+            !IsInstanceValid(candidate) ||
+            candidate.IsQueuedForDeletion() ||
+            !candidate.IsInsideTree() ||
+            candidate.GetTree() != GetTree())
+        {
             return;
+        }
 
-        this.resolvedTarget = candidate;
-        this.resolvedTarget.ThemeChanged += OnTargetChanged;
-        this.resolvedTarget.TreeExited += OnTargetExited;
-        this.isTargetSubscribed = true;
+        try
+        {
+            if (!candidate.IsConnected(Control.SignalName.ThemeChanged, Callable.From(this.targetChangedHandler)))
+            {
+                candidate.ThemeChanged += this.targetChangedHandler;
+            }
+
+            if (!candidate.IsConnected(Node.SignalName.TreeExited, Callable.From(this.targetExitedHandler)))
+            {
+                candidate.TreeExited += this.targetExitedHandler;
+            }
+
+            this.resolvedTarget = candidate;
+            this.isTargetSubscribed = true;
+        }
+        catch (ObjectDisposedException)
+        {
+            this.resolvedTarget = null;
+            this.isTargetSubscribed = false;
+        }
     }
 
     private void DisconnectTarget()
     {
-        if (this.isTargetSubscribed && this.resolvedTarget != null)
+        Control targetToDisconnect = this.resolvedTarget;
+        bool wasSubscribed = this.isTargetSubscribed;
+
+        this.resolvedTarget = null;
+        this.isTargetSubscribed = false;
+
+        if (!wasSubscribed || targetToDisconnect == null)
+            return;
+
+        try
         {
-            try
+            if (IsInstanceValid(targetToDisconnect))
             {
-                if (IsInstanceValid(this.resolvedTarget))
+                if (targetToDisconnect.IsConnected(Control.SignalName.ThemeChanged, Callable.From(this.targetChangedHandler)))
                 {
-                    this.resolvedTarget.ThemeChanged -= OnTargetChanged;
-                    this.resolvedTarget.TreeExited -= OnTargetExited;
+                    targetToDisconnect.ThemeChanged -= this.targetChangedHandler;
+                }
+
+                if (targetToDisconnect.IsConnected(Node.SignalName.TreeExited, Callable.From(this.targetExitedHandler)))
+                {
+                    targetToDisconnect.TreeExited -= this.targetExitedHandler;
                 }
             }
-            catch (ObjectDisposedException)
-            {
-                // Ignore if already disposed during shutdown/reload.
-            }
         }
-
-        this.isTargetSubscribed = false;
-        this.resolvedTarget = null;
+        catch (ObjectDisposedException)
+        {
+            // Ignore if already disposed during shutdown/reload.
+        }
     }
 
     private Control FindFirstSiblingControl()
     {
         Node parent = GetParent();
-        if (parent == null || !IsInstanceValid(parent) || parent.IsQueuedForDeletion())
+        if (parent == null || !IsInstanceValid(parent) || parent.IsQueuedForDeletion() || !parent.IsInsideTree())
             return null;
 
+        SceneTree tree = GetTree();
         foreach (Node sibling in parent.GetChildren())
         {
             if (sibling == this)
                 continue;
 
-            if (sibling is Control control && IsInstanceValid(control) && !control.IsQueuedForDeletion())
+            if (sibling is Control control &&
+                IsInstanceValid(control) &&
+                !control.IsQueuedForDeletion() &&
+                control.IsInsideTree() &&
+                control.GetTree() == tree)
+            {
                 return control;
+            }
         }
 
         return null;
@@ -296,7 +403,7 @@ public partial class FontScaledContainer : Container
 
     private void OnTargetChanged()
     {
-        if (this.isExitingOrDisposing || !IsInsideTree() || IsQueuedForDeletion())
+        if (!IsActiveInTree())
             return;
 
         int newSize = GetTargetFontSize();
@@ -309,7 +416,7 @@ public partial class FontScaledContainer : Container
 
     private void OnTargetExited()
     {
-        if (this.isExitingOrDisposing || !IsInsideTree() || IsQueuedForDeletion())
+        if (!IsActiveInTree())
             return;
 
         ResolveTarget();
@@ -319,7 +426,7 @@ public partial class FontScaledContainer : Container
 
     private void RefreshMinimumSize()
     {
-        if (this.isExitingOrDisposing || IsQueuedForDeletion() || !IsInsideTree())
+        if (!IsActiveInTree())
             return;
 
         UpdateMinimumSize();
@@ -329,8 +436,14 @@ public partial class FontScaledContainer : Container
 
     private int GetTargetFontSize()
     {
-        if (this.isExitingOrDisposing || !IsInsideTree() || this.resolvedTarget == null || !IsInstanceValid(this.resolvedTarget) || this.resolvedTarget.IsQueuedForDeletion())
+        if (!IsActiveInTree() ||
+            this.resolvedTarget == null ||
+            !IsInstanceValid(this.resolvedTarget) ||
+            this.resolvedTarget.IsQueuedForDeletion() ||
+            !this.resolvedTarget.IsInsideTree())
+        {
             return GetThemeDefaultFontSize();
+        }
 
         if (this.resolvedTarget.HasThemeFontSizeOverride("font_size"))
         {
