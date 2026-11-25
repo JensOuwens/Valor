@@ -52,6 +52,16 @@ public partial class DialogueManager : Node
         this.QuestPopup.SetQuest(playerCurrentQuest, dialogueState, player);
         this.activePopups.Add(new Tuple<Control, Node3D>(this.QuestPopup, questGiver));
     }
+    
+    public void ShowRewardPopup(QuestData playerCurrentQuest, QuestData.QuestDialogueState dialogueState,
+        PlayerScript player, Node3D questGiver)
+    {
+        if (playerCurrentQuest == null || this.QuestPopup == null || this.camera3D  == null || player  == null) return;
+        this.QuestPopup.Visible = true;
+
+        this.QuestPopup.SetReward(playerCurrentQuest, dialogueState, player);
+        this.activePopups.Add(new Tuple<Control, Node3D>(this.QuestPopup, questGiver));
+    }
 
     public void HideQuestPopup()
     {
@@ -61,6 +71,8 @@ public partial class DialogueManager : Node
         SetMouseFilterRecursive(this.QuestPopup, Control.MouseFilterEnum.Ignore);
     }
     
+    public void HideRewardPopup() => HideQuestPopup();
+
     public void ShowDialoguePopup(string questNpcName, QuestDialogueEntry dialogue, PlayerScript player, Node3D currentNpc)
     {
         GD.Print($"dialogue == null {dialogue == null} || this.DialoguePopup == null {this.DialoguePopup == null} || this.camera3D == null {this.camera3D == null} || player == null {player == null}");

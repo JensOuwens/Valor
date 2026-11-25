@@ -335,6 +335,38 @@ ItemData = ExtResource("6_ydncx")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0099497, 0.66678905, 3.1826458)
 ItemData = ExtResource("6_4mo6u")
 
+[node name="Item5" parent="FindableItems" unique_id=632116286 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0099497, 0.66678905, 5.559637)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item6" parent="FindableItems" unique_id=1201206678 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0099497, 0.66678905, 7.8164253)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item7" parent="FindableItems" unique_id=707982748 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4678955, 0.66678905, 3.257677)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item8" parent="FindableItems" unique_id=811459819 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4678955, 0.66678905, 5.6346684)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item9" parent="FindableItems" unique_id=316748589 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4678955, 0.66678905, 7.8914566)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item10" parent="FindableItems" unique_id=1233327715 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6387901, 0.66678905, 3.257677)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item11" parent="FindableItems" unique_id=1504965947 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6387901, 0.66678905, 5.6346684)
+ItemData = ExtResource("6_4mo6u")
+
+[node name="Item12" parent="FindableItems" unique_id=403960157 instance=ExtResource("3_g0a5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6387901, 0.66678905, 7.8914566)
+ItemData = ExtResource("6_4mo6u")
+
 [node name="DialogueManager" parent="." unique_id=467966402 instance=ExtResource("8_4mo6u")]
 
 [node name="Player" parent="." unique_id=1862965497 instance=ExtResource("1_8wjow")]

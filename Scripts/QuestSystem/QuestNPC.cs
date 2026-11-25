@@ -59,7 +59,7 @@ public partial class QuestNPC : Node3D
 				if (questItemCount != currentQuestItems) continue;
 
 				CompleteQuest(player);
-				break;
+				return;
 			}
 
 			DuringDialogue(player.CurrentQuest, player);
@@ -69,42 +69,8 @@ public partial class QuestNPC : Node3D
 	private void GiveQuest(PlayerScript player) => 
 		DialogueManager.Instance.ShowQuestPopup(this.Quests.Last(), QuestData.QuestDialogueState.Start, player, this);
 
-	private void CompleteQuest(PlayerScript player)
-	{
-		foreach (ItemData questitem in player.CurrentQuest.QuestItems)
-		{
-			if (player.inventory.IsInInvetory(questitem.Item_Name))
-				player.inventory.RemoveFromInventory(questitem.Item_Name);
-		}
-		
-		//completed dialouge
-
-		switch (player.CurrentQuest.questrewardType)
-		{
-			case QuestRewardTypes.Item:
-				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
-				{
-					player.inventory.AddToInventory(questReward);
-					_ = player.Playerpickedup(questReward.Item_Name);
-				}
-				break;
-			case QuestRewardTypes.Land: //unlock area from list
-				break;
-			case QuestRewardTypes.ItemAndLand: 
-				foreach (ItemData questReward in player.CurrentQuest.RewardItems)
-				{
-					player.inventory.AddToInventory(questReward);
-					_ = player.Playerpickedup(questReward.Item_Name);
-				}
-				//unlock area from list
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-		}
-		
-		player.CurrentQuest = null;
-		player.IsQuestActive = false;
-	}
+	private void CompleteQuest(PlayerScript player) => 
+		DialogueManager.Instance.ShowRewardPopup(player.CurrentQuest, QuestData.QuestDialogueState.End, player, this);
 
 	private void DuringDialogue(QuestData quest, PlayerScript player)
 	{
