@@ -8,6 +8,19 @@
 [ext_resource type="Texture2D" uid="uid://bgmsrnutxfeqn" path="res://Textures/UI/TempUIHeal.png" id="6_gg3t4"]
 [ext_resource type="Texture2D" uid="uid://dspnf4br6w1m4" path="res://Textures/UI/TempUIDodge.png" id="7_javds"]
 [ext_resource type="Script" uid="uid://d2qu22a6ch0fh" path="res://Scripts/UI/HealthBarUi.cs" id="8_3ygst"]
+[ext_resource type="Script" uid="uid://dccclvsqd52xp" path="res://Scripts/UI/HealthBarItem.cs" id="9_54dtf"]
+[ext_resource type="Texture2D" uid="uid://jbmmiweasf2s" path="res://Textures/UI/Bell.png" id="10_bhh4y"]
+[ext_resource type="Texture2D" uid="uid://32fdftfwwifp" path="res://Textures/UI/CapybaraSticker.png" id="11_q46ve"]
+[ext_resource type="Texture2D" uid="uid://bd47s48q2n3kx" path="res://Textures/UI/Coin.png" id="12_53vlf"]
+[ext_resource type="Texture2D" uid="uid://sh307ha2flks" path="res://Textures/UI/Controller.png" id="13_fuy0y"]
+[ext_resource type="Texture2D" uid="uid://dbppiqy2d2q00" path="res://Textures/UI/Diamond.png" id="14_gy83n"]
+[ext_resource type="Texture2D" uid="uid://cg7hgjchm27ky" path="res://Textures/UI/Disc.png" id="15_2wlbw"]
+[ext_resource type="Texture2D" uid="uid://cl40xgm1p10q" path="res://Textures/UI/Gem.png" id="16_406my"]
+[ext_resource type="Texture2D" uid="uid://dn48a0kvxy84d" path="res://Textures/UI/LegallyDistinctGokuSticker.png" id="17_fd4tb"]
+[ext_resource type="Texture2D" uid="uid://cjhbmo65l32jx" path="res://Textures/UI/Pearl.png" id="18_2ywdf"]
+[ext_resource type="Texture2D" uid="uid://c2t2d0lpcrh08" path="res://Textures/UI/Plushee.png" id="19_3b1fg"]
+[ext_resource type="Texture2D" uid="uid://tswcmjilqc3e" path="res://Textures/UI/PokethingSticker.png" id="20_k7qm6"]
+[ext_resource type="Texture2D" uid="uid://c1w7fuqsuajuh" path="res://Textures/UI/Statue.png" id="21_fdj0h"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_44saq"]
 radius = 0.5390625
@@ -15,6 +28,67 @@ height = 2.1376953
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_44saq"]
 size = Vector3(3, 1, 2.5)
+
+[sub_resource type="Resource" id="Resource_3ygst"]
+script = ExtResource("9_54dtf")
+modulateColor = Color(1, 1, 1, 0)
+texture = ExtResource("10_bhh4y")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_lhekp"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("11_q46ve")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_t8lmw"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("12_53vlf")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_k2qb3"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("13_fuy0y")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_wuv02"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("14_gy83n")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_8afax"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("15_2wlbw")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_t7w7j"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("16_406my")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_08l6w"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("17_fd4tb")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_o7xy3"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("18_2ywdf")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_qm8rn"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("19_3b1fg")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_aw6xh"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("20_k7qm6")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
+
+[sub_resource type="Resource" id="Resource_tkui5"]
+script = ExtResource("9_54dtf")
+texture = ExtResource("21_fdj0h")
+metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [node name="Player" type="Node3D" unique_id=1862965497]
 
@@ -144,13 +218,6 @@ mouse_filter = 2
 bbcode_enabled = true
 fit_content = true
 
-[node name="ProgressBar2" type="ProgressBar" parent="PlayerControls" unique_id=1861196232]
-layout_mode = 0
-offset_left = 36.0
-offset_top = 64.0
-offset_right = 240.0
-offset_bottom = 91.0
-
 [node name="HealthBarUi" type="Range" parent="PlayerControls" unique_id=1421114838 node_paths=PackedStringArray("playerScriptRef")]
 unique_name_in_owner = false
 process_mode = 0
@@ -186,10 +253,10 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 35.0
-offset_top = 15.0
-offset_right = 242.0
-offset_bottom = 55.0
+offset_left = 85.0
+offset_top = 85.0
+offset_right = 292.0
+offset_bottom = 125.0
 grow_horizontal = 1
 grow_vertical = 1
 rotation = 0.0
@@ -237,11 +304,13 @@ min_value = 0.0
 max_value = 100.0
 step = 0.1
 page = 0.0
-value = 57.5
+value = 50.0
 exp_edit = false
 rounded = false
 allow_greater = false
 allow_lesser = false
 script = ExtResource("8_3ygst")
 playerScriptRef = NodePath("../../CharacterBody3D")
+textureItems = Array[Object]([SubResource("Resource_3ygst"), SubResource("Resource_lhekp"), SubResource("Resource_t8lmw"), SubResource("Resource_k2qb3"), SubResource("Resource_wuv02"), SubResource("Resource_8afax"), SubResource("Resource_t7w7j"), SubResource("Resource_08l6w"), SubResource("Resource_o7xy3"), SubResource("Resource_qm8rn"), SubResource("Resource_aw6xh"), SubResource("Resource_tkui5")])
+seed = "IkHouNietVanTesten"
 metadata/_custom_type_script = "uid://d2qu22a6ch0fh"
