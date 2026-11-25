@@ -68,7 +68,7 @@ public partial class QuestPopUp : DialoguePopUp
                 foreach (ItemData questReward in this.playerRef.CurrentQuest.RewardItems)
                 {
                     this.playerRef.inventory.AddToInventory(questReward);
-                    _ = this.playerRef.Playerpickedup(questReward.Item_Name);
+                    _ = this.playerRef.TryPlayerPickup(questReward.Item_Name);
                 }
                 break;
             case QuestRewardTypes.Land: //TODO: unlock area from list
@@ -77,7 +77,7 @@ public partial class QuestPopUp : DialoguePopUp
                 foreach (ItemData questReward in this.playerRef.CurrentQuest.RewardItems)
                 {
                     this.playerRef.inventory.AddToInventory(questReward);
-                    _ = this.playerRef.Playerpickedup(questReward.Item_Name);
+                    _ = this.playerRef.TryPlayerPickup(questReward.Item_Name);
                 }
                 //TODO: unlock area from list
                 break;

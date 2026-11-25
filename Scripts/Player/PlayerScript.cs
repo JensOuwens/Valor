@@ -37,15 +37,18 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 
 	public bool IsQuestActive;
 	public QuestSystem.QuestData CurrentQuest;
-	
+
 	public PlayerBlackboard Blackboard => this.blackboard;
 	public float Health => this.blackboard?.CurrentHealth ?? 0f;
+	private float gravityRef;
 
 	public override void _Ready()
 	{
 		// Player collides with world layer 1 and enemy layer 2.
 		this.CollisionLayer = 1;
 		this.CollisionMask = 3;
+		
+		this.gravityRef = ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle();
 
 		this.blackboard = new PlayerBlackboard { Player = this, PlayerVisual = this.playerVisual };
 		this.commandManager = new CommandManager();
@@ -74,6 +77,8 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");
 	}
+
+	#region Movement
 
 	public override void _Process(double delta)
 	{
@@ -108,7 +113,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		{
 			// Get the default gravity from Godot's project settings
 			Vector3 velocity = this.Velocity;
-			velocity.Y -= ProjectSettings.GetSetting("physics/3d/default_gravity").AsSingle() * (float)delta;
+			velocity.Y -= this.gravityRef;
 			this.Velocity = velocity;
 		}
 		
@@ -120,6 +125,18 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 			? new PlayerVisual.PlayerAnimation { name = PlayerVisual.EPlayerAnimNames.Walk }
 			: new PlayerVisual.PlayerAnimation { name = PlayerVisual.EPlayerAnimNames.Idle });
 	}
+	
+	private void Dodge()
+	{
+		CommandContext context = CalculateDirectionAndContext();
+		
+		GD.Print("[Input] Dodge pressed.");
+		this.dodgeCommand.OnClick(context);
+	}
+	
+	#endregion
+
+	#region Attacking
 
 	private void OnComboAttackTriggered(int comboStep, float damage) => 
 		this.attackHitbox.PerformAttack(damage, this.lastMovementDirection, $"Combo hit {comboStep}");
@@ -132,45 +149,6 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		AttackHandler handler = this.commandManager.GetHandler<AttackHandler>(HandlerId.Attack);
 		handler.Mode = mode;
 		GD.Print($"[Player] Attack mode changed to {mode}.");
-	}
-
-	public void Hurt(float damage, Vector3 hitDirection)
-	{
-		if (this.blackboard == null)
-		{
-			GD.Print("[Player] Hurt ignored: blackboard is not initialized.");
-			return;
-		}
-		if (damage <= 0f)
-		{
-			GD.Print($"[Player] Hurt ignored: invalid damage {damage:0.##}.");
-			return;
-		}
-		if (this.blackboard.CurrentHealth <= 0f)
-		{
-			GD.Print("[Player] Hurt ignored: player is already at 0 HP.");
-			return;
-		}
-		if (this.blackboard.IsInvincible)
-		{
-			GD.Print($"[Player] Damage {damage:0.##} prevented by dodge invincibility frames.");
-			return;
-		}
-
-		float before = this.blackboard.CurrentHealth;
-		this.blackboard.SetHealth(before - damage);
-		GD.Print($"[Player] Took {damage:0.##} damage. HP {before:0.##} -> {this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}.");
-		if (this.blackboard.CurrentHealth <= 0f)
-			GD.Print("[Player] HP reached 0. Add your death/respawn handling here.");
-	}
-
-	// Example upgrade hook. Call this from your upgrade system.
-	public void ApplyExampleUpgrade()
-	{
-		this.blackboard.AttackDamage += 5f;
-		this.blackboard.MaxHealth += 20f;
-		this.blackboard.SetHealth(this.blackboard.CurrentHealth + 20f);
-		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
 	}
 
 	/// <summary>
@@ -204,7 +182,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	
 	private void AttackPressed()
 	{
-		CommandContext context = CalculaDirectionAndContext();
+		CommandContext context = CalculateDirectionAndContext();
 
 		GD.Print($"[Input] Attack button pressed. {this.attackCommand.GetType()}");
 
@@ -213,30 +191,67 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 
 	private void AttackReleased()
 	{
-		CommandContext context = CalculaDirectionAndContext();
+		CommandContext context = CalculateDirectionAndContext();
 
 		GD.Print("[Input] Attack button released.");
 
 		this.attackCommand.OnRelease(context);
 	}
 
+	#endregion
+
+	#region Health
+	
+	public void Hurt(float damage, Vector3 hitDirection)
+	{
+		if (this.blackboard == null)
+		{
+			GD.Print("[Player] Hurt ignored: blackboard is not initialized.");
+			return;
+		}
+		if (damage <= 0f)
+		{
+			GD.Print($"[Player] Hurt ignored: invalid damage {damage:0.##}.");
+			return;
+		}
+		if (this.blackboard.CurrentHealth <= 0f)
+		{
+			GD.Print("[Player] Hurt ignored: player is already at 0 HP.");
+			return;
+		}
+		if (this.blackboard.IsInvincible)
+		{
+			GD.Print($"[Player] Damage {damage:0.##} prevented by dodge invincibility frames.");
+			return;
+		}
+
+		float before = this.blackboard.CurrentHealth;
+		this.blackboard.SetHealth(before - damage);
+		GD.Print($"[Player] Took {damage:0.##} damage. HP {before:0.##} -> {this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}.");
+		if (this.blackboard.CurrentHealth <= 0f)
+			GD.Print("[Player] HP reached 0. Add your death/respawn handling here.");
+	}
+
 	private void Heal()
 	{
-		CommandContext context = CalculaDirectionAndContext();
+		CommandContext context = CalculateDirectionAndContext();
 		
 		GD.Print("[Input] Heal pressed.");
 		this.healCommand.OnClick(context);
 	}
-
-	private void Dodge()
+	
+	#endregion
+	
+	// Example upgrade hook. Call this from your upgrade system.
+	public void ApplyExampleUpgrade()
 	{
-		CommandContext context = CalculaDirectionAndContext();
-		
-		GD.Print("[Input] Dodge pressed.");
-		this.dodgeCommand.OnClick(context);
+		this.blackboard.AttackDamage += 5f;
+		this.blackboard.MaxHealth += 20f;
+		this.blackboard.SetHealth(this.blackboard.CurrentHealth + 20f);
+		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
 	}
 
-	private CommandContext CalculaDirectionAndContext()
+	private CommandContext CalculateDirectionAndContext()
 	{
 		Vector2 inputDir = Input.GetVector("MoveLeft", "MoveRight", "MoveUp", "MoveDown");
 		Vector3 direction = new (inputDir.X, 0f, inputDir.Y);
@@ -253,12 +268,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		return context;
 	}
 
-	public async Task Playerpickedup(string itemname)
+	public async Task TryPlayerPickup(string itemname)
 	{
 		this.acquiredLabel.Text = "you have picked up " +  itemname;
-		
 		await Task.Delay(1000);
-
 		this.acquiredLabel.Text = "";
 	}
 }

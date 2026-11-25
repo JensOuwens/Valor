@@ -132,7 +132,7 @@ mesh = SubResource("BoxMesh_44saq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [node name="House" type="CSGBox3D" parent="SectionGeometry/Walls" unique_id=1029486218]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9999999, 29.766758)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.145698, 29.766758)
 use_collision = true
 size = Vector3(7, 4, 5)
 material = SubResource("StandardMaterial3D_jm03n")
@@ -370,7 +370,7 @@ ItemData = ExtResource("6_4mo6u")
 [node name="DialogueManager" parent="." unique_id=467966402 instance=ExtResource("8_4mo6u")]
 
 [node name="Player" parent="." unique_id=1862965497 instance=ExtResource("1_8wjow")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2779717, 34.857147)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.829421, 2.2779717, 34.857147)
 
 [node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("6_jcqpc")]
 transform = Transform3D(0.8588207, 0, -0.5122763, 0, 1, 0, 0.5122763, 0, 0.8588207, 13.185353, 1.2246628, 18.261568)

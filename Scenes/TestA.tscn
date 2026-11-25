@@ -45,6 +45,7 @@ glow_bloom = 0.2
 [node name="TestA" type="Node3D" unique_id=2015010177]
 
 [node name="Ground" type="Node3D" parent="." unique_id=751423912]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ground" unique_id=1968837267]
 
@@ -64,13 +65,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6471138, 0.74860585, -35.0
 size = Vector3(21.019531, 1, 15.221191)
 
 [node name="CSGBox3D8" type="CSGBox3D" parent="Ground/CSGCombiner3D" unique_id=1588180200]
-transform = Transform3D(0.6819983, 0.09292918, -0.72542566, 0, 0.9918944, 0.12706462, 0.73135364, -0.08665786, 0.6764704, -6.705521, 0.3311969, -43.062588)
-size = Vector3(5.486511, 1, 7.0549316)
+transform = Transform3D(0.6627147, 0.14997628, -0.73370063, -0.033115543, 0.98465174, 0.17136168, 0.7481396, -0.08926706, 0.65750974, -6.8409605, -0.042127416, -42.983807)
+size = Vector3(5.486511, 1.7905273, 7.1848145)
 
 [node name="CSGBox3D9" type="CSGBox3D" parent="Ground/CSGCombiner3D" unique_id=1091308415]
-transform = Transform3D(0.6819983, 0.09292918, -0.72542566, 0, 0.9918944, 0.12706462, 0.73135364, -0.08665786, 0.6764704, -6.706, 1.331, -43.063)
+transform = Transform3D(0.6627147, 0.14997628, -0.73370063, -0.033115543, 0.98465174, 0.17136168, 0.7481396, -0.08926706, 0.65750974, -6.6341558, 1.1854541, -43.1477)
 operation = 2
-size = Vector3(5.486511, 1, 7.0549316)
+size = Vector3(5.537689, 1.2651367, 7.5508423)
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="Ground/CSGCombiner3D" unique_id=1937837844]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.176464, 1.9716893, -34.068134)
@@ -98,6 +99,7 @@ transform = Transform3D(0.7192251, 0, -0.6947772, 0, 1, 0, 0.6947772, 0, 0.71922
 size = Vector3(7.0717773, 1, 9.030334)
 
 [node name="Walls" type="Node3D" parent="." unique_id=1063423511]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="CSGCombiner3D" type="CSGCombiner3D" parent="Walls" unique_id=117616226]
 use_collision = true
@@ -705,7 +707,7 @@ material = SubResource("StandardMaterial3D_bghhj")
 [node name="DialogueManager" parent="." unique_id=467966402 instance=ExtResource("1_3wiki")]
 
 [node name="Player" parent="." unique_id=1862965497 instance=ExtResource("1_po2qw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2779717, 34.857147)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2779717, 69.873184)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1587524956]
 transform = Transform3D(-0.55766326, 0.10481222, 0.8234234, 0.81274664, -0.13264515, 0.56731665, 0.16868484, 0.9856063, -0.011214437, 0, 17.299477, 0)
@@ -713,37 +715,37 @@ light_color = Color(1, 0.844, 0.64, 1)
 shadow_enabled = true
 
 [node name="Dummy" parent="." unique_id=2026560007 instance=ExtResource("2_lbhup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.063112, 1.204999, -15.567621)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.929794, 1.204999, -34.971222)
 
 [node name="Dummy2" parent="." unique_id=1353258885 instance=ExtResource("2_lbhup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64.91816, 1.2049942, -6.862486)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 127.68619, 1.2049942, -14.4201565)
 
 [node name="Dummy3" parent="." unique_id=1337809778 instance=ExtResource("2_lbhup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.823061, 1.2049942, 24.627537)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.866478, 1.204998, 23.508087)
 
 [node name="Dummy4" parent="." unique_id=300120501 instance=ExtResource("2_lbhup")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7441883, 2.333603, -33.896355)
 
 [node name="Dummy5" parent="." unique_id=1835764275 instance=ExtResource("2_lbhup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.342262, 1.2049942, -12.345459)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3291626, 1.2049942, -72.182365)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1436851363]
 environment = SubResource("Environment_44saq")
 
 [node name="Item" parent="." unique_id=155370931 instance=ExtResource("3_3wiki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.043076, 0.66678905, 3.462288)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 108.47597, 0.66678905, -67.51269)
 ItemData = ExtResource("4_qounw")
 
 [node name="Item2" parent="." unique_id=2027085613 instance=ExtResource("3_3wiki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.252388, 0.66678905, -33.671757)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 129.1039, 0.66678905, 8.059017)
 ItemData = ExtResource("4_qounw")
 
 [node name="Item3" parent="." unique_id=1225412378 instance=ExtResource("3_3wiki")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.269415, 5.758087, -35.75138)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.46978, 5.758087, -70.70431)
 ItemData = ExtResource("4_qounw")
 
 [node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("5_f8bcw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2862253, 1.2246628, 31.701612)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2862253, 1.2246628, 58.83368)
 NpcName = "Jamal"
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=707217665]

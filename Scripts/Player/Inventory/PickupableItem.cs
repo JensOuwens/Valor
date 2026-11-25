@@ -22,7 +22,7 @@ public partial class PickupableItem : Area3D
     {
         if (body is not PlayerScript player) return;
 		player.inventory.AddToInventory(this.ItemData);
-		_ = player.Playerpickedup(this.ItemData.Item_Name);
+		_ = player.TryPlayerPickup(this.ItemData.Item_Name);
 
 		QueueFree();
 	}
