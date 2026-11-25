@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 
 namespace Valor;
 
@@ -15,6 +16,7 @@ public class SpeakCommand : ICommand
     
     public void OnClick(CommandContext context)
     {
+        GD.Print("[Input] Speak command triggered.");
         this.npcDialogueEntered.Invoke();
         this.CommandManager.SendCommand(context, EInputType.Click, HandlerId.Speak);
     }

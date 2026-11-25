@@ -53,41 +53,69 @@ speed = 2.0
 
 [node name="PlayerControls" type="Control" parent="." unique_id=1450510023]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [node name="AttackButton" type="Button" parent="PlayerControls" unique_id=827476976]
-layout_mode = 0
-offset_left = 1094.0
-offset_top = 544.0
-offset_right = 1211.0
-offset_bottom = 662.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -194.0
+offset_top = -186.0
+offset_right = -77.0
+offset_bottom = -68.0
+grow_horizontal = 0
+grow_vertical = 0
 action_mode = 0
 icon = ExtResource("5_vxq8l")
 
 [node name="HealButton" type="Button" parent="PlayerControls" unique_id=163601085]
-layout_mode = 0
-offset_left = 1145.0
-offset_top = 458.0
-offset_right = 1214.0
-offset_bottom = 528.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -145.0
+offset_top = -274.0
+offset_right = -76.0
+offset_bottom = -204.0
+grow_horizontal = 0
+grow_vertical = 0
 icon = ExtResource("6_gg3t4")
 
 [node name="DodgeButton" type="Button" parent="PlayerControls" unique_id=2084331223]
-layout_mode = 0
-offset_left = 1009.0
-offset_top = 590.0
-offset_right = 1078.0
-offset_bottom = 661.0
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = -141.0
+offset_right = -211.0
+offset_bottom = -70.0
+grow_horizontal = 0
+grow_vertical = 0
 icon = ExtResource("7_javds")
 
 [node name="VirtualJoystick" type="VirtualJoystick" parent="PlayerControls" unique_id=1291522542]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 501.0
-offset_right = 224.0
-offset_bottom = 685.0
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 74.0
+offset_top = -242.0
+offset_right = 265.0
+offset_bottom = -58.0
+grow_vertical = 0
 joystick_size = 164.0
 action_left = &"MoveLeft"
 action_right = &"MoveRight"
@@ -100,6 +128,7 @@ offset_left = 476.0
 offset_top = 239.0
 offset_right = 755.0
 offset_bottom = 385.0
+mouse_filter = 2
 
 [node name="InventoryItems" type="RichTextLabel" parent="PlayerControls" unique_id=393970340]
 layout_mode = 0
@@ -107,5 +136,6 @@ offset_left = 22.0
 offset_top = 18.0
 offset_right = 226.0
 offset_bottom = 454.0
+mouse_filter = 2
 bbcode_enabled = true
 fit_content = true

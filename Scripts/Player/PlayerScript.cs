@@ -190,6 +190,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 			this.attackCommandBuffer = this.attackCommand;
 		this.attackCommand = new SpeakCommand(this.commandManager, npcDialogueEntered);
 		
+		GD.Print("[Input] Speak command registered.");
 		// TODO: set attack Icon to something else
 	}
 
@@ -205,7 +206,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	{
 		CommandContext context = CalculaDirectionAndContext();
 
-		GD.Print("[Input] Attack button pressed.");
+		GD.Print($"[Input] Attack button pressed. {this.attackCommand.GetType()}");
 
 		this.attackCommand.OnClick(context);
 	}

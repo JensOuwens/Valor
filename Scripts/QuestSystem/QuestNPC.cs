@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Godot;
+using Valor.UI;
 using DialogueManager = Valor.UI.DialogueManager;
 
 namespace Valor.QuestSystem;
@@ -11,6 +12,7 @@ namespace Valor.QuestSystem;
 /// </summary>
 public partial class QuestNPC : Node3D
 {
+	[Export] public string NpcName;
 	[Export] public QuestData[] Quests;
 	private Area3D talkCollider;
 
@@ -31,7 +33,8 @@ public partial class QuestNPC : Node3D
 	{
 		if (body is not PlayerScript player) return;
 		player.ResetAttackCommand();
-		DialogueManager.Instance.HideQuestPopup(this);
+		DialogueManager.Instance.HideQuestPopup();
+		DialogueManager.Instance.HideDialoguePopup();
 	}
 
 	/// <summary>
@@ -40,12 +43,11 @@ public partial class QuestNPC : Node3D
 	/// <param name="player"></param>
 	private void DialogueEntered(PlayerScript player)
 	{
-		if (!player.IsQuestActive)
-		{
-			GiveQuest();
-		}
+		if (!player.IsQuestActive) // TODO: this currently makes it so that the player can have only one quest, thus limiting player freedom
+			GiveQuest(player);
 		else
 		{
+			if (player.CurrentQuest.NpcName != this.NpcName) return;
 			int questItemCount = player.CurrentQuest.QuestItems.Length;
 			int currentQuestItems = 0;
 
@@ -60,12 +62,12 @@ public partial class QuestNPC : Node3D
 				break;
 			}
 
-			DuringDialogue(player.CurrentQuest);
+			DuringDialogue(player.CurrentQuest, player);
 		}
 	}
 	
-	private void GiveQuest() => 
-		DialogueManager.Instance.ShowQuestPopup(this.Quests.Last(), QuestData.QuestDialogueState.Start, this);
+	private void GiveQuest(PlayerScript player) => 
+		DialogueManager.Instance.ShowQuestPopup(this.Quests.Last(), QuestData.QuestDialogueState.Start, player, this);
 
 	private void CompleteQuest(PlayerScript player)
 	{
@@ -104,8 +106,9 @@ public partial class QuestNPC : Node3D
 		player.IsQuestActive = false;
 	}
 
-	private void DuringDialogue(QuestData quest)
+	private void DuringDialogue(QuestData quest, PlayerScript player)
 	{
-		//during dialouge
+		QuestDialogueEntry dialogue = quest.QuestDialogue.FirstOrDefault(obj => obj.State == QuestData.QuestDialogueState.During);
+		DialogueManager.Instance.ShowDialoguePopup(quest.NpcName, dialogue, player, this);
 	}
 }

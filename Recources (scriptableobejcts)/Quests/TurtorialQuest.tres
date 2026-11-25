@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="QuestData" format=3 uid="uid://cp86ru2n6qmo"]
 
 [ext_resource type="Script" uid="uid://bx8od2ajmvvhq" path="res://Scripts/QuestSystem/QuestData.cs" id="1_3nlru"]
-[ext_resource type="Script" uid="uid://cjpg2a46vnarh" path="res://Scripts/UI/QuestDialogueEntry.cs" id="1_26td5"]
+[ext_resource type="Script" uid="uid://cjpg2a46vnarh" path="res://Scripts/UI/Dialogue/QuestDialogueEntry.cs" id="1_26td5"]
 [ext_resource type="Resource" uid="uid://bxxd753pg6v58" path="res://Recources (scriptableobejcts)/Items/Cartridge.tres" id="1_ubspi"]
 [ext_resource type="Resource" uid="uid://d0cut87rs1t3o" path="res://Recources (scriptableobejcts)/Items/Holy Symbol.tres" id="2_26td5"]
 
