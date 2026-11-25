@@ -44,7 +44,7 @@ BoxSize = Vector3(3, 1, 2.5)
 shape = SubResource("BoxShape3D_44saq")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=427308607 node_paths=PackedStringArray("player")]
-transform = Transform3D(1, 0, 0, 0, 0.80837256, 0.58867127, 0, -0.58867127, 0.80837256, 0, 23.115118, 23.741093)
+transform = Transform3D(0.99254614, 0.1046809, -0.062402334, 0, 0.5120429, 0.8589599, 0.12186936, -0.8525574, 0.5082261, 0, 23.115118, 11.616219)
 projection = 1
 size = 20.0
 script = ExtResource("4_shmu5")
