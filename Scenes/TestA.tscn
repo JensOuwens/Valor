@@ -744,7 +744,6 @@ ItemData = ExtResource("4_qounw")
 
 [node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("5_f8bcw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2862253, 1.2246628, 31.701612)
-NpcName = "Jamal"
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=707217665]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.868912, 6.948312, -28.644154)
