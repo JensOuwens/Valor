@@ -11,14 +11,12 @@ public partial class MeleeEnemy : BaseEnemy
 		Lunging,
 		Returning
 	}
-
-	// Attack settings
+	
 	[Export] private float AttackRange { get; set; } = 1.5f;
 	[Export] private float AttackWindup { get; set; } = 0.6f;
 	[Export] private float LungeSpeed { get; set; } = 7.0f;
 	[Export] private float LungeDuration { get; set; } = 0.2f;
-
-	// Movement settings
+	
 	[Export] private float Gravity { get; set; } = 9.8f;
 	[Export] private float ReturnStopDistance { get; set; } = 0.2f;
 
@@ -55,14 +53,11 @@ public partial class MeleeEnemy : BaseEnemy
 
 		if (_playerDamageable == null)
 			GD.PushWarning("MeleeEnemy: Player does not implement IDamageable!");
-
-		// Remember where the enemy spawned.
+		
 		_homePosition = Body.GlobalPosition;
-
-		// Get the particle effect.
+		
 		_attackTelegraph = Body.GetNodeOrNull<GpuParticles3D>("AttackTelegraph");
-
-		// Make the navigation agent approach its target closely.
+		
 		NavAgent.TargetDesiredDistance = 0.15f;
 	}
 
@@ -76,11 +71,9 @@ public partial class MeleeEnemy : BaseEnemy
 			StopAndApplyGravity(dt);
 			return;
 		}
-
-		// Update attack cooldown.
+		
 		_attackCooldown = Mathf.Max(0f, _attackCooldown - dt);
-
-		// Handle attacks separately from normal movement.
+		
 		switch (_state)
 		{
 			case EnemyState.WindingUp:
@@ -91,8 +84,7 @@ public partial class MeleeEnemy : BaseEnemy
 				UpdateLunge(dt);
 				return;
 		}
-
-		// Aggro range is measured from the enemy's original position.
+		
 		float distanceFromHome = FlatDistance(
 			_homePosition,
 			_player.GlobalPosition
@@ -108,11 +100,6 @@ public partial class MeleeEnemy : BaseEnemy
 		}
 	}
 
-
-	// --------------------------------------------------
-	// CHASING
-	// --------------------------------------------------
-
 	private void UpdateChase(float delta)
 	{
 		_state = EnemyState.Chasing;
@@ -121,36 +108,29 @@ public partial class MeleeEnemy : BaseEnemy
 			Body.GlobalPosition,
 			_player.GlobalPosition
 		);
-
-		// Player is close enough to attack.
+		
 		if (distanceToPlayer <= AttackRange)
 		{
 			FacePosition(_player.GlobalPosition);
 			StopAndApplyGravity(delta);
-
-			// Only attack when the cooldown has expired.
+			
 			if (_attackCooldown <= 0f)
 				BeginWindup();
 
 			return;
 		}
-
-		// Otherwise, navigate towards the player.
+		
 		MoveUsingNavigation(_player.GlobalPosition, delta);
 		FacePosition(_player.GlobalPosition);
 	}
 
-
-	// --------------------------------------------------
-	// ATTACK WIND-UP
-	// --------------------------------------------------
+	
 
 	private void BeginWindup()
 	{
 		_state = EnemyState.WindingUp;
 		_stateTimer = AttackWindup;
-
-		// Play the attack warning effect.
+		
 		if (_attackTelegraph != null)
 			_attackTelegraph.Restart();
 	}
@@ -158,7 +138,6 @@ public partial class MeleeEnemy : BaseEnemy
 
 	private void UpdateWindup(float delta)
 	{
-		// Cancel the attack if the player escapes the aggro range.
 		if (FlatDistance(_homePosition, _player.GlobalPosition) > AggroRange)
 		{
 			if (_attackTelegraph != null)
@@ -178,33 +157,25 @@ public partial class MeleeEnemy : BaseEnemy
 			BeginLunge();
 	}
 
-
-	// --------------------------------------------------
-	// LUNGE ATTACK
-	// --------------------------------------------------
-
 	private void BeginLunge()
 	{
 		_state = EnemyState.Lunging;
 		_stateTimer = LungeDuration;
 
 		_hasHit = false;
-
-		// Lock the lunge direction when the attack begins.
+		
 		_lungeDirection = GetFlatDirection(
 			Body.GlobalPosition,
 			_player.GlobalPosition
 		);
-
-		// Prevent a zero direction if the player is exactly on top.
+		
 		if (_lungeDirection.LengthSquared() < 0.001f)
 		{
 			_lungeDirection = -Body.GlobalBasis.Z;
 			_lungeDirection.Y = 0f;
 			_lungeDirection = _lungeDirection.Normalized();
 		}
-
-		// Firerate is attacks per second.
+		
 		_attackCooldown = 1f / Mathf.Max(Firerate, 0.01f);
 
 		if (_attackTelegraph != null)
@@ -215,8 +186,7 @@ public partial class MeleeEnemy : BaseEnemy
 	private void UpdateLunge(float delta)
 	{
 		FacePosition(Body.GlobalPosition + _lungeDirection);
-
-		// Apply the lunge velocity.
+		
 		Vector3 velocity = _lungeDirection * LungeSpeed;
 		velocity.Y = Body.Velocity.Y;
 
@@ -224,8 +194,7 @@ public partial class MeleeEnemy : BaseEnemy
 
 		ApplyGravity(delta);
 		Body.MoveAndSlide();
-
-		// Check whether the lunge has connected.
+		
 		if (!_hasHit)
 		{
 			float distanceToPlayer = FlatDistance(
@@ -245,8 +214,7 @@ public partial class MeleeEnemy : BaseEnemy
 		if (_stateTimer <= 0f)
 		{
 			_state = EnemyState.Chasing;
-
-			// Stop the lunge's horizontal velocity.
+			
 			Body.Velocity = new Vector3(
 				0f,
 				Body.Velocity.Y,
@@ -269,11 +237,6 @@ public partial class MeleeEnemy : BaseEnemy
 		_playerDamageable.Hurt(Damage, hitDirection);
 	}
 
-
-	// --------------------------------------------------
-	// RETURN TO ORIGINAL POSITION
-	// --------------------------------------------------
-
 	private void UpdateReturn(float delta)
 	{
 		_state = EnemyState.Returning;
@@ -282,8 +245,7 @@ public partial class MeleeEnemy : BaseEnemy
 			Body.GlobalPosition,
 			_homePosition
 		);
-
-		// Stop once the enemy has returned home.
+		
 		if (distanceFromHome <= ReturnStopDistance)
 		{
 			_state = EnemyState.Idle;
@@ -295,14 +257,8 @@ public partial class MeleeEnemy : BaseEnemy
 		FacePosition(_homePosition);
 	}
 
-
-	// --------------------------------------------------
-	// NAVIGATION
-	// --------------------------------------------------
-
 	private void MoveUsingNavigation(Vector3 target, float delta)
 	{
-		// Only request a new path when the target has moved enough.
 		if (!_hasNavigationTarget ||
 			NavAgent.TargetPosition.DistanceTo(target) > 0.25f)
 		{
@@ -311,8 +267,7 @@ public partial class MeleeEnemy : BaseEnemy
 		}
 
 		Vector3 direction = Vector3.Zero;
-
-		// Ask the navigation agent for the next path point.
+		
 		if (!NavAgent.IsNavigationFinished())
 		{
 			Vector3 nextPosition = NavAgent.GetNextPathPosition();
@@ -333,11 +288,6 @@ public partial class MeleeEnemy : BaseEnemy
 		ApplyGravity(delta);
 		Body.MoveAndSlide();
 	}
-
-
-	// --------------------------------------------------
-	// GENERAL MOVEMENT HELPERS
-	// --------------------------------------------------
 
 	private void StopAndApplyGravity(float delta)
 	{
