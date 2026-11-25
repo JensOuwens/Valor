@@ -373,15 +373,15 @@ ItemData = ExtResource("6_4mo6u")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2779717, 34.857147)
 
 [node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("6_jcqpc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.185353, 1.2246628, 18.261568)
+transform = Transform3D(0.8588207, 0, -0.5122763, 0, 1, 0, 0.5122763, 0, 0.8588207, 13.185353, 1.2246628, 18.261568)
 NpcName = "Jamal"
 
 [node name="QuestNpc2" parent="." unique_id=149906064 instance=ExtResource("6_jcqpc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.424942, 1.2246618, 22.804794)
+transform = Transform3D(0.7075785, 0, -0.70663476, 0, 1, 0, 0.70663476, 0, 0.7075785, 16.424942, 1.2246618, 22.804794)
 NpcName = "Jamal2"
 Quests = Array[Object]([SubResource("Resource_po0lr")])
 
 [node name="QuestNpc3" parent="." unique_id=1274688370 instance=ExtResource("6_jcqpc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.119913, 1.2246628, 28.334259)
+transform = Transform3D(0.22441588, 0, -0.97449344, 0, 1, 0, 0.97449344, 0, 0.22441588, 18.119913, 1.2246628, 28.334259)
 NpcName = "Jamal3"
 Quests = Array[Object]([SubResource("Resource_1ehe8")])

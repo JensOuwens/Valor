@@ -8,12 +8,12 @@ namespace Valor.QuestSystem;
 
 /// <summary>
 /// Handles quest giving and completion, also giving out rewards
-/// TODO: add dialouge thingies
 /// </summary>
 public partial class QuestNPC : Node3D
 {
 	[Export] public string NpcName;
 	[Export] public QuestData[] Quests;
+	[Export] public AnimationPlayer AnimationPlayer;
 	private Area3D talkCollider;
 
 	public override void _Ready()
@@ -21,6 +21,10 @@ public partial class QuestNPC : Node3D
 		this.talkCollider = GetNode<Area3D>("TalkCollision");
 		this.talkCollider.BodyEntered += OnBodyEntered;
 		this.talkCollider.BodyExited += OnBodyExited;
+		
+		Animation anim = this.AnimationPlayer.GetAnimation("Idle");
+		if (anim != null) anim.LoopMode = Animation.LoopModeEnum.Linear;
+		this.AnimationPlayer.Play("Idle");
 	}
 
 	private void OnBodyEntered(Node3D body)
