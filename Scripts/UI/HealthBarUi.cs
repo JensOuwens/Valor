@@ -5,14 +5,14 @@ namespace Valor.UI;
 [Tool, GlobalClass]
 public partial class HealthBarUi : Range
 {
-    // private const string FillRectName = "__InternalHealthFill";
-
-    // private ColorRect fillRect;
     private bool markedDirty = true;
     private bool delegatesConnected;
 
     [Export] public Node3D playerScriptRef;
     private PlayerBlackboard playerBlackboardRef;
+    
+    [Export] public Godot.Collections.Array<HealthBarItem> textureItems;
+    [Export] public string seed;
 
     private double prevValue;
     private double prevMin;
@@ -24,7 +24,6 @@ public partial class HealthBarUi : Range
     {
         base._EnterTree();
         
-        // EnsureFillRect();
         ConnectDelegates();
         this.markedDirty = true;
     }
@@ -33,7 +32,6 @@ public partial class HealthBarUi : Range
     {
         base._Ready();
         
-        // EnsureFillRect();
         ConnectDelegates();
         
         SnapshotRangeState();
@@ -45,7 +43,6 @@ public partial class HealthBarUi : Range
     public override void _ExitTree()
     {
         DisconnectDelegates();
-        // CleanupFillRect();
         base._ExitTree();
     }
     
@@ -53,7 +50,7 @@ public partial class HealthBarUi : Range
     {
         if (this.delegatesConnected) return;
         this.ValueChanged += OnRangeValueChanged;
-        this.Resized += ApplyVisuals;
+        this.Resized += QueueRedraw;
         this.delegatesConnected = true;
     }
 
@@ -61,49 +58,9 @@ public partial class HealthBarUi : Range
     {
         if (!this.delegatesConnected) return;
         this.ValueChanged -= OnRangeValueChanged;
-        this.Resized -= ApplyVisuals;
+        this.Resized -= QueueRedraw;
         this.delegatesConnected = false;
     }
-
-    // #region Fillrect
-    // private void EnsureFillRect()
-    // {
-    //     if (IsInstanceValid(this.fillRect) && this.fillRect.GetParent() == this)
-    //         return;
-    //
-    //     for (int i = 0; i < GetChildCount(includeInternal: true); i++)
-    //     {
-    //         if (GetChild(i, includeInternal: true) is not ColorRect existing || existing.Name != FillRectName) continue;
-    //         this.fillRect = existing;
-    //         ConfigureFillRectDefaults(this.fillRect);
-    //         return;
-    //     }
-    //
-    //     this.fillRect = new ColorRect { Name = FillRectName };
-    //     ConfigureFillRectDefaults(this.fillRect);
-    //
-    //     AddChild(this.fillRect, false, InternalMode.Front);
-    // }
-    //
-    // private static void ConfigureFillRectDefaults(ColorRect rect)
-    // {
-    //     rect.MouseFilter = MouseFilterEnum.Ignore;
-    //     rect.Color = Colors.Crimson;
-    // }
-    //
-    // private void CleanupFillRect()
-    // {
-    //     if (IsInstanceValid(this.fillRect))
-    //     {
-    //         if (this.fillRect.IsInsideTree())
-    //             this.fillRect.QueueFree();
-    //         else
-    //             this.fillRect.Free();
-    //     }
-    //
-    //     this.fillRect = null;
-    // }
-    // #endregion
 
     private void OnRangeValueChanged(double newValue)
     {
@@ -120,10 +77,8 @@ public partial class HealthBarUi : Range
             property == Range.PropertyName.MaxValue ||
             property == Range.PropertyName.Step ||
             property == Range.PropertyName.Page ||
-            property == Range.PropertyName.Value)
-        {
+            property == Range.PropertyName.Value) 
             this.markedDirty = true;
-        }
 
         return changed;
     }
@@ -136,7 +91,7 @@ public partial class HealthBarUi : Range
             this.markedDirty = true;
         }
 
-        // If runtime playerScript 
+        // If in runtime, playerScript actually exists
         if (this.playerScriptRef is PlayerScript { Blackboard: not null } player)
         {
             this.playerBlackboardRef = player.Blackboard;
@@ -158,8 +113,7 @@ public partial class HealthBarUi : Range
             return;
         }
 
-        // EnsureFillRect();
-        ApplyVisuals();
+        QueueRedraw();
         this.markedDirty = false;
 
         base._Process(delta);
@@ -183,21 +137,6 @@ public partial class HealthBarUi : Range
         this.prevPage = this.Page;
     }
 
-    private void ApplyVisuals()
-    {
-        // if (!IsInstanceValid(this.fillRect)) return;
-        //
-        // double span = this.MaxValue - this.MinValue;
-        // float ratio = span > 0.0
-        //     ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
-        //     : 0f;
-        //
-        // this.fillRect.Position = Vector2.Zero;
-        // this.fillRect.Size = new Vector2(this.Size.X * ratio, this.Size.Y);
-
-        QueueRedraw();
-    }
-    
     public override void _Draw()
     {
         double span = this.MaxValue - this.MinValue;
@@ -205,32 +144,18 @@ public partial class HealthBarUi : Range
             ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
             : 0f;
         Vector2 size = new (this.Size.X, this.Size.Y);;
-        
         if (size.X <= 0f || size.Y <= 0f) return;
 
-        // 1. Background track spanning the Control's bounds
-        Rect2 fullRect = new(Vector2.Zero, size);
-        DrawRect(fullRect, Colors.MidnightBlue, filled: true);
-
-        // 2. Filled progress bar
+        // TODO: fill available space randomly from left to right
+        // choose textures randomly too
+        // Make sure the space is actually filled (somehow)
+        
+        // RandomNumberGenerator rng = SeededRng.CreateRng(this.seed);
+        //
+        // Rect2 bounds = new Rect2(Vector2.Zero, Size);
+        // DrawTextureRect(_texture, bounds, tile: false, modulate: _modulate);
+        
         Rect2 fillRect = new(Vector2.Zero, new Vector2(size.X * ratio, size.Y));
         DrawRect(fillRect, Colors.Crimson, filled: true);
-
-        // 3. Border outline
-        DrawRect(fullRect, Colors.White, filled: false, width: 2f);
-
-        // 4. Optional editor-only preview label/marker
-        // if (Engine.IsEditorHint())
-        // {
-        //     DrawString(
-        //         ThemeDB.FallbackFont,
-        //         new Vector2(8f, Mathf.Max(18f, size.Y * 0.65f)),
-        //         $"Preview: {_progress:P0}",
-        //         HorizontalAlignment.Left,
-        //         -1f,
-        //         14,
-        //         Colors.White
-        //     );
-        // }
     }
 }
