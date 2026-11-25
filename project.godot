@@ -31,6 +31,10 @@ project/assembly_name="Valor"
 naming/scene_name_casing=1
 naming/script_name_casing=1
 
+[global_group]
+
+Player=""
+
 [input]
 
 Attack={

@@ -15,7 +15,7 @@ height = 2.1376953
 [sub_resource type="BoxShape3D" id="BoxShape3D_44saq"]
 size = Vector3(3, 1, 2.5)
 
-[node name="Player" type="Node3D" unique_id=1862965497]
+[node name="Player" type="Node3D" unique_id=1862965497 groups=["Player"]]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=389838570 node_paths=PackedStringArray("playerVisual", "attackButton", "dodgeButton", "healButton", "acquiredLabel", "InventoryLabel")]
 script = ExtResource("1_x3d5u")
