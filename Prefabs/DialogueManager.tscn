@@ -1,0 +1,353 @@
+[gd_scene format=3 uid="uid://doq2pugt7w3f2"]
+
+[ext_resource type="Script" uid="uid://bm7fc42c27f3u" path="res://Scripts/UI/Dialogue/DialogueManager.cs" id="1_fw0lu"]
+[ext_resource type="Script" uid="uid://g4ifsyfh1okk" path="res://Scripts/UI/Dialogue/QuestPopUp.cs" id="2_5ptar"]
+[ext_resource type="Texture2D" uid="uid://b55qei61v43f6" path="res://Textures/UI/WoodBoard_Tiled.png" id="3_6na37"]
+[ext_resource type="Texture2D" uid="uid://bnbmm1s245xo7" path="res://Textures/UI/Cloth_Tiled.png" id="4_2v374"]
+[ext_resource type="Texture2D" uid="uid://bg47n512qgt4m" path="res://Textures/UI/WoodCheck-Sheet.png" id="7_5ptar"]
+[ext_resource type="Texture2D" uid="uid://c2gdp3q4qfow4" path="res://Textures/UI/WoodX-Sheet.png" id="8_5ptar"]
+[ext_resource type="Script" uid="uid://cucnanrq7m8ab" path="res://Scripts/UI/Dialogue/DialoguePopUp.cs" id="9_53dfb"]
+[ext_resource type="PackedScene" uid="uid://d2lkfo4cljca1" path="res://Prefabs/TextBoxWithItemIcons.tscn" id="10_8wgk5"]
+[ext_resource type="PackedScene" uid="uid://bn8x6lnvgfbtw" path="res://Prefabs/InventoryItem.tscn" id="11_k2y0b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wek0"]
+atlas = ExtResource("8_5ptar")
+region = Rect2(0, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hkykm"]
+atlas = ExtResource("8_5ptar")
+region = Rect2(500, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yr1dv"]
+atlas = ExtResource("8_5ptar")
+region = Rect2(1000, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8brdb"]
+atlas = ExtResource("8_5ptar")
+region = Rect2(1500, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2v374"]
+atlas = ExtResource("8_5ptar")
+region = Rect2(1000, 0, 500, 500)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2v374"]
+font_size = 24
+font_color = Color(0.65, 0.65, 0.65, 1)
+outline_size = 3
+
+[sub_resource type="LabelSettings" id="LabelSettings_5ptar"]
+shadow_color = Color(0, 0, 0, 0.23529412)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_53dfb"]
+load_path = "res://.godot/imported/WoodCheck-Sheet.png-875e3fda9572b011f4fc200c3068f817.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ybbpx"]
+atlas = SubResource("CompressedTexture2D_53dfb")
+region = Rect2(0, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_53dfb"]
+atlas = ExtResource("7_5ptar")
+region = Rect2(500, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8v5a"]
+atlas = ExtResource("7_5ptar")
+region = Rect2(1000, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wgk5"]
+atlas = ExtResource("7_5ptar")
+region = Rect2(1500, 0, 500, 500)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2y0b"]
+atlas = ExtResource("7_5ptar")
+region = Rect2(1000, 0, 500, 500)
+
+[node name="DialogueManager" type="Control" unique_id=467966402 node_paths=PackedStringArray("QuestPopup", "DialoguePopup")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fw0lu")
+QuestPopup = NodePath("QuestPopUp")
+DialoguePopup = NodePath("DialoguePopup")
+
+[node name="TempCurrentQuests" type="Label" parent="." unique_id=1435543439]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+
+[node name="QuestPopUp" type="MarginContainer" parent="." unique_id=1590417159 node_paths=PackedStringArray("CurrentQuestLabel", "NameQuest", "AcceptButton", "DeclineButton", "Content", "NameNpc", "MainText", "CloseButton")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.0
+offset_top = -246.0
+offset_right = 248.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_5ptar")
+CurrentQuestLabel = NodePath("../TempCurrentQuests")
+NameQuest = NodePath("MarginContainer/MarginContainer/Content/NameQuest")
+AcceptButton = NodePath("MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer/TextureButton")
+DeclineButton = NodePath("MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer/TextureButton2")
+Content = NodePath("MarginContainer/MarginContainer/Content")
+NameNpc = NodePath("MarginContainer/MarginContainer/Content/NameQuestNPC")
+MainText = NodePath("MarginContainer/MarginContainer/Content/TextBoxWithItemIcons")
+CloseButton = NodePath("MarginContainer/MarginContainer2/ExitButton")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="QuestPopUp" unique_id=575056170]
+modulate = Color(0.96, 0.79679996, 0.79679996, 1)
+layout_mode = 2
+texture = ExtResource("3_6na37")
+patch_margin_left = 86
+patch_margin_top = 205
+patch_margin_right = 167
+patch_margin_bottom = 287
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp" unique_id=311837563]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 74
+theme_override_constants/margin_top = 121
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 106
+
+[node name="NinePatchRect" type="NinePatchRect" parent="QuestPopUp/MarginContainer" unique_id=1328595533]
+layout_mode = 2
+texture = ExtResource("4_2v374")
+patch_margin_left = 18
+patch_margin_top = 18
+patch_margin_right = 18
+patch_margin_bottom = 18
+
+[node name="MarginContainer2" type="MarginContainer" parent="QuestPopUp/MarginContainer" unique_id=2125952742]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+
+[node name="ExitButton" type="TextureButton" parent="QuestPopUp/MarginContainer/MarginContainer2" unique_id=1032511156]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = SubResource("AtlasTexture_8wek0")
+texture_pressed = SubResource("AtlasTexture_hkykm")
+texture_hover = SubResource("AtlasTexture_yr1dv")
+texture_disabled = SubResource("AtlasTexture_8brdb")
+texture_focused = SubResource("AtlasTexture_2v374")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/MarginContainer" unique_id=685333828]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Content" type="VBoxContainer" parent="QuestPopUp/MarginContainer/MarginContainer" unique_id=1927718730]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameQuestNPC" type="Label" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=1424365861]
+modulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
+layout_mode = 2
+text = "Jamal"
+label_settings = SubResource("LabelSettings_2v374")
+
+[node name="NameQuest" type="Label" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=1042285634]
+modulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
+layout_mode = 2
+text = "Quest name"
+label_settings = SubResource("LabelSettings_5ptar")
+horizontal_alignment = 1
+
+[node name="TextBoxWithItemIcons" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=777119915 instance=ExtResource("10_8wgk5")]
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 2
+LabelModulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
+InventoryItemScene = ExtResource("11_k2y0b")
+Text = ""
+
+[node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=2072859363]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="QuestPopUp/MarginContainer/MarginContainer/Content" unique_id=1086743777]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer" unique_id=1801178177]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spacer2" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2" unique_id=2077918560]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2" unique_id=2083496166]
+custom_minimum_size = Vector2(0, 64)
+custom_maximum_size = Vector2(-1, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+mouse_filter = 2
+alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer" unique_id=688302289]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_ybbpx")
+texture_pressed = SubResource("AtlasTexture_53dfb")
+texture_hover = SubResource("AtlasTexture_e8v5a")
+texture_disabled = SubResource("AtlasTexture_8wgk5")
+texture_focused = SubResource("AtlasTexture_k2y0b")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer" unique_id=1353862800]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="TextureButton2" type="TextureButton" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2/HBoxContainer" unique_id=1836029057]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_vertical = 4
+texture_normal = SubResource("AtlasTexture_8wek0")
+texture_pressed = SubResource("AtlasTexture_hkykm")
+texture_hover = SubResource("AtlasTexture_yr1dv")
+texture_disabled = SubResource("AtlasTexture_8brdb")
+texture_focused = SubResource("AtlasTexture_2v374")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Spacer" type="Control" parent="QuestPopUp/MarginContainer/MarginContainer/Content/MarginContainer/HBoxContainer2" unique_id=444572254]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="DialoguePopup" type="MarginContainer" parent="." unique_id=1556729167 node_paths=PackedStringArray("Content", "NameNpc", "MainText", "CloseButton")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.0
+offset_top = -246.0
+offset_right = 248.0
+offset_bottom = 246.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("9_53dfb")
+Content = NodePath("MarginContainer/MarginContainer/Content")
+NameNpc = NodePath("MarginContainer/MarginContainer/Content/NameQuestNPC")
+MainText = NodePath("MarginContainer/MarginContainer/Content/TextBoxWithItemIcons")
+CloseButton = NodePath("MarginContainer/MarginContainer2/ExitButton")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="DialoguePopup" unique_id=46642878]
+modulate = Color(0.96, 0.79679996, 0.79679996, 1)
+layout_mode = 2
+texture = ExtResource("3_6na37")
+patch_margin_left = 86
+patch_margin_top = 205
+patch_margin_right = 167
+patch_margin_bottom = 287
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="DialoguePopup" unique_id=1889992435]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 74
+theme_override_constants/margin_top = 121
+theme_override_constants/margin_right = 70
+theme_override_constants/margin_bottom = 106
+
+[node name="NinePatchRect" type="NinePatchRect" parent="DialoguePopup/MarginContainer" unique_id=1910149040]
+layout_mode = 2
+texture = ExtResource("4_2v374")
+patch_margin_left = 18
+patch_margin_top = 18
+patch_margin_right = 18
+patch_margin_bottom = 18
+
+[node name="MarginContainer2" type="MarginContainer" parent="DialoguePopup/MarginContainer" unique_id=1538047831]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 22
+
+[node name="ExitButton" type="TextureButton" parent="DialoguePopup/MarginContainer/MarginContainer2" unique_id=18891855]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = SubResource("AtlasTexture_8wek0")
+texture_pressed = SubResource("AtlasTexture_hkykm")
+texture_hover = SubResource("AtlasTexture_yr1dv")
+texture_disabled = SubResource("AtlasTexture_8brdb")
+texture_focused = SubResource("AtlasTexture_2v374")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="DialoguePopup/MarginContainer" unique_id=317997158]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Content" type="VBoxContainer" parent="DialoguePopup/MarginContainer/MarginContainer" unique_id=927277640]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameQuestNPC" type="Label" parent="DialoguePopup/MarginContainer/MarginContainer/Content" unique_id=190746945]
+modulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
+layout_mode = 2
+text = "Jamal"
+label_settings = SubResource("LabelSettings_2v374")
+
+[node name="TextBoxWithItemIcons" parent="DialoguePopup/MarginContainer/MarginContainer/Content" unique_id=68199565 instance=ExtResource("10_8wgk5")]
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 2
+LabelModulate = Color(0.5529412, 0.05882353, 0.8509804, 1)
+InventoryItemScene = ExtResource("11_k2y0b")
+Text = ""
+
+[node name="Spacer" type="Control" parent="DialoguePopup/MarginContainer/MarginContainer/Content" unique_id=1831570334]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2

@@ -2,3 +2,7 @@ root = true
 
 [*]
 charset = utf-8
+
+
+[*.cs]
+dotnet_diagnostic.CA2255.severity = none

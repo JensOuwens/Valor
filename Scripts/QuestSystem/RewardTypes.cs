@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace Valor.QuestSystem;
 
 /// <summary>
 /// Enum for different quest reward types

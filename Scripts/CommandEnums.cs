@@ -12,7 +12,8 @@ public enum HandlerId
     Movement,
     Attack,
     Heal,
-    Dodge
+    Dodge,
+    Speak
 }
 
 public enum AttackMode

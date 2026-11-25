@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d2lkfo4cljca1"]
+
+[ext_resource type="Script" uid="uid://6a3pv23qbxkl" path="res://Scripts/UI/TextBoxWithItemIcons.cs" id="1_0pmt1"]
+[ext_resource type="PackedScene" uid="uid://bn8x6lnvgfbtw" path="res://Prefabs/InventoryItem.tscn" id="2_fr0qv"]
+
+[node name="TextBoxWithItemIcons" type="HFlowContainer" unique_id=777119915]
+size_flags_vertical = 3
+theme_override_constants/v_separation = 0
+script = ExtResource("1_0pmt1")
+InventoryItem = ExtResource("2_fr0qv")
+Text = "Hi, ik ben een paar oude spellen kwijt.
+ItemIcon:{\"Amount\":3,\"IconId\":\"uid://bgeep6k867724\"} 
+Zou jij mij kunnen helpen dezen terug te vinden?"

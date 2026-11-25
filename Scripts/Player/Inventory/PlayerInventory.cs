@@ -10,26 +10,22 @@ public partial class PlayerInventory
 {
 	private Godot.Collections.Array<ItemData> items  = new Godot.Collections.Array<ItemData>();
 	private RichTextLabel targetLabel;
-	public PlayerInventory(RichTextLabel targetLabel)
-	{
-		this.targetLabel = targetLabel;
-	}
+	
+	public PlayerInventory(RichTextLabel targetLabel) => this.targetLabel = targetLabel;
 
 	public void AddToInventory(ItemData item)
 	{
-		items.Add(item);
+		this.items.Add(item);
 		DisplayInventory();
 	}
 	
 	public void RemoveFromInventory(string ItemName)
 	{
-		foreach (ItemData item in items)
+		foreach (ItemData item in this.items)
 		{
-			if (item.Item_Name == ItemName)
-			{
-				items.Remove(item);
-				break;
-			}
+			if (item.Item_Name != ItemName) continue;
+			this.items.Remove(item);
+			break;
 		}
 
 		DisplayInventory();
@@ -37,13 +33,10 @@ public partial class PlayerInventory
 
 	public bool IsInInvetory(string ItemName)
 	{
-		foreach (ItemData item in items)
+		foreach (ItemData item in this.items)
 		{
-			if (item.Item_Name == ItemName)
-			{
-				return true;
-				break;
-			}
+			if (item.Item_Name != ItemName) continue;
+			return true;
 		}
 
 		return false;
@@ -52,18 +45,14 @@ public partial class PlayerInventory
 	public void DebugInventory()
 	{
 		GD.Print("Debug Inventory");
-		foreach (ItemData item in items)
-		{
+		foreach (ItemData item in this.items) 
 			GD.Print(item.Item_Name);
-		}
 	}
 
 	public void DisplayInventory()
 	{
-		targetLabel.Text = "";
-		foreach (ItemData item in items)
-		{
-			targetLabel.Text += item.Item_Name + "\n";
-		}
+		this.targetLabel.Text = "";
+		foreach (ItemData item in this.items) 
+			this.targetLabel.Text += item.Item_Name + "\n";
 	}
 }

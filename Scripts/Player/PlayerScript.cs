@@ -1,11 +1,12 @@
+using System;
 using System.Threading.Tasks;
 using Godot;
-/// <summary>
-/// this class handles player input and played hurt logic
-/// </summary>
 
 namespace Valor;
 
+/// <summary>
+/// this class handles player input and played hurt logic
+/// </summary>
 public partial class PlayerScript : CharacterBody3D, IDamageable
 {
 	[Export] private PlayerVisual playerVisual;
@@ -24,6 +25,9 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	private ICommand healCommand;
 	private ICommand moveCommand;
 	private CommandManager commandManager;
+	
+	private ICommand attackCommandBuffer; // used to swap between
+	
 	private PlayerBlackboard blackboard;
 	private AttackHitbox attackHitbox;
 	private bool wasMoving;
@@ -32,7 +36,7 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 	public PlayerInventory inventory;
 
 	public bool IsQuestActive;
-	public QuestData CurrentQuest;
+	public QuestSystem.QuestData CurrentQuest;
 	
 	public PlayerBlackboard Blackboard => this.blackboard;
 	public float Health => this.blackboard?.CurrentHealth ?? 0f;
@@ -60,12 +64,12 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		attackHandler.AttackTriggered += OnComboAttackTriggered;
 		attackHandler.ChargedAttackTriggered += OnChargedAttackTriggered;
 
-		attackButton.ButtonDown += AttackPressed;
-		attackButton.ButtonUp += AttackReleased;
-		dodgeButton.Pressed += Dodge;
-		healButton.Pressed += Heal;
+		this.attackButton.ButtonDown += AttackPressed;
+		this.attackButton.ButtonUp += AttackReleased;
+		this.dodgeButton.Pressed += Dodge;
+		this.healButton.Pressed += Heal;
 
-		inventory = new PlayerInventory(InventoryLabel);
+		this.inventory = new PlayerInventory(this.InventoryLabel);
 
 		GD.Print($"[Player] Ready. HP={this.blackboard.CurrentHealth:0.##}/{this.blackboard.MaxHealth:0.##}, flasks={this.blackboard.CurrentFlasks}/{this.blackboard.MaxFlasks}, move speed={this.blackboard.MoveSpeed:0.##}, attack mode={attackHandler.Mode}.");
 		GD.Print("[Player] Controls expected: MoveUp/Down/Left/Right, Attack, Dodge, Heal.");
@@ -168,12 +172,41 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 		this.blackboard.SetHealth(this.blackboard.CurrentHealth + 20f);
 		GD.Print($"[Upgrade] Applied example upgrade. AttackDamage={this.blackboard.AttackDamage:0.##}, MaxHealth={this.blackboard.MaxHealth:0.##}, HP={this.blackboard.CurrentHealth:0.##}.");
 	}
+
+	/// <summary>
+	/// When player is not in combat, set attack button to speak button
+	/// </summary>
+	/// <param name="npcDialogueEntered"></param>
+	public void TryRegisterSpeakCommand(Action npcDialogueEntered)
+	{
+		if (this.attackCommandBuffer is SpeakCommand speakCommand &&
+		    speakCommand.npcDialogueEntered == npcDialogueEntered)
+		{
+			(this.attackCommandBuffer, this.attackCommand) = (this.attackCommand, this.attackCommandBuffer);
+			return;
+		}
+		
+		if (this.attackCommand is AttackCommand)
+			this.attackCommandBuffer = this.attackCommand;
+		this.attackCommand = new SpeakCommand(this.commandManager, npcDialogueEntered);
+		
+		GD.Print("[Input] Speak command registered.");
+		// TODO: set attack Icon to something else
+	}
+
+	public void ResetAttackCommand()
+	{
+		if (this.attackCommandBuffer is not AttackCommand) return;
+		(this.attackCommandBuffer, this.attackCommand) = (this.attackCommand, this.attackCommandBuffer);
+		
+		// TODO: set attack Icon back to attack
+	}
 	
 	private void AttackPressed()
 	{
 		CommandContext context = CalculaDirectionAndContext();
 
-		GD.Print("[Input] Attack button pressed.");
+		GD.Print($"[Input] Attack button pressed. {this.attackCommand.GetType()}");
 
 		this.attackCommand.OnClick(context);
 	}
@@ -222,10 +255,10 @@ public partial class PlayerScript : CharacterBody3D, IDamageable
 
 	public async Task Playerpickedup(string itemname)
 	{
-		acquiredLabel.Text = "you have picked up " +  itemname;
+		this.acquiredLabel.Text = "you have picked up " +  itemname;
 		
 		await Task.Delay(1000);
 
-		acquiredLabel.Text = "";
+		this.acquiredLabel.Text = "";
 	}
 }

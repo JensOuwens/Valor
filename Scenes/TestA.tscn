@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://c5wk2k1ssnn22"]
 
+[ext_resource type="PackedScene" uid="uid://doq2pugt7w3f2" path="res://Prefabs/DialogueManager.tscn" id="1_3wiki"]
 [ext_resource type="PackedScene" uid="uid://bywgiyujt7q8d" path="res://Prefabs/Player.tscn" id="1_po2qw"]
 [ext_resource type="PackedScene" uid="uid://dsjbnsxwuhrpa" path="res://Prefabs/Dummy.tscn" id="2_lbhup"]
 [ext_resource type="PackedScene" uid="uid://ct225mrcob1vv" path="res://Prefabs/Item.tscn" id="3_3wiki"]
 [ext_resource type="Resource" uid="uid://bxxd753pg6v58" path="res://Recources (scriptableobejcts)/Items/Cartridge.tres" id="4_qounw"]
 [ext_resource type="PackedScene" uid="uid://cwhd46fqckdaw" path="res://Prefabs/QuestNPC.tscn" id="5_f8bcw"]
-[ext_resource type="Texture2D" uid="uid://cs8sdshi73a6u" path="res://Prefabs/Level_a.png" id="6_lbhup"]
+[ext_resource type="Texture2D" uid="uid://cs8sdshi73a6u" path="res://Textures/Level_a.png" id="6_lbhup"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_44saq"]
 size = Vector3(320, 0.1, 320)
@@ -701,6 +702,8 @@ height = 9.159
 sides = 22
 material = SubResource("StandardMaterial3D_bghhj")
 
+[node name="DialogueManager" parent="." unique_id=467966402 instance=ExtResource("1_3wiki")]
+
 [node name="Player" parent="." unique_id=1862965497 instance=ExtResource("1_po2qw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2779717, 34.857147)
 
@@ -741,6 +744,7 @@ ItemData = ExtResource("4_qounw")
 
 [node name="QuestNpc" parent="." unique_id=117920559 instance=ExtResource("5_f8bcw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2862253, 1.2246628, 31.701612)
+NpcName = "Jamal"
 
 [node name="Sprite3D" type="Sprite3D" parent="." unique_id=707217665]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 29.868912, 6.948312, -28.644154)

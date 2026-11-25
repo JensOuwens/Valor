@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs8sdshi73a6u"
-path.s3tc="res://.godot/imported/Level_a.png-7ee36dab062b1dffe85aacb579c114b4.s3tc.ctex"
-path.etc2="res://.godot/imported/Level_a.png-7ee36dab062b1dffe85aacb579c114b4.etc2.ctex"
+uid="uid://bdnp8mipf6app"
+path.s3tc="res://.godot/imported/PlayerColors.png-d74dc8ece32aef4a9b98fe63f9bb7a76.s3tc.ctex"
+path.etc2="res://.godot/imported/PlayerColors.png-d74dc8ece32aef4a9b98fe63f9bb7a76.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Prefabs/Level_a.png"
-dest_files=["res://.godot/imported/Level_a.png-7ee36dab062b1dffe85aacb579c114b4.s3tc.ctex", "res://.godot/imported/Level_a.png-7ee36dab062b1dffe85aacb579c114b4.etc2.ctex"]
+source_file="res://Models/NPCs/PlayerColors.png"
+dest_files=["res://.godot/imported/PlayerColors.png-d74dc8ece32aef4a9b98fe63f9bb7a76.s3tc.ctex", "res://.godot/imported/PlayerColors.png-d74dc8ece32aef4a9b98fe63f9bb7a76.etc2.ctex"]
 
 [params]
 
