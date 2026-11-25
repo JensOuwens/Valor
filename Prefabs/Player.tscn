@@ -144,7 +144,14 @@ mouse_filter = 2
 bbcode_enabled = true
 fit_content = true
 
-[node name="HealthBar" type="Range" parent="PlayerControls" unique_id=657005500 node_paths=PackedStringArray("playerScriptRef")]
+[node name="ProgressBar2" type="ProgressBar" parent="PlayerControls" unique_id=1861196232]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 64.0
+offset_right = 240.0
+offset_bottom = 91.0
+
+[node name="HealthBarUi" type="Range" parent="PlayerControls" unique_id=1421114838 node_paths=PackedStringArray("playerScriptRef")]
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
@@ -173,16 +180,16 @@ custom_minimum_size = Vector2(0, 0)
 custom_maximum_size = Vector2(-1, -1)
 propagate_maximum_size = false
 clip_contents = false
-layout_mode = 1
+layout_mode = 0
 anchors_preset = 0
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 27.0
-offset_top = 24.0
-offset_right = 237.0
-offset_bottom = 51.0
+offset_left = 35.0
+offset_top = 15.0
+offset_right = 242.0
+offset_bottom = 55.0
 grow_horizontal = 1
 grow_vertical = 1
 rotation = 0.0
@@ -228,9 +235,9 @@ theme = null
 theme_type_variation = &""
 min_value = 0.0
 max_value = 100.0
-step = 1.0
+step = 0.1
 page = 0.0
-value = 50.0
+value = 57.5
 exp_edit = false
 rounded = false
 allow_greater = false
@@ -238,10 +245,3 @@ allow_lesser = false
 script = ExtResource("8_3ygst")
 playerScriptRef = NodePath("../../CharacterBody3D")
 metadata/_custom_type_script = "uid://d2qu22a6ch0fh"
-
-[node name="ProgressBar2" type="ProgressBar" parent="PlayerControls" unique_id=1861196232]
-layout_mode = 0
-offset_left = 36.0
-offset_top = 64.0
-offset_right = 240.0
-offset_bottom = 91.0

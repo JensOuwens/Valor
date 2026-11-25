@@ -5,11 +5,11 @@ namespace Valor.UI;
 [Tool, GlobalClass]
 public partial class HealthBarUi : Range
 {
-    private const string FillRectName = "__InternalHealthFill";
+    // private const string FillRectName = "__InternalHealthFill";
 
-    private ColorRect fillRect;
+    // private ColorRect fillRect;
     private bool markedDirty = true;
-    private bool valueChangedConnected;
+    private bool delegatesConnected;
 
     [Export] public Node3D playerScriptRef;
     private PlayerBlackboard playerBlackboardRef;
@@ -24,8 +24,8 @@ public partial class HealthBarUi : Range
     {
         base._EnterTree();
         
-        EnsureFillRect();
-        ConnectValueChanged();
+        // EnsureFillRect();
+        ConnectDelegates();
         this.markedDirty = true;
     }
 
@@ -33,8 +33,8 @@ public partial class HealthBarUi : Range
     {
         base._Ready();
         
-        EnsureFillRect();
-        ConnectValueChanged();
+        // EnsureFillRect();
+        ConnectDelegates();
         
         SnapshotRangeState();
         this.markedDirty = true;
@@ -44,64 +44,66 @@ public partial class HealthBarUi : Range
 
     public override void _ExitTree()
     {
-        DisconnectValueChanged();
-        CleanupFillRect();
+        DisconnectDelegates();
+        // CleanupFillRect();
         base._ExitTree();
     }
     
-    private void ConnectValueChanged()
+    private void ConnectDelegates()
     {
-        if (this.valueChangedConnected) return;
+        if (this.delegatesConnected) return;
         this.ValueChanged += OnRangeValueChanged;
-        this.valueChangedConnected = true;
+        this.Resized += ApplyVisuals;
+        this.delegatesConnected = true;
     }
 
-    private void DisconnectValueChanged()
+    private void DisconnectDelegates()
     {
-        if (!this.valueChangedConnected) return;
+        if (!this.delegatesConnected) return;
         this.ValueChanged -= OnRangeValueChanged;
-        this.valueChangedConnected = false;
+        this.Resized -= ApplyVisuals;
+        this.delegatesConnected = false;
     }
 
-    #region Fillrect
-    private void EnsureFillRect()
-    {
-        if (IsInstanceValid(this.fillRect) && this.fillRect.GetParent() == this)
-            return;
-
-        for (int i = 0; i < GetChildCount(includeInternal: true); i++)
-        {
-            if (GetChild(i, includeInternal: true) is not ColorRect existing || existing.Name != FillRectName) continue;
-            this.fillRect = existing;
-            ConfigureFillRectDefaults(this.fillRect);
-            return;
-        }
-
-        this.fillRect = new ColorRect { Name = FillRectName };
-        ConfigureFillRectDefaults(this.fillRect);
-
-        AddChild(this.fillRect, false, InternalMode.Front);
-    }
-
-    private static void ConfigureFillRectDefaults(ColorRect rect)
-    {
-        rect.MouseFilter = MouseFilterEnum.Ignore;
-        rect.Color = Colors.Crimson;
-    }
-
-    private void CleanupFillRect()
-    {
-        if (IsInstanceValid(this.fillRect))
-        {
-            if (this.fillRect.IsInsideTree())
-                this.fillRect.QueueFree();
-            else
-                this.fillRect.Free();
-        }
-
-        this.fillRect = null;
-    }
-    #endregion
+    // #region Fillrect
+    // private void EnsureFillRect()
+    // {
+    //     if (IsInstanceValid(this.fillRect) && this.fillRect.GetParent() == this)
+    //         return;
+    //
+    //     for (int i = 0; i < GetChildCount(includeInternal: true); i++)
+    //     {
+    //         if (GetChild(i, includeInternal: true) is not ColorRect existing || existing.Name != FillRectName) continue;
+    //         this.fillRect = existing;
+    //         ConfigureFillRectDefaults(this.fillRect);
+    //         return;
+    //     }
+    //
+    //     this.fillRect = new ColorRect { Name = FillRectName };
+    //     ConfigureFillRectDefaults(this.fillRect);
+    //
+    //     AddChild(this.fillRect, false, InternalMode.Front);
+    // }
+    //
+    // private static void ConfigureFillRectDefaults(ColorRect rect)
+    // {
+    //     rect.MouseFilter = MouseFilterEnum.Ignore;
+    //     rect.Color = Colors.Crimson;
+    // }
+    //
+    // private void CleanupFillRect()
+    // {
+    //     if (IsInstanceValid(this.fillRect))
+    //     {
+    //         if (this.fillRect.IsInsideTree())
+    //             this.fillRect.QueueFree();
+    //         else
+    //             this.fillRect.Free();
+    //     }
+    //
+    //     this.fillRect = null;
+    // }
+    // #endregion
 
     private void OnRangeValueChanged(double newValue)
     {
@@ -156,7 +158,7 @@ public partial class HealthBarUi : Range
             return;
         }
 
-        EnsureFillRect();
+        // EnsureFillRect();
         ApplyVisuals();
         this.markedDirty = false;
 
@@ -183,16 +185,52 @@ public partial class HealthBarUi : Range
 
     private void ApplyVisuals()
     {
-        if (!IsInstanceValid(this.fillRect)) return;
+        // if (!IsInstanceValid(this.fillRect)) return;
+        //
+        // double span = this.MaxValue - this.MinValue;
+        // float ratio = span > 0.0
+        //     ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
+        //     : 0f;
+        //
+        // this.fillRect.Position = Vector2.Zero;
+        // this.fillRect.Size = new Vector2(this.Size.X * ratio, this.Size.Y);
 
+        QueueRedraw();
+    }
+    
+    public override void _Draw()
+    {
         double span = this.MaxValue - this.MinValue;
         float ratio = span > 0.0
             ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
             : 0f;
+        Vector2 size = new (this.Size.X, this.Size.Y);;
+        
+        if (size.X <= 0f || size.Y <= 0f) return;
 
-        this.fillRect.Position = Vector2.Zero;
-        this.fillRect.Size = new Vector2(this.Size.X * ratio, this.Size.Y);
+        // 1. Background track spanning the Control's bounds
+        Rect2 fullRect = new(Vector2.Zero, size);
+        DrawRect(fullRect, Colors.MidnightBlue, filled: true);
 
-        QueueRedraw();
+        // 2. Filled progress bar
+        Rect2 fillRect = new(Vector2.Zero, new Vector2(size.X * ratio, size.Y));
+        DrawRect(fillRect, Colors.Crimson, filled: true);
+
+        // 3. Border outline
+        DrawRect(fullRect, Colors.White, filled: false, width: 2f);
+
+        // 4. Optional editor-only preview label/marker
+        // if (Engine.IsEditorHint())
+        // {
+        //     DrawString(
+        //         ThemeDB.FallbackFont,
+        //         new Vector2(8f, Mathf.Max(18f, size.Y * 0.65f)),
+        //         $"Preview: {_progress:P0}",
+        //         HorizontalAlignment.Left,
+        //         -1f,
+        //         14,
+        //         Colors.White
+        //     );
+        // }
     }
 }
