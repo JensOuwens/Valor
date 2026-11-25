@@ -283,4 +283,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.185353, 1.2246628, 18.2615
 
 [node name="MeleeEnemy" parent="." unique_id=173902542 instance=ExtResource("8_4mo6u")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.402768, 1.4203253, 18.588207)
-AggroRange = 200.0
+MaxHealth = 40.0
+AggroRange = 10.0

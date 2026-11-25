@@ -6,31 +6,31 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hx3py"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_hx3py"]
-size = Vector3(1.7060547, 2.6391602, 2.3026733)
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_veby7"]
 
-[node name="MeleeEnemy" type="Node3D" unique_id=173902542]
+[sub_resource type="QuadMesh" id="QuadMesh_hx3py"]
+
+[node name="MeleeEnemy" type="CharacterBody3D" unique_id=975438810]
+collision_layer = 2
 script = ExtResource("1_tna1y")
 MaxHealth = 100.0
 Damage = 20.0
 Firerate = 5.0
 Movespeed = 4.0
-AggroRange = 15.0
+AggroRange = 4.0
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1196753675]
-collision_layer = 2
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1820350731]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1820350731]
 mesh = SubResource("CapsuleMesh_hx3py")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=854057674]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=854057674]
 shape = SubResource("CapsuleShape3D_hx3py")
 
-[node name="NavigationAgent3D" type="NavigationAgent3D" parent="CharacterBody3D" unique_id=1589328809]
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1589328809]
 path_desired_distance = 0.5
 
-[node name="AttackHitbox" type="Area3D" parent="." unique_id=1124279508]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="AttackHitbox" unique_id=962780698]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0073242188, 0.32104492, -0.05770874)
-shape = SubResource("BoxShape3D_hx3py")
+[node name="AttackTelegraph" type="GPUParticles3D" parent="." unique_id=1943927490]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+emitting = false
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_veby7")
+draw_pass_1 = SubResource("QuadMesh_hx3py")

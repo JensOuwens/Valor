@@ -2,7 +2,7 @@ using Godot;
 using System;
 using Valor;
 
-public partial class BaseEnemy : Node3D, IDamageable
+public partial class BaseEnemy : CharacterBody3D, IDamageable
 {
 	public float Health { get; set; }
 
@@ -19,13 +19,15 @@ public partial class BaseEnemy : Node3D, IDamageable
 	{
 		Health = MaxHealth;
 
-		Body = GetNode<CharacterBody3D>("CharacterBody3D");
+		Body = this;
 		NavAgent = Body.GetNode<NavigationAgent3D>("NavigationAgent3D");
 	}
 	
 	public void Hurt(float damage, Vector3 hitDirection)
 	{
 		Health -= damage;
+		
+		GD.Print("Damage");
 
 		if (Health <= 0)
 			Die();
