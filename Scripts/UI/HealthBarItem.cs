@@ -2,9 +2,10 @@
 
 namespace Valor.UI;
 
-[GlobalClass]
+[GlobalClass, Tool]
 public partial class HealthBarItem : Resource
 {
     [Export] public Color modulateColor = Colors.White;
-    [Export] public Texture texture;
+    [Export] public Texture2D texture;
+    [Export] public Vector2I size;
 }

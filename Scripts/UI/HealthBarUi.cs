@@ -13,6 +13,7 @@ public partial class HealthBarUi : Range
     
     [Export] public Godot.Collections.Array<HealthBarItem> textureItems;
     [Export] public string seed;
+    [Export] public float scale = 1;
 
     private double prevValue;
     private double prevMin;
@@ -143,19 +144,41 @@ public partial class HealthBarUi : Range
         float ratio = span > 0.0
             ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
             : 0f;
-        Vector2 size = new (this.Size.X, this.Size.Y);;
-        if (size.X <= 0f || size.Y <= 0f) return;
+        Vector2 sizeBar = new (this.Size.X, this.Size.Y);
+        if (sizeBar.X <= 0f || sizeBar.Y <= 0f) return;
 
         // TODO: fill available space randomly from left to right
         // choose textures randomly too
         // Make sure the space is actually filled (somehow)
         
-        // RandomNumberGenerator rng = SeededRng.CreateRng(this.seed);
-        //
-        // Rect2 bounds = new Rect2(Vector2.Zero, Size);
-        // DrawTextureRect(_texture, bounds, tile: false, modulate: _modulate);
+        RandomNumberGenerator rng = SeededRng.CreateRng(this.seed);
+        Vector2 currentPos = Vector2.Zero;
+        bool dir = false; // false is down, true is up
+
+        while (true)
+        {
+            HealthBarItem item = this.textureItems[rng.RandiRange(0, this.textureItems.Count - 1)];
+            Vector2 sizeItem = new (this.Size.X * this.scale, this.Size.Y * this.scale);
+            
+            Rect2 bounds = new(currentPos, sizeItem);
+            DrawTextureRect(item.texture, bounds, tile: false, modulate: item.modulateColor);
+            
+            currentPos += new Vector2(rng.RandiRange(-5, (int)float.Round(sizeItem.X / 2f)) , sizeItem.Y * (dir ? 1 : -1));
+
+            if (!dir && currentPos.Y > sizeBar.Y)
+            {
+                dir = true;
+                currentPos += new Vector2(float.Round(sizeItem.X / 2f), rng.RandiRange(-5, 5));
+            }else if (dir == true && currentPos.Y < sizeBar.Y)
+            {
+                dir = false;
+                currentPos += new Vector2(float.Round(sizeItem.X / 2f), rng.RandiRange(-5, 5));
+            }
+            
+            if (currentPos.X > sizeBar.X * ratio) break;
+        }
         
-        Rect2 fillRect = new(Vector2.Zero, new Vector2(size.X * ratio, size.Y));
+        Rect2 fillRect = new(Vector2.Zero, new Vector2(sizeBar.X * ratio, sizeBar.Y));
         DrawRect(fillRect, Colors.Crimson, filled: true);
     }
 }
