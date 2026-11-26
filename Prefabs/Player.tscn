@@ -99,7 +99,7 @@ metadata/_custom_type_script = "uid://dccclvsqd52xp"
 [sub_resource type="Resource" id="Resource_tkui5"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("21_fdj0h")
-size = Vector2i(87, 0)
+size = Vector2i(87, 98)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [node name="Player" type="Node3D" unique_id=1862965497]
@@ -272,7 +272,7 @@ offset_bottom = 125.0
 grow_horizontal = 1
 grow_vertical = 1
 rotation = 0.0
-scale = Vector2(1, 1)
+scale = 0.2
 pivot_offset = Vector2(0, 0)
 pivot_offset_ratio = Vector2(0, 0)
 size_flags_horizontal = 1
@@ -325,4 +325,5 @@ script = ExtResource("8_3ygst")
 playerScriptRef = NodePath("../../CharacterBody3D")
 textureItems = Array[Object]([SubResource("Resource_3ygst"), SubResource("Resource_lhekp"), SubResource("Resource_t8lmw"), SubResource("Resource_k2qb3"), SubResource("Resource_wuv02"), SubResource("Resource_8afax"), SubResource("Resource_t7w7j"), SubResource("Resource_08l6w"), SubResource("Resource_o7xy3"), SubResource("Resource_qm8rn"), SubResource("Resource_aw6xh"), SubResource("Resource_tkui5")])
 seed = "IkHouNietVanTesten"
+scale = 0.2
 metadata/_custom_type_script = "uid://d2qu22a6ch0fh"
