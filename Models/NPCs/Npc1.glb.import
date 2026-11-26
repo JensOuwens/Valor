@@ -39,7 +39,75 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"materials": {
+"Ear": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Ear.tres",
+"use_external/path": "uid://camk7365bjxki"
+},
+"Ear.005": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Ear.005.tres",
+"use_external/path": "uid://wywlt8n85d1r"
+},
+"Eye": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Eye.tres",
+"use_external/path": "uid://cw0e5xhdhr8cy"
+},
+"Eye.002": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Eye.002.tres",
+"use_external/path": "uid://cgddcpdwn33xt"
+},
+"Eye.004": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Eye.004.tres",
+"use_external/path": "uid://bdmveneo2sjmu"
+},
+"Eye.005": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Eye.005.tres",
+"use_external/path": "uid://dqj7b7tqcp3be"
+},
+"Head": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Head.tres",
+"use_external/path": "uid://d3wmmbc2ilcs3"
+},
+"Material.003": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Material.003.tres",
+"use_external/path": "uid://dw4f4rw6eojlk"
+},
+"Material.004": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Material.004.tres",
+"use_external/path": "uid://cqgoc6hqcf617"
+},
+"Material.005": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Material.005.tres",
+"use_external/path": "uid://dl3a6t1k72wk"
+},
+"Material.006": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/Material.006.tres",
+"use_external/path": "uid://dvk7gbj7y4nt3"
+},
+"PlayerColors": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/PlayerColors.tres",
+"use_external/path": "uid://bri3mf7hd1t62"
+},
+"PlayerColors.001": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/NPCs/Mat/PlayerColors.001.tres",
+"use_external/path": "uid://b3uc242ooc56d"
+}
+}
+}
 gltf/naming_version=2
 gltf/embedded_image_handling=1
 gltf/texture_map_mode=1

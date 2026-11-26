@@ -6,13 +6,13 @@
 
 [node name="Node3D" type="Node3D" unique_id=1253353725]
 
-[node name="Cartridge2" parent="." unique_id=2120232468 instance=ExtResource("1_3sq0e")]
+[node name="Cartridge3" parent="." unique_id=1076892995 instance=ExtResource("1_3sq0e")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="sinebobber" type="Node" parent="." unique_id=711692256 node_paths=PackedStringArray("Target")]
 script = ExtResource("2_5bsgp")
-Target = NodePath("../Cartridge2")
+Target = NodePath("../Cartridge3")
 
 [node name="spinner" type="Node" parent="." unique_id=11993774 node_paths=PackedStringArray("Target")]
 script = ExtResource("3_5bsgp")
-Target = NodePath("../Cartridge2")
+Target = NodePath("../Cartridge3")

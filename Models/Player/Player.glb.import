@@ -22657,6 +22657,78 @@ _subresources={
 "slice_99/start_frame": 0,
 "slices/amount": 0
 }
+},
+"materials": {
+"Ear": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Ear.tres",
+"use_external/path": "uid://ba42w6p5pvjjc"
+},
+"Ear.005": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Ear.005.tres",
+"use_external/path": "uid://dv65t5jwixruq"
+},
+"Eye": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Eye.tres",
+"use_external/path": "uid://diqj3dwg87tge"
+},
+"Eye.002": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Eye.002.tres",
+"use_external/path": "uid://ckygqwojvm0pc"
+},
+"Eye.004": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Eye.004.tres",
+"use_external/path": "uid://cbqfrpj8nh3pd"
+},
+"Eye.005": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Eye.005.tres",
+"use_external/path": "uid://c7usurw2xl2e5"
+},
+"Head": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Head.tres",
+"use_external/path": "uid://ci0d67ru1v1kw"
+},
+"Material.002": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Material.002.tres",
+"use_external/path": "uid://lpcvul6jeyp6"
+},
+"Material.003": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Material.003.tres",
+"use_external/path": "uid://c6adqju0lf60y"
+},
+"Material.004": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Material.004.tres",
+"use_external/path": "uid://ce53va2tq02qw"
+},
+"Material.005": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Material.005.tres",
+"use_external/path": "uid://cq6lrdy8agsyd"
+},
+"Material.006": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/Material.006.tres",
+"use_external/path": "uid://cwg650s52hrn5"
+},
+"PlayerColors": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/PlayerColors.tres",
+"use_external/path": "uid://cu0huvgq8yjak"
+},
+"PlayerColors.001": {
+"use_external/enabled": true,
+"use_external/fallback_path": "res://Models/Player/Mat/PlayerColors.001.tres",
+"use_external/path": "uid://0if2hf74fcsc"
+}
 }
 }
 gltf/naming_version=2
