@@ -33,73 +33,73 @@ size = Vector3(3, 1, 2.5)
 script = ExtResource("9_54dtf")
 modulateColor = Color(1, 1, 1, 0)
 texture = ExtResource("10_bhh4y")
-size = Vector2i(70, 33)
+size = Vector2(70, 33)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_lhekp"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("11_q46ve")
-size = Vector2i(69, 75)
+size = Vector2(69, 75)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_t8lmw"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("12_53vlf")
-size = Vector2i(55, 92)
+size = Vector2(55, 92)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_k2qb3"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("13_fuy0y")
-size = Vector2i(86, 76)
+size = Vector2(86, 76)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_wuv02"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("14_gy83n")
-size = Vector2i(89, 67)
+size = Vector2(89, 67)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_8afax"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("15_2wlbw")
-size = Vector2i(84, 83)
+size = Vector2(84, 83)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_t7w7j"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("16_406my")
-size = Vector2i(65, 99)
+size = Vector2(65, 99)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_08l6w"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("17_fd4tb")
-size = Vector2i(70, 98)
+size = Vector2(70, 98)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_o7xy3"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("18_2ywdf")
-size = Vector2i(64, 64)
+size = Vector2(64, 64)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_qm8rn"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("19_3b1fg")
-size = Vector2i(84, 135)
+size = Vector2(84, 135)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_aw6xh"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("20_k7qm6")
-size = Vector2i(99, 105)
+size = Vector2(99, 105)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [sub_resource type="Resource" id="Resource_tkui5"]
 script = ExtResource("9_54dtf")
 texture = ExtResource("21_fdj0h")
-size = Vector2i(87, 98)
+size = Vector2(87, 98)
 metadata/_custom_type_script = "uid://dccclvsqd52xp"
 
 [node name="Player" type="Node3D" unique_id=1862965497]
@@ -234,7 +234,7 @@ mouse_filter = 2
 bbcode_enabled = true
 fit_content = true
 
-[node name="HealthBarUi" type="Range" parent="PlayerControls" unique_id=1421114838 node_paths=PackedStringArray("playerScriptRef")]
+[node name="HealthBarUi" type="Range" parent="PlayerControls" unique_id=1421114838 node_paths=PackedStringArray("PlayerScriptRef")]
 unique_name_in_owner = false
 process_mode = 0
 process_priority = 0
@@ -259,24 +259,24 @@ texture_filter = 0
 texture_repeat = 0
 material = null
 use_parent_material = false
-custom_minimum_size = Vector2(0, 0)
+custom_minimum_size = Vector2(600, 100)
 custom_maximum_size = Vector2(-1, -1)
 propagate_maximum_size = false
 clip_contents = false
-layout_mode = 0
+layout_mode = 1
 anchors_preset = 0
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 85.0
-offset_top = 85.0
-offset_right = 292.0
-offset_bottom = 125.0
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 700.0
+offset_bottom = 240.0
 grow_horizontal = 1
 grow_vertical = 1
 rotation = 0.0
-scale = 0.2
+scale = Vector2(1, 1)
 pivot_offset = Vector2(0, 0)
 pivot_offset_ratio = Vector2(0, 0)
 size_flags_horizontal = 1
@@ -320,14 +320,16 @@ min_value = 0.0
 max_value = 100.0
 step = 0.1
 page = 0.0
-value = 50.0
+value = 45.0
 exp_edit = false
 rounded = false
 allow_greater = false
 allow_lesser = false
 script = ExtResource("8_3ygst")
-playerScriptRef = NodePath("../../CharacterBody3D")
-textureItems = Array[Object]([SubResource("Resource_3ygst"), SubResource("Resource_lhekp"), SubResource("Resource_t8lmw"), SubResource("Resource_k2qb3"), SubResource("Resource_wuv02"), SubResource("Resource_8afax"), SubResource("Resource_t7w7j"), SubResource("Resource_08l6w"), SubResource("Resource_o7xy3"), SubResource("Resource_qm8rn"), SubResource("Resource_aw6xh"), SubResource("Resource_tkui5")])
-seed = "IkHouNietVanTesten"
-scale = 0.2
+PlayerScriptRef = NodePath("../../CharacterBody3D")
+TextureItems = Array[ExtResource("9_54dtf")]([SubResource("Resource_3ygst"), SubResource("Resource_lhekp"), SubResource("Resource_t8lmw"), SubResource("Resource_k2qb3"), SubResource("Resource_wuv02"), SubResource("Resource_8afax"), SubResource("Resource_t7w7j"), SubResource("Resource_08l6w"), SubResource("Resource_o7xy3"), SubResource("Resource_qm8rn"), SubResource("Resource_aw6xh"), SubResource("Resource_tkui5")])
+Seed = "IkHouNietVanTesten"
+ItemScale = 0.5
+BarPadding = Vector2(8, 8)
+XOffset = Vector2(0, 0.23)
 metadata/_custom_type_script = "uid://d2qu22a6ch0fh"

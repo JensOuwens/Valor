@@ -7,5 +7,5 @@ public partial class HealthBarItem : Resource
 {
     [Export] public Color modulateColor = Colors.White;
     [Export] public Texture2D texture;
-    [Export] public Vector2I size;
+    [Export] public Vector2 size;
 }

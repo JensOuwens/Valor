@@ -1,4 +1,6 @@
-﻿using Godot;
+﻿using System;
+using Godot;
+using Range = Godot.Range;
 
 namespace Valor.UI;
 
@@ -8,12 +10,84 @@ public partial class HealthBarUi : Range
     private bool markedDirty = true;
     private bool delegatesConnected;
 
-    [Export] public Node3D playerScriptRef;
+    private Node3D playerScriptRef;
+    [Export]
+    public Node3D PlayerScriptRef
+    {
+        get => this.playerScriptRef;
+        set
+        {
+            if (this.playerScriptRef == value) return;
+            this.playerScriptRef = value;
+            this.markedDirty = true;
+        }
+    }
     private PlayerBlackboard playerBlackboardRef;
     
-    [Export] public Godot.Collections.Array<HealthBarItem> textureItems = [];
-    [Export] public string seed;
-    [Export] public float scale = 1;
+    private Godot.Collections.Array<HealthBarItem> textureItems = [];
+    [Export]
+    public Godot.Collections.Array<HealthBarItem> TextureItems
+    {
+        get => this.textureItems;
+        set
+        {
+            if (this.textureItems == value) return;
+            this.textureItems = value;
+            this.markedDirty = true;
+        }
+    }
+
+    private string seed;
+    [Export]
+    public string Seed
+    {
+        get => this.seed;
+        set
+        {
+            if (this.seed == value) return;
+            this.seed = value;
+            this.markedDirty = true;
+        }
+    }
+
+    private float itemScale = 1;
+    [Export]
+    public float ItemScale
+    {
+        get => this.itemScale;
+        set
+        {
+            if (Mathf.IsEqualApprox(this.itemScale, value)) return;
+            this.itemScale = value;
+            this.markedDirty = true;
+        }
+    }
+
+    private Vector2 barPadding = new(8, 8);
+    [Export]
+    public Vector2 BarPadding
+    {
+        get => this.barPadding;
+        set
+        {
+            if (this.barPadding.IsEqualApprox(value)) return;
+            this.barPadding = value;
+            this.markedDirty = true;
+        }
+    }
+
+    private Vector2 xOffset = new(0.25f, 0.5f);
+    [Export]
+    private Vector2 XOffset
+    {
+        get => this.xOffset;
+        set
+        {
+            if (this.xOffset.IsEqualApprox(value)) return;
+            this.xOffset = value;
+            this.markedDirty = true;
+        }
+    }
 
     private double prevValue;
     private double prevMin;
@@ -78,7 +152,11 @@ public partial class HealthBarUi : Range
             property == Range.PropertyName.MaxValue ||
             property == Range.PropertyName.Step ||
             property == Range.PropertyName.Page ||
-            property == Range.PropertyName.Value) 
+            property == Range.PropertyName.Value || 
+            property == PropertyName.textureItems ||
+            property == PropertyName.seed ||
+            property == PropertyName.itemScale ||
+            property == PropertyName.barPadding)
             this.markedDirty = true;
 
         return changed;
@@ -93,7 +171,7 @@ public partial class HealthBarUi : Range
         }
 
         // If in runtime, playerScript actually exists
-        if (this.playerScriptRef is PlayerScript { Blackboard: not null } player)
+        if (this.PlayerScriptRef is PlayerScript { Blackboard: not null } player)
         {
             this.playerBlackboardRef = player.Blackboard;
 
@@ -145,51 +223,61 @@ public partial class HealthBarUi : Range
             ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
             : 0f;
         Vector2 sizeBar = new (this.Size.X, this.Size.Y);
-        if (this.textureItems.Count <= 0 || sizeBar.X <= 0f || sizeBar.Y <= 0f) return;
-
-        // TODO: fill available space randomly from left to right
-        // choose textures randomly too
-        // Make sure the space is actually filled (somehow)
+        if (this.TextureItems.Count <= 0 || sizeBar.X <= 0f || sizeBar.Y <= 0f) return;
         
-        RandomNumberGenerator rng = SeededRng.CreateRng(this.seed);
-        Vector2 currentPos = Vector2.Zero;
-        bool dir = false; // false is down, true is up
+        // Rect2 fillRect = new(Vector2.Zero, new Vector2(sizeBar.X * ratio, sizeBar.Y));
+        // DrawRect(fillRect, Colors.Crimson, filled: true);
 
-        HealthBarItem GetRandomItem()
-        {
-            for (int i = 0; i < this.textureItems.Count; i++)
-            {
-                HealthBarItem item = this.textureItems[rng.RandiRange(0, this.textureItems.Count - 1)];
-                if (item != null) return item;
-            }
-            return null;
-        }
+        float minX = this.BarPadding.X;
+        float minY = this.BarPadding.Y;
+        float maxX = Mathf.Max(minX, sizeBar.X - this.BarPadding.X);
+        float maxY = Mathf.Max(minY, sizeBar.Y - this.BarPadding.Y);
+        float stopX = Mathf.Lerp(minX, maxX, ratio);
+
+        RandomNumberGenerator rng = SeededRng.CreateRng(this.Seed);
+        Vector2 currentPos = new(minX, minY);
+        bool movingDown = true; // true = +Y (down), false = -Y (up)
+
+        // const int maxIterations = 2000;
+        // int iterations = 0;
 
         while (true)
         {
             HealthBarItem item = GetRandomItem();
             if (item == null) break;
-            Vector2 sizeItem = new (this.Size.X * this.scale, this.Size.Y * this.scale);
-            
+
+            Vector2 sizeItem = item.size * this.ItemScale;
             Rect2 bounds = new(currentPos, sizeItem);
             DrawTextureRect(item.texture, bounds, tile: false, modulate: item.modulateColor);
-            
-            currentPos += new Vector2(rng.RandiRange(-5, (int)float.Round(sizeItem.X / 2f)) , sizeItem.Y * (dir ? 1 : -1));
 
-            if (!dir && currentPos.Y > sizeBar.Y)
+            float stepX = Mathf.Max(1f, sizeItem.X * rng.RandfRange(this.XOffset.X, this.XOffset.Y));
+            float stepY = sizeItem.Y * (movingDown ? 1f : -1f);
+            currentPos += new Vector2(stepX, stepY);
+
+            if (movingDown && currentPos.Y + sizeItem.Y > maxY)
             {
-                dir = true;
-                currentPos += new Vector2(float.Round(sizeItem.X / 2f), rng.RandiRange(-5, 5));
-            }else if (dir == true && currentPos.Y < sizeBar.Y)
-            {
-                dir = false;
-                currentPos += new Vector2(float.Round(sizeItem.X / 2f), rng.RandiRange(-5, 5));
+                currentPos.Y = Mathf.Max(minY, maxY - sizeItem.Y);
+                movingDown = false;
             }
-            
-            if (currentPos.X > sizeBar.X * ratio) break;
+            else if (!movingDown && currentPos.Y < minY)
+            {
+                currentPos.Y = minY;
+                movingDown = true;
+            }
+
+            if (currentPos.X > stopX) break;
         }
-        
-        Rect2 fillRect = new(Vector2.Zero, new Vector2(sizeBar.X * ratio, sizeBar.Y));
-        DrawRect(fillRect, Colors.Crimson, filled: true);
+
+        return;
+
+        HealthBarItem GetRandomItem()
+        {
+            for (int i = 0; i < this.TextureItems.Count; i++)
+            {
+                HealthBarItem item = this.TextureItems[rng.RandiRange(0, this.TextureItems.Count - 1)];
+                if (item != null) return item;
+            }
+            return null;
+        }
     }
 }
