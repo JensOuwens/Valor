@@ -26,7 +26,7 @@ public sealed class PlayerBlackboard
 
 	// Dodge
 	public float DodgeDistance { get; set; } = 2f;
-	public float DodgeDuration { get; set; } = 0.2f;
+	public float DodgeDuration { get; set; } = 0.45f;
 	public float DodgeCooldown { get; set; } = 0.5f;
 	public float DodgeIFrameFraction { get; set; } = 0.65f;
 

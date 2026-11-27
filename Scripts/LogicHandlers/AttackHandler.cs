@@ -19,6 +19,10 @@ public class AttackHandler : IHandler
 	private float chargeTimer;
 	private bool attackHeld;
 	private bool chargeReadyLogged;
+	
+	public float AttackOneDuration { get; set; } = 0.7f;
+	public float AttackTwoDuration { get; set; } = 1.25f;
+	public float AttackThreeDuration { get; set; } = 1.15f;
 
 	public AttackHandler(PlayerBlackboard blackboard) => this.blackboard = blackboard;
 
@@ -76,11 +80,12 @@ public class AttackHandler : IHandler
 		{
 			if (this.Mode == AttackMode.Combo)
 			{
-				PlayerVisual.EPlayerAnimNames attackAnimName = this.comboStep switch
+				var (attackAnimName, attackDuration) = this.comboStep switch
 				{
-					1 => PlayerVisual.EPlayerAnimNames.AttackOne,
-					2 => PlayerVisual.EPlayerAnimNames.AttackTwo,
-					_ => PlayerVisual.EPlayerAnimNames.Attack
+					0 => (PlayerVisual.EPlayerAnimNames.Attack, AttackOneDuration),
+					1 => (PlayerVisual.EPlayerAnimNames.AttackOne, AttackTwoDuration),
+					2 => (PlayerVisual.EPlayerAnimNames.AttackTwo, AttackThreeDuration),
+					_ => (PlayerVisual.EPlayerAnimNames.Attack, AttackOneDuration)
 				};
 				
 				this.blackboard.PlayerVisual.PlayAnim(
@@ -88,6 +93,7 @@ public class AttackHandler : IHandler
 					{
 						name = attackAnimName,
 						priority = 1,
+						duration = attackDuration,
 						callback = ExecuteComboHit
 					});
 			}

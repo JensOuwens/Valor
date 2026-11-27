@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cn6hijpvdr0p6"]
+
+[ext_resource type="Script" uid="uid://bgmeghg42e1k1" path="res://Scripts/Enemies/MeleeEnemy.cs" id="1_tna1y"]
+[ext_resource type="Texture2D" uid="uid://bb3ec1vng0kl2" path="res://Textures/Particles/RedGlint.png" id="2_2a2vf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hx3py"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hx3py"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tna1y"]
+transparency = 1
+blend_mode = 1
+albedo_texture = ExtResource("2_2a2vf")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_veby7"]
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 5.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_hx3py"]
+
+[node name="MeleeEnemy" type="CharacterBody3D" unique_id=975438810]
+collision_layer = 2
+script = ExtResource("1_tna1y")
+MaxHealth = 100.0
+Damage = 20.0
+Firerate = 5.0
+Movespeed = 4.0
+AggroRange = 4.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1820350731]
+mesh = SubResource("CapsuleMesh_hx3py")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=854057674]
+shape = SubResource("CapsuleShape3D_hx3py")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1589328809]
+path_desired_distance = 0.5
+
+[node name="AttackTelegraph" type="GPUParticles3D" parent="." unique_id=1943927490]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.05119419, 2.483715, 0.7154666)
+material_override = SubResource("StandardMaterial3D_tna1y")
+emitting = false
+amount = 1
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+transform_align = 1
+transform_align_channel_filter = 3
+process_material = SubResource("ParticleProcessMaterial_veby7")
+draw_pass_1 = SubResource("QuadMesh_hx3py")
