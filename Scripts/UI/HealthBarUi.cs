@@ -11,7 +11,7 @@ public partial class HealthBarUi : Range
     [Export] public Node3D playerScriptRef;
     private PlayerBlackboard playerBlackboardRef;
     
-    [Export] public Godot.Collections.Array<HealthBarItem> textureItems;
+    [Export] public Godot.Collections.Array<HealthBarItem> textureItems = [];
     [Export] public string seed;
     [Export] public float scale = 1;
 
@@ -145,7 +145,7 @@ public partial class HealthBarUi : Range
             ? Mathf.Clamp((float)((this.Value - this.MinValue) / span), 0f, 1f)
             : 0f;
         Vector2 sizeBar = new (this.Size.X, this.Size.Y);
-        if (sizeBar.X <= 0f || sizeBar.Y <= 0f) return;
+        if (this.textureItems.Count <= 0 || sizeBar.X <= 0f || sizeBar.Y <= 0f) return;
 
         // TODO: fill available space randomly from left to right
         // choose textures randomly too
@@ -155,9 +155,20 @@ public partial class HealthBarUi : Range
         Vector2 currentPos = Vector2.Zero;
         bool dir = false; // false is down, true is up
 
+        HealthBarItem GetRandomItem()
+        {
+            for (int i = 0; i < this.textureItems.Count; i++)
+            {
+                HealthBarItem item = this.textureItems[rng.RandiRange(0, this.textureItems.Count - 1)];
+                if (item != null) return item;
+            }
+            return null;
+        }
+
         while (true)
         {
-            HealthBarItem item = this.textureItems[rng.RandiRange(0, this.textureItems.Count - 1)];
+            HealthBarItem item = GetRandomItem();
+            if (item == null) break;
             Vector2 sizeItem = new (this.Size.X * this.scale, this.Size.Y * this.scale);
             
             Rect2 bounds = new(currentPos, sizeItem);
