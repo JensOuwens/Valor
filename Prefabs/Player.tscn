@@ -67,14 +67,15 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -194.0
-offset_top = -186.0
+offset_left = -227.0
+offset_top = -215.0
 offset_right = -77.0
-offset_bottom = -68.0
+offset_bottom = -65.0
 grow_horizontal = 0
 grow_vertical = 0
 action_mode = 0
 icon = ExtResource("5_vxq8l")
+expand_icon = true
 
 [node name="HealButton" type="Button" parent="PlayerControls" unique_id=163601085]
 layout_mode = 1
@@ -83,13 +84,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -145.0
-offset_top = -274.0
-offset_right = -76.0
-offset_bottom = -204.0
+offset_left = -178.0
+offset_top = -323.0
+offset_right = -78.0
+offset_bottom = -223.0
 grow_horizontal = 0
 grow_vertical = 0
 icon = ExtResource("6_gg3t4")
+expand_icon = true
 
 [node name="DodgeButton" type="Button" parent="PlayerControls" unique_id=2084331223]
 layout_mode = 1
@@ -98,13 +100,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -280.0
-offset_top = -141.0
-offset_right = -211.0
-offset_bottom = -70.0
+offset_left = -334.0
+offset_top = -165.0
+offset_right = -234.0
+offset_bottom = -65.0
 grow_horizontal = 0
 grow_vertical = 0
 icon = ExtResource("7_javds")
+expand_icon = true
 
 [node name="VirtualJoystick" type="VirtualJoystick" parent="PlayerControls" unique_id=1291522542]
 layout_mode = 1

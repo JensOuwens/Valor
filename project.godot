@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Valor"
-run/main_scene="uid://brg23rw7eqmnt"
+run/main_scene="uid://c5wk2k1ssnn22"
 config/features=PackedStringArray("4.7", "C#", "GL Compatibility")
 config/icon="res://Textures/icon.svg"
 
